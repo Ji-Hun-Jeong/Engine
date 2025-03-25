@@ -1,0 +1,53 @@
+#include "pch.h"
+#include "Player.h"
+#include "WinApiRenderer.h"
+#include "Object/Component/Transform.h"
+#include "Input/Input.h"
+#include "Core/Time.h"
+
+Player::Player(const std::string& _Name)
+	: Super(_Name)
+{
+	Transform->SetPos(Vector2(50.0f, 50.0f));
+	Transform->SetSize(Vector2(50.0f, 50.0f));
+}
+
+Player::Player(const Player& _Other)
+	: Super(_Other)
+{
+}
+
+Player::~Player()
+{
+}
+
+void Player::InitObject()
+{
+	Super::InitObject();
+}
+
+void Player::Update()
+{
+	Super::Update();
+	Vector2 Pos = Transform->GetPos();
+	if (Input::GetKey(Input::eKeyType::A, Input::eButtonState::Hold))
+		Pos.x -= 200.0f * Time::DeltaTime;
+	if (Input::GetKey(Input::eKeyType::D, Input::eButtonState::Hold))
+		Pos.x += 200.0f * Time::DeltaTime;
+	if (Input::GetKey(Input::eKeyType::W, Input::eButtonState::Hold))
+		Pos.y -= 200.0f * Time::DeltaTime;
+	if (Input::GetKey(Input::eKeyType::S, Input::eButtonState::Hold))
+		Pos.y += 200.0f * Time::DeltaTime;
+	Transform->SetPos(Pos);
+}
+
+void Player::Destory()
+{
+	Super::Destory();
+}
+
+void Player::Render(Renderer::WinApiRenderer* Renderer)
+{
+	RECT R = Utility::GetRect(Transform->GetPos(), Transform->GetSize());
+	Renderer->DrawRect(R);
+}
