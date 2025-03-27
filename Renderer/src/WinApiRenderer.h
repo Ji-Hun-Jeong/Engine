@@ -33,7 +33,6 @@ namespace Renderer
 		HDC DrawDc;
 		HBITMAP DrawBitMap;
 
-		UINT ScreenWidth;
-		UINT ScreenHeight;
+
 	};
 }

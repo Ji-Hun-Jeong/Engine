@@ -46,8 +46,7 @@ void Player::Destory()
 	Super::Destory();
 }
 
-void Player::Render(Renderer::WinApiRenderer* Renderer)
+void Player::Render(Renderer::IRenderer* Renderer)
 {
-	RECT R = Utility::GetRect(Transform->GetPos(), Transform->GetSize());
-	Renderer->DrawRect(R);
+	
 }

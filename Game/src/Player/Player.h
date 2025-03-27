@@ -17,7 +17,7 @@ public:
 	virtual void InitObject() override;
 	virtual void Update() override;
 	virtual void Destory() override;
-	void Render(Renderer::WinApiRenderer* Renderer) override;
+	void Render(Renderer::IRenderer* Renderer) override;
 private:
 
 	

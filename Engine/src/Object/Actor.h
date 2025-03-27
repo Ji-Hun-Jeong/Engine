@@ -3,7 +3,7 @@
 
 namespace Renderer
 {
-	class WinApiRenderer;
+	class IRenderer;
 }
 namespace Engine
 {
@@ -22,7 +22,7 @@ namespace Engine
 		virtual void InitObject() override;
 		virtual void Update() override;
 		virtual void Destory() override;
-		virtual void Render(Renderer::WinApiRenderer* Renderer) = 0;
+		virtual void Render(Renderer::IRenderer* Renderer) = 0;
 
 
 	protected:

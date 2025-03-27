@@ -39,5 +39,5 @@ namespace Utility
 				delete iter->second;
 		_Map.clear();
 	}
-	extern RECT GetRect(const Vector2& _Pos, const Vector2& _Size);
+	RECT GetRect(const Vector2& _Pos, const Vector2& _Size);
 }

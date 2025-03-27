@@ -3,7 +3,6 @@
 namespace Renderer
 {
 	class IRenderer;
-	class WinApiRenderer;
 }
 namespace Engine
 {
@@ -25,7 +24,7 @@ namespace Engine
 		std::map<std::string, class Level*> Levels;
 		class Level* CurrentLevel;
 
-		Renderer::WinApiRenderer* MyRenderer;
+		Renderer::IRenderer* MyRenderer;
 
 	};
 }

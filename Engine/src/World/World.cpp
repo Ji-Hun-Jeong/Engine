@@ -2,13 +2,13 @@
 #include "World.h"
 #include "Level.h"
 #include "Window/Window.h"
-#include "WinApiRenderer.h"
+#include "DXRenderer.h"
 
 namespace Engine
 {
 	World::World(Window* _Window)
 		: CurrentLevel(nullptr)
-		, MyRenderer(new Renderer::WinApiRenderer(_Window->GetWindowHandle()))
+		, MyRenderer(new Renderer::DXRenderer(_Window->GetWindowHandle()))
 	{
 	}
 	World::~World()
@@ -30,8 +30,10 @@ namespace Engine
 	}
 	void World::Render()
 	{
-		CurrentLevel->Render(MyRenderer);
-		MyRenderer->Swap();
+		//CurrentLevel->Render(MyRenderer);
+		MyRenderer->Clear();
+		MyRenderer->Render();
+		MyRenderer->Present();
 	}
 	void World::ShutDownWorld()
 	{

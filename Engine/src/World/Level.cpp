@@ -30,7 +30,7 @@ namespace Engine
 			iter->second->Update();
 	}
 
-	void Level::Render(Renderer::WinApiRenderer* Renderer)
+	void Level::Render(Renderer::IRenderer* Renderer)
 	{
 		for (auto iter = Actors.begin(); iter != Actors.end(); ++iter)
 			iter->second->Render(Renderer);

@@ -3,7 +3,7 @@
 
 namespace Renderer
 {
-	class WinApiRenderer;
+	class IRenderer;
 }
 namespace Engine
 {
@@ -18,7 +18,7 @@ namespace Engine
 		virtual void EnterLevel();
 		virtual void Update();
 		virtual void ExitLevel();
-		void Render(Renderer::WinApiRenderer* Renderer);
+		void Render(Renderer::IRenderer* Renderer);
 		
 		void AddObject(Object* _Object);
 		void AddActor(Actor* _Actor);
