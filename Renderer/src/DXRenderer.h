@@ -48,16 +48,20 @@ namespace Renderer
 				, D3D11_SDK_VERSION, &swapChainDesc
 				, SwapChain.GetAddressOf(), Device.GetAddressOf()
 				, &outputLevel, Context.GetAddressOf());
-
+			
 			result = Device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4,
 				&NumOfMultiSamplingLevel);
 
+			// Texture를 이용해서 리소스를 만들고 난 후 항상 Texture를 Release해주기
 			ID3D11Texture2D* Buffer = nullptr;
 			result = SwapChain->GetBuffer(0, IID_PPV_ARGS(&Buffer));
+			
 			if (Buffer)
 				Device->CreateRenderTargetView(Buffer, nullptr, RenderTargetView.GetAddressOf());
 			else
 				assert(0);
+
+			Buffer->Release();
 
 			D3D11_RASTERIZER_DESC RDesc;
 			ZeroMemory(&RDesc, sizeof(RDesc));
@@ -83,10 +87,11 @@ namespace Renderer
 			DDesc.CPUAccessFlags = 0;
 			DDesc.MiscFlags = 0;
 
-			Buffer = nullptr;
 			result = Device->CreateTexture2D(&DDesc, nullptr, &Buffer);
 			if (result == S_OK)
 				result = Device->CreateDepthStencilView(Buffer, nullptr, DepthStencilView.GetAddressOf());
+
+			Buffer->Release();
 
 			D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 			ZeroMemory(&depthStencilDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
@@ -198,7 +203,7 @@ namespace Renderer
 		}
 		~DXRenderer()
 		{
-			
+
 		}
 
 	public:
@@ -237,9 +242,6 @@ namespace Renderer
 			const float ClearColor[4] = { 0.0f, 0.7f, 1.0f, 1.0f };
 			Context->ClearRenderTargetView(RenderTargetView.Get(), ClearColor);
 			Context->ClearDepthStencilView(DepthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0);
-			ID3D11Debug* pDebug = nullptr;
-			Device->QueryInterface(IID_PPV_ARGS(&pDebug));
-			pDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
 		}
 	private:
 		ComPtr<ID3D11Device> Device;
