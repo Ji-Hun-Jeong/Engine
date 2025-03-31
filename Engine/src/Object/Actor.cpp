@@ -6,7 +6,7 @@
 namespace Engine
 {
 	using DirectX::SimpleMath::Vector3;
-	Actor::Actor(const std::string& _Name, Renderer::IRenderer* _Renderer)
+	Actor::Actor(const std::string& _Name, Graphics::Renderer* _Renderer)
 		: Object(_Name)
 		, RenderResource(_Renderer->NewRenderResource())
 	{
@@ -46,7 +46,7 @@ namespace Engine
 	{
 		Super::Destory();
 	}
-	void Actor::Render(Renderer::IRenderer* _Renderer)
+	void Actor::Render(Graphics::Renderer* _Renderer)
 	{
 		_Renderer->Render(RenderResource);
 	}

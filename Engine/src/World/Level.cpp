@@ -30,7 +30,7 @@ namespace Engine
 			iter->second->Update();
 	}
 
-	void Level::Render(Renderer::IRenderer* Renderer)
+	void Level::Render(Graphics::Renderer* Renderer)
 	{
 		for (auto iter = Actors.begin(); iter != Actors.end(); ++iter)
 			iter->second->Render(Renderer);

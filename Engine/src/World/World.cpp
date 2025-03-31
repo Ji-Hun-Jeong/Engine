@@ -8,7 +8,7 @@ namespace Engine
 {
 	World::World(Window* _Window)
 		: CurrentLevel(nullptr)
-		, MyRenderer(new Renderer::DXRenderer(_Window->GetWindowHandle()))
+		, MyRenderer(new Graphics::DXRenderer(_Window->GetWindowHandle()))
 	{
 	}
 	World::~World()

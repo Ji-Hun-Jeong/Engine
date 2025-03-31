@@ -1,9 +1,9 @@
 #pragma once
 #include "Object.h"
 
-namespace Renderer
+namespace Graphics
 {
-	class IRenderer;
+	class Renderer;
 	class RenderResource;
 }
 namespace Engine
@@ -12,7 +12,7 @@ namespace Engine
     {
 		using Super = Object;
 	public:
-		Actor(const std::string& _Name, Renderer::IRenderer* _Renderer);
+		Actor(const std::string& _Name, Graphics::Renderer* _Renderer);
 		Actor(const Actor& _Other);
 		Actor(Actor&& _Other) = delete;
 		Actor& operator = (const Actor& _Other) = delete;
@@ -23,10 +23,10 @@ namespace Engine
 		virtual void InitObject() override;
 		virtual void Update() override;
 		virtual void Destory() override;
-		virtual void Render(Renderer::IRenderer* _Renderer);
+		virtual void Render(Graphics::Renderer* _Renderer);
 
 
 	protected:
-		Renderer::RenderResource* RenderResource;
+		Graphics::RenderResource* RenderResource;
     };
 }

@@ -1,8 +1,8 @@
 #pragma once
 
-namespace Renderer
+namespace Graphics
 {
-	class IRenderer;
+	class Renderer;
 }
 namespace Engine
 {
@@ -24,7 +24,7 @@ namespace Engine
 		std::map<std::string, class Level*> Levels;
 		class Level* CurrentLevel;
 
-		Renderer::IRenderer* MyRenderer;
+		Graphics::Renderer* MyRenderer;
 
 	};
 }

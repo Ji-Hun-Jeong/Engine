@@ -1,34 +1,23 @@
 #pragma once
 
-namespace Renderer
+namespace Graphics
 {
-	class RENDERER_API IRenderer
+	class RENDERER_API Renderer
 	{
 	public:
-		IRenderer(HWND _WindowHandle) 
-			: WindowHandle(_WindowHandle)
-			, ScreenWidth(0)
-			, ScreenHeight(0) 
-		{
-			RECT r = { 0 };
-			::GetWindowRect(WindowHandle, &r);
-			ScreenWidth = r.right - r.left;
-			ScreenHeight = r.bottom - r.top;
-		}
-		IRenderer(const IRenderer&) = delete;
-		virtual ~IRenderer() {}
+		Renderer() {}
+		~Renderer() {}
 
 	public:
-		virtual void Render(class RenderResource* _Resource) = 0;
-		virtual void Present() {}
-		virtual void Clear() {}
-		virtual class RenderResource* NewRenderResource() = 0;
-	protected:
-		HWND WindowHandle;
-		UINT ScreenWidth;
-		UINT ScreenHeight;
+		void Render(class RenderContext* _RenderContext);
+		void Present() 
+		{
+		}
+		void Clear() 
+		{
+		}
+	private:
+
 
 	};
 }
-
-

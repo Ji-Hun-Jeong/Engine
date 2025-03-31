@@ -4,7 +4,7 @@
 #include "Input/Input.h"
 #include "Core/Time.h"
 
-Player::Player(const std::string& _Name, Renderer::IRenderer* _Renderer)
+Player::Player(const std::string& _Name, Graphics::Renderer* _Renderer)
 	: Super(_Name, _Renderer)
 {
 

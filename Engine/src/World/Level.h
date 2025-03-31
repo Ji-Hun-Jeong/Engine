@@ -1,9 +1,9 @@
 #pragma once
 #include "Object/Actor.h"
 
-namespace Renderer
+namespace Graphics
 {
-	class IRenderer;
+	class Renderer;
 }
 namespace Engine
 {
@@ -18,7 +18,7 @@ namespace Engine
 		virtual void EnterLevel();
 		virtual void Update();
 		virtual void ExitLevel();
-		void Render(Renderer::IRenderer* Renderer);
+		void Render(Graphics::Renderer* Renderer);
 		
 		void AddObject(Object* _Object);
 		void AddActor(Actor* _Actor);
