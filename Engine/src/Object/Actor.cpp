@@ -1,23 +1,38 @@
 #include "pch.h"
 #include "Actor.h"
-#include "Component/Transform.h"
+#include "Renderer/Renderer.h"
+#include "Resource/RenderResource.h"
 
 namespace Engine
 {
-	Actor::Actor(const std::string& _Name)
+	using DirectX::SimpleMath::Vector3;
+	Actor::Actor(const std::string& _Name, Renderer::IRenderer* _Renderer)
 		: Object(_Name)
-		, Transform(new Engine::Transform)
+		, RenderResource(_Renderer->NewRenderResource())
 	{
+		std::vector<Vertex> Vertices;
+		Vertex V;
+		V.pos = Vector3(-0.3f, -0.3f, 0.1f);
+		V.color = Vector3(1.0f, 0.0f, 0.0f);
+		Vertices.push_back(V);
+		V.pos = Vector3(0.0f, 0.3f, 0.1f);
+		V.color = Vector3(0.0f, 1.0f, 0.0f);
+		Vertices.push_back(V);
+		V.pos = Vector3(0.3f, -0.3f, 0.1f);
+		V.color = Vector3(0.0f, 0.0f, 1.0f);
+		Vertices.push_back(V);
+
+		std::vector<uint32_t> Indices{ 0,1,2 };
+		RenderResource->MakeIABuffer(Vertices, Indices);
 	}
 	Actor::Actor(const Actor& _Other)
 		: Object(_Other)
-		, Transform(new Engine::Transform(*_Other.Transform))
 	{
 	}
 	Actor::~Actor()
 	{
-		if (Transform)
-			delete Transform;
+		if (RenderResource)
+			delete RenderResource;
 	}
 	void Actor::InitObject()
 	{
@@ -30,5 +45,9 @@ namespace Engine
 	void Actor::Destory()
 	{
 		Super::Destory();
+	}
+	void Actor::Render(Renderer::IRenderer* _Renderer)
+	{
+		_Renderer->Render(RenderResource);
 	}
 }

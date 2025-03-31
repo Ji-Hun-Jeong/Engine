@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Application.h"
 #include "Window/Window.h"
-#include "WinApiRenderer.h"
 
 namespace Engine
 {

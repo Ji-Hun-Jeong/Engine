@@ -12,6 +12,7 @@
 #include <cassert>
 #include "Define.h"
 #include "MyMath.h"
+#include "../../Renderer/pch.h"
 
 namespace Utility
 {

@@ -2,7 +2,7 @@
 #include "World.h"
 #include "Level.h"
 #include "Window/Window.h"
-#include "DXRenderer.h"
+#include "Renderer/DXRenderer.h"
 
 namespace Engine
 {
@@ -30,9 +30,10 @@ namespace Engine
 	}
 	void World::Render()
 	{
-		//CurrentLevel->Render(MyRenderer);
 		MyRenderer->Clear();
-		MyRenderer->Render();
+
+		CurrentLevel->Render(MyRenderer);
+
 		MyRenderer->Present();
 	}
 	void World::ShutDownWorld()

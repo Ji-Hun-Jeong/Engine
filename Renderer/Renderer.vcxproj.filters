@@ -15,27 +15,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Renderer.h">
+    <ClInclude Include="src\Renderer\Renderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\WinApiRenderer.h">
+    <ClInclude Include="src\Renderer\DXRenderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\DXRenderer.h">
+    <ClInclude Include="src\Resource\RenderResource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Downloads\DirectXTK-main\DirectXTK-main\Inc\SimpleMath.h">
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resource\DXResource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Renderer.cpp">
+    <ClCompile Include="src\Renderer\Renderer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\WinApiRenderer.cpp">
+    <ClCompile Include="src\Renderer\DXRenderer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\DXRenderer.cpp">
+    <ClCompile Include="src\Resource\RenderResource.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resource\DXResource.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

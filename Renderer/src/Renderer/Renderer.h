@@ -1,14 +1,4 @@
 #pragma once
-#include <Windows.h>
-#include <cassert>
-#include <vector>
-#include <iostream>
-
-#ifdef RENDERER_DEFINE
-	#define RENDERER_API __declspec(dllexport)
-#else
-	#define RENDERER_API __declspec(dllimport)
-#endif
 
 namespace Renderer
 {
@@ -29,13 +19,15 @@ namespace Renderer
 		virtual ~IRenderer() {}
 
 	public:
-		virtual void Render() = 0;
+		virtual void Render(class RenderResource* _Resource) = 0;
 		virtual void Present() {}
 		virtual void Clear() {}
+		virtual class RenderResource* NewRenderResource() = 0;
 	protected:
 		HWND WindowHandle;
 		UINT ScreenWidth;
 		UINT ScreenHeight;
+
 	};
 }
 

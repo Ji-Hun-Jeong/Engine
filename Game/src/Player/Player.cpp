@@ -1,15 +1,13 @@
 #include "pch.h"
 #include "Player.h"
-#include "WinApiRenderer.h"
 #include "Object/Component/Transform.h"
 #include "Input/Input.h"
 #include "Core/Time.h"
 
-Player::Player(const std::string& _Name)
-	: Super(_Name)
+Player::Player(const std::string& _Name, Renderer::IRenderer* _Renderer)
+	: Super(_Name, _Renderer)
 {
-	Transform->SetPos(Vector2(50.0f, 50.0f));
-	Transform->SetSize(Vector2(50.0f, 50.0f));
+
 }
 
 Player::Player(const Player& _Other)
@@ -29,7 +27,7 @@ void Player::InitObject()
 void Player::Update()
 {
 	Super::Update();
-	Vector2 Pos = Transform->GetPos();
+	/*Vector2 Pos = Transform->GetPos();
 	if (Input::GetKey(Input::eKeyType::A, Input::eButtonState::Hold))
 		Pos.x -= 200.0f * Time::DeltaTime;
 	if (Input::GetKey(Input::eKeyType::D, Input::eButtonState::Hold))
@@ -38,15 +36,10 @@ void Player::Update()
 		Pos.y -= 200.0f * Time::DeltaTime;
 	if (Input::GetKey(Input::eKeyType::S, Input::eButtonState::Hold))
 		Pos.y += 200.0f * Time::DeltaTime;
-	Transform->SetPos(Pos);
+	Transform->SetPos(Pos);*/
 }
 
 void Player::Destory()
 {
 	Super::Destory();
-}
-
-void Player::Render(Renderer::IRenderer* Renderer)
-{
-	
 }
