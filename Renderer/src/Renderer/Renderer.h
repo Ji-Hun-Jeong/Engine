@@ -10,14 +10,7 @@ namespace Graphics
 
 	public:
 		void Render(class RenderContext* _RenderContext);
-		void Present() 
-		{
-		}
-		void Clear() 
-		{
-		}
 	private:
-
 
 	};
 }

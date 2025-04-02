@@ -4,7 +4,7 @@
 namespace Graphics
 {
 	class Renderer;
-	class RenderResource;
+	class RenderContext;
 }
 namespace Engine
 {
@@ -12,7 +12,7 @@ namespace Engine
     {
 		using Super = Object;
 	public:
-		Actor(const std::string& _Name, Graphics::Renderer* _Renderer);
+		Actor(const std::string& _Name, Graphics::RenderContext* _RenderContext);
 		Actor(const Actor& _Other);
 		Actor(Actor&& _Other) = delete;
 		Actor& operator = (const Actor& _Other) = delete;
@@ -23,10 +23,11 @@ namespace Engine
 		virtual void InitObject() override;
 		virtual void Update() override;
 		virtual void Destory() override;
-		virtual void Render(Graphics::Renderer* _Renderer);
+		virtual void Render(Graphics::RenderContext* _RenderContext);
 
 
 	protected:
-		Graphics::RenderResource* RenderResource;
+		Graphics::Renderer* Renderer;
+		UINT DrawIndexCount;
     };
 }

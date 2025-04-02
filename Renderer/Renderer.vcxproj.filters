@@ -21,10 +21,19 @@
     <ClInclude Include="pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Context\RenderContext.h">
+    <ClInclude Include="src\Renderer\RenderContext.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Context\DXContext.h">
+    <ClInclude Include="src\Platform\DirectX\DXContext.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\DirectX\DXResources.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\DirectX\DX.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\DirectX\DXBuffers.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,10 +44,16 @@
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Context\RenderContext.cpp">
+    <ClCompile Include="src\Renderer\RenderContext.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Context\DXContext.cpp">
+    <ClCompile Include="src\Platform\DirectX\DXContext.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\DirectX\DXResources.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\DirectX\DXBuffers.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

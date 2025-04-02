@@ -137,18 +137,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Context\DXContext.h" />
+    <ClInclude Include="src\Platform\DirectX\DXBuffers.h" />
+    <ClInclude Include="src\Platform\DirectX\DX.h" />
+    <ClInclude Include="src\Platform\DirectX\DXResources.h" />
+    <ClInclude Include="src\Platform\DirectX\DXContext.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="src\Context\RenderContext.h" />
+    <ClInclude Include="src\Renderer\RenderContext.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Context\DXContext.cpp" />
+    <ClCompile Include="src\Platform\DirectX\DXBuffers.cpp" />
+    <ClCompile Include="src\Platform\DirectX\DXResources.cpp" />
+    <ClCompile Include="src\Platform\DirectX\DXContext.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Context\RenderContext.cpp" />
+    <ClCompile Include="src\Renderer\RenderContext.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

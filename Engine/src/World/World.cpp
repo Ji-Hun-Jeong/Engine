@@ -2,13 +2,12 @@
 #include "World.h"
 #include "Level.h"
 #include "Window/Window.h"
-#include "Renderer/DXRenderer.h"
 
 namespace Engine
 {
 	World::World(Window* _Window)
 		: CurrentLevel(nullptr)
-		, MyRenderer(new Graphics::DXRenderer(_Window->GetWindowHandle()))
+		, MyRenderer()
 	{
 	}
 	World::~World()
@@ -30,11 +29,11 @@ namespace Engine
 	}
 	void World::Render()
 	{
-		MyRenderer->Clear();
+		
 
 		CurrentLevel->Render(MyRenderer);
 
-		MyRenderer->Present();
+		
 	}
 	void World::ShutDownWorld()
 	{
