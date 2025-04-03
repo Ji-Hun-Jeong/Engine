@@ -3,7 +3,8 @@
 
 namespace Engine
 {
-	Level::Level()
+	Level::Level(Graphics::RenderContext* _RenderContext)
+		: RenderContext(_RenderContext)
 	{
 	}
 
@@ -30,10 +31,10 @@ namespace Engine
 			iter->second->Update();
 	}
 
-	void Level::Render(Graphics::Renderer* Renderer)
+	void Level::Render()
 	{
 		for (auto iter = Actors.begin(); iter != Actors.end(); ++iter)
-			iter->second->Render(Renderer);
+			iter->second->Render(RenderContext);
 	}
 
 	void Level::ExitLevel()

@@ -9,8 +9,7 @@ namespace Graphics
 		~Renderer() {}
 
 	public:
-		void Render(class RenderContext* _RenderContext);
-	private:
+		void BasicRender(class RenderContext* _RenderContext, const std::string& _BufferKey, UINT _IndexCount);
 
 	};
 }

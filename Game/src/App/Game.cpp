@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Game.h"
 #include "World/World.h"
-#include "Level/MyLevel.h"
 #include "Input/Input.h"
 #include "Core/Time.h"
 
@@ -24,8 +23,6 @@ bool Game::Init()
 
 	Time::Init();
 	GameWorld = new Engine::World(Window);
-	GameWorld->AddLevel("Test", new MyLevel);
-	GameWorld->SetCurrentLevel("Test");
 
 	if (GameWorld->InitWorld() == false)
 		return false;

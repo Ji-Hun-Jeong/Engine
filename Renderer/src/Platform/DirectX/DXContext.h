@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Context/RenderContext.h"
+#include "Renderer/RenderContext.h"
 #include "DXResources.h"
 
 namespace Graphics
@@ -16,6 +16,16 @@ namespace Graphics
 		~DXContext() = default;
 
 	public:
+		void ClearRenderTargetView(eCategoryRTV _RenderTargetView, const float* _Color) override
+		{
+			ID3D11RenderTargetView* RenderTargetView = DXResource::RenderTargetView[(UINT)_RenderTargetView].Get();
+			Context->ClearRenderTargetView(RenderTargetView, _Color);
+		}
+		void ClearDepthStencilView(eCategoryDSV _DepthStnecilView, UINT _Flag, float _Depth, UINT _Stencil) override
+		{
+			ID3D11DepthStencilView* DepthStencilView = DXResource::DepthStencilView[(UINT)_DepthStnecilView].Get();
+			Context->ClearDepthStencilView(DepthStencilView, _Flag, _Depth, _Stencil);
+		}
 		void OMSetRenderTargets(UINT _NumView, eCategoryRTV* _RenderTargets, eCategoryDSV _DepthStencilView) override
 		{
 			ID3D11RenderTargetView* RenderTargets[(UINT)eCategoryRTV::End] = { nullptr };
@@ -39,6 +49,21 @@ namespace Graphics
 			ID3D11InputLayout* InputLayout = DXResource::InputLayout[(UINT)_InputLayout].Get();
 			Context->IASetInputLayout(InputLayout);
 		}
+		void IASetPrimitiveTopology(eCategoryTopology _PrimitiveTopology) override
+		{
+			if (_PrimitiveTopology == eCategoryTopology::Triangle)
+				Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		}
+		void IASetBuffers(UINT _Start, UINT _Count, const std::string& _Key) override
+		{
+			DXBuffers* Buffers = DXResource::DXBuffers.find(_Key)->second;
+
+			static UINT Stride = Buffers->Stride;
+			static UINT Offset = 0;
+
+			Context->IASetVertexBuffers(_Start, _Count, Buffers->VertexBuffer.GetAddressOf(), &Stride, &Offset);
+			Context->IASetIndexBuffer(Buffers->IndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+		}
 		void VSSetShader(eCategoryVS _VertexShader) override
 		{
 			ID3D11VertexShader* VertexShader = DXResource::VertexShader[(UINT)_VertexShader].Get();
@@ -59,47 +84,27 @@ namespace Graphics
 			ID3D11PixelShader* PixelShader = DXResource::PixelShader[(UINT)_PixelShader].Get();
 			Context->PSSetShader(PixelShader, nullptr, 0);
 		}
-		void IASetPrimitiveTopoloty(eCategoryTopology _PrimitiveTopology) override
-		{
-			if (_PrimitiveTopology == eCategoryTopology::Triangle)
-				Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		}
-		void IASetBuffers(UINT _Start, UINT _Count, const std::string& _Key) override
-		{
-			DXBuffers* Buffers = DXResource::DXBuffers.find(_Key)->second;
-
-			static UINT Stride = Buffers->Stride;
-			static UINT Offset = 0;
-
-			Context->IASetVertexBuffers(_Start, _Count, Buffers->VertexBuffer.GetAddressOf(), &Stride, &Offset);
-			Context->IASetIndexBuffer(Buffers->IndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-		}
 		void DrawIndexed(UINT _IndexCount) override
 		{
 			Context->DrawIndexed(_IndexCount, 0, 0);
-		}
-		void ClearRenderTargetView(eCategoryRTV _RenderTargetView, const float* _Color) override
-		{
-			ID3D11RenderTargetView* RenderTargetView = DXResource::RenderTargetView[(UINT)_RenderTargetView].Get();
-			Context->ClearRenderTargetView(RenderTargetView, _Color);
 		}
 		void Present() override
 		{
 			SwapChain->Present(1, 0);
 		}
 		
-		template <typename T_Vertex>
-		void MakeBuffers(std::vector<T_Vertex>& _Vertices, std::vector<uint32_t>& _Indices)
+		void MakeBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices
+			, std::vector<uint32_t>& _Indices) override
 		{
 			DXBuffers* Buffers = new DXBuffers;
 
 			D3D11_BUFFER_DESC BufferDesc;
 			ZeroMemory(&BufferDesc, sizeof(BufferDesc));
 			BufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
-			BufferDesc.ByteWidth = UINT(sizeof(T_Vertex) * _Vertices.size());
+			BufferDesc.ByteWidth = UINT(sizeof(Vertex) * _Vertices.size());
 			BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 			BufferDesc.CPUAccessFlags = 0;
-			BufferDesc.StructureByteStride = sizeof(T_Vertex);
+			BufferDesc.StructureByteStride = sizeof(Vertex);
 
 			D3D11_SUBRESOURCE_DATA BufferData = { 0 };
 			BufferData.pSysMem = _Vertices.data();
@@ -123,9 +128,15 @@ namespace Graphics
 
 			hr = Device->CreateBuffer(&BufferDesc, &BufferData,
 				Buffers->IndexBuffer.GetAddressOf());
+			if (FAILED(hr)) assert(0);
 
-			Buffers->Stride = sizeof(T_Vertex);
+			_Indices.clear();
+
+			Buffers->Stride = sizeof(Vertex);
+
+			DXResource::DXBuffers.insert(std::make_pair(_Key, Buffers));
 		}
+		void DestoryBuffers(const std::string& _Key) {}
 
 	private:
 		ComPtr<ID3D11Device> Device;

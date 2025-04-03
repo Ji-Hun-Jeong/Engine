@@ -22,7 +22,6 @@ namespace Graphics
 		void InitResource(ID3D11Device* _Device)
 		{
 			InitShader(_Device);
-			InitShader(_Device);
 			InitSampler(_Device);
 			InitRS(_Device);
 			InitDSS(_Device);
@@ -57,7 +56,7 @@ namespace Graphics
 
 			hr = _Device->CreateInputLayout(basicInputElements.data(), UINT(basicInputElements.size()),
 				shaderBlob->GetBufferPointer(),
-				shaderBlob->GetBufferSize(), InputLayout[(UINT)eCategoryIL::PosColor].GetAddressOf());
+				shaderBlob->GetBufferSize(), InputLayout[(UINT)eCategoryIL::Basic].GetAddressOf());
 			if (FAILED(hr))	assert(0);
 
 			hr = D3DCompileFromFile(

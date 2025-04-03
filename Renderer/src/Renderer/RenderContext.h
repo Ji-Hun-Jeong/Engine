@@ -20,10 +20,11 @@ namespace Graphics
 
 	public:
 		virtual void ClearRenderTargetView(eCategoryRTV _RenderTargetView, const float* _Color) = 0;
+		virtual void ClearDepthStencilView(eCategoryDSV _DepthStnecilView, UINT _Flag, float _Depth, UINT _Stencil) = 0;
 		virtual void OMSetRenderTargets(UINT _NumView, eCategoryRTV* _RenderTargets, eCategoryDSV _DepthStencilView) = 0;
 		virtual void OMSetDepthStencilState(eCategoryDSS _DepthStencilState, UINT _StencilRef) = 0;
 		virtual void IASetInputLayout(eCategoryIL _InputLayout) = 0;
-		virtual void IASetPrimitiveTopoloty(eCategoryTopology _PrimitiveTopology) = 0;
+		virtual void IASetPrimitiveTopology(eCategoryTopology _PrimitiveTopology) = 0;
 		virtual void IASetBuffers(UINT _Start, UINT _Count, const std::string& _Key) = 0;
 
 		virtual void VSSetShader(eCategoryVS _VertexShader) = 0;
@@ -35,9 +36,10 @@ namespace Graphics
 
 		virtual void DrawIndexed(UINT _IndexCount) = 0;
 		
-		
 		virtual void Present() = 0;
 
+		virtual void MakeBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices
+			, std::vector<uint32_t>& _Indices) = 0;
 	protected:
 		HWND WindowHandle;
 		UINT ScreenWidth;

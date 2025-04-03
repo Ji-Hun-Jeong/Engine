@@ -2,7 +2,7 @@
 
 namespace Graphics
 {
-	class Renderer;
+	class RenderContext;
 }
 namespace Engine
 {
@@ -24,7 +24,7 @@ namespace Engine
 		std::map<std::string, class Level*> Levels;
 		class Level* CurrentLevel;
 
-		Graphics::Renderer* MyRenderer;
+		Graphics::RenderContext* RenderContext;
 
 	};
 }

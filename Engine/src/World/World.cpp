@@ -1,19 +1,22 @@
 #include "pch.h"
 #include "World.h"
-#include "Level.h"
+#include "../../Game/src/Level/MyLevel.h"
 #include "Window/Window.h"
+#include "Platform/DirectX/DXContext.h"
 
 namespace Engine
 {
 	World::World(Window* _Window)
 		: CurrentLevel(nullptr)
-		, MyRenderer()
+		, RenderContext(new Graphics::DXContext(_Window->GetWindowHandle()))
 	{
+		AddLevel("Test", new MyLevel(RenderContext));
+		SetCurrentLevel("Test");
 	}
 	World::~World()
 	{
-		if (MyRenderer)
-			delete MyRenderer;
+		if (RenderContext)
+			delete RenderContext;
 		Utility::ClearMap(Levels);
 	}
 	bool World::InitWorld()
@@ -29,11 +32,17 @@ namespace Engine
 	}
 	void World::Render()
 	{
+		static const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
+		RenderContext->ClearRenderTargetView(eCategoryRTV::BackBuffer, ClearColor);
+		RenderContext->ClearDepthStencilView(eCategoryDSV::BackBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
 		
+		eCategoryRTV RenderTargets[1] = { eCategoryRTV::BackBuffer };
+		RenderContext->OMSetRenderTargets(1, RenderTargets, eCategoryDSV::BackBuffer);
+		RenderContext->OMSetDepthStencilState(eCategoryDSS::Basic, 0);
 
-		CurrentLevel->Render(MyRenderer);
+		CurrentLevel->Render();
 
-		
+		RenderContext->Present();
 	}
 	void World::ShutDownWorld()
 	{

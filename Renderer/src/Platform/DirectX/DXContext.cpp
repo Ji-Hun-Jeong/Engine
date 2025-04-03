@@ -43,6 +43,8 @@ namespace Graphics
 			&NumOfMultiSamplingLevel);
 		if (FAILED(hr)) assert(0);
 
+		DXResource::InitResource(Device.Get());
+
 		// Texture를 이용해서 리소스를 만들고 난 후 항상 Texture를 Release해주기
 		ID3D11Texture2D* Buffer = nullptr;
 		hr = SwapChain->GetBuffer(0, IID_PPV_ARGS(&Buffer));

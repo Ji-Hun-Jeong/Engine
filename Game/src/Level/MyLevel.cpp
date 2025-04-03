@@ -2,8 +2,8 @@
 #include "MyLevel.h"
 #include "Player/Player.h"
 
-MyLevel::MyLevel()
-	: Level()
+MyLevel::MyLevel(Graphics::RenderContext* _RenderContext)
+	: Level(_RenderContext)
 {
 }
 
@@ -14,7 +14,7 @@ MyLevel::~MyLevel()
 void MyLevel::InitLevel()
 {
 	Super::InitLevel();
-	AddActor(new Player("Test"));
+	AddActor(new Player("Test", RenderContext));
 }
 
 void MyLevel::EnterLevel()

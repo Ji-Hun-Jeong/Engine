@@ -11,11 +11,11 @@
 #else
 	#define RENDERER_API __declspec(dllimport)
 #endif
-
+using DirectX::SimpleMath::Vector3;
 struct Vertex
 {
-	DirectX::SimpleMath::Vector3 pos;
-	DirectX::SimpleMath::Vector3 color;
+	Vector3 pos;
+	Vector3 color;
 };
 
 enum class eCategoryVS
@@ -48,7 +48,7 @@ enum class eCategoryDSV
 };
 enum class eCategoryIL
 {
-	PosColor, End,
+	Basic, End,
 };
 enum class eCategoryVP
 {
@@ -57,4 +57,10 @@ enum class eCategoryVP
 enum class eCategoryTopology
 {
 	Triangle, End,
+};
+enum class eCategoryClearFlag
+{
+	ClearDepth = 1,
+	ClearStnecil = 2,
+	End = 100,
 };

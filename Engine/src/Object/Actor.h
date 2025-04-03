@@ -23,8 +23,7 @@ namespace Engine
 		virtual void InitObject() override;
 		virtual void Update() override;
 		virtual void Destory() override;
-		virtual void Render(Graphics::RenderContext* _RenderContext);
-
+		virtual void Render(Graphics::RenderContext* _RenderContext) = 0;
 
 	protected:
 		Graphics::Renderer* Renderer;
