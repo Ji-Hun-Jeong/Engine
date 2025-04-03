@@ -9,7 +9,7 @@ namespace Engine
 		~Core();
 
 	public:
-		bool Init();
+		void Init();
 
 		int Run();
 

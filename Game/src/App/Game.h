@@ -1,23 +1,34 @@
 #pragma once
 #include "Core/Application.h"
 
+namespace Graphics
+{
+	class RenderContext;
+}
 namespace Engine
 {
-	class World;
-}
-class Game : public Engine::Application
+	class Level;
+};
+class GameWorld : public Engine::Application
 {
 	using Super = Engine::Application;
 public:
-	Game(UINT _ScreenWidth, UINT _ScreenHeight);
-	~Game();
+	GameWorld(UINT _ScreenWidth, UINT _ScreenHeight);
+	~GameWorld();
 
 public:
-	bool Init() override;
+	void Init() override;
 	bool Process() override;
 	void ShutDown() override;
+	void Update();
+	void Render();
+	void AddLevel(const std::string& _LevelName, Engine::Level* _Level);
+	void SetCurrentLevel(const std::string& _LevelName);
 
 private:
-	Engine::World* GameWorld;
+	std::map<std::string, Engine::Level*> Levels;
+	Engine::Level* CurrentLevel;
+
+	Graphics::RenderContext* RenderContext;
 };
 

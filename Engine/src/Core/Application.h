@@ -9,7 +9,7 @@ namespace Engine
 		virtual ~Application();
 
 	public:
-		virtual bool Init();
+		virtual void Init() = 0;
 		virtual bool Process() = 0;
 		virtual void ShutDown() = 0;
 

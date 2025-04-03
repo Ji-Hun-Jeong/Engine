@@ -21,14 +21,6 @@ namespace Engine
         , ScreenWidth(_ScreenWidth)
         , ScreenHeight(_ScreenHeight)
     {
-
-    }
-    Window::~Window()
-    {
-
-    }
-    bool Window::Init()
-    {
         HINSTANCE hInstance = GetModuleHandle(NULL);
 
         WNDCLASS wc = {};
@@ -39,7 +31,7 @@ namespace Engine
         if (!RegisterClass(&wc))
         {
             MessageBox(NULL, L"", L"Error", MB_ICONERROR);
-            return false;
+            assert(0);
         }
 
         WindowHandle = CreateWindowEx(
@@ -58,10 +50,11 @@ namespace Engine
         if (WindowHandle == NULL)
         {
             MessageBox(NULL, L"", L"Error", MB_ICONERROR);
-            return false;
+            assert(0);
         }
-
-        return true;
     }
+    Window::~Window()
+    {
 
+    }
 }

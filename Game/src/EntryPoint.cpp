@@ -11,12 +11,11 @@ int main(int argc, char** argv)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	new int;
 	
-	Game* MyGame = new Game(1280, 720);
+	GameWorld* MyGame = new GameWorld(1280, 720);
 	
 	Engine::Core Core(MyGame);
 
-	if (Core.Init() == false)
-		return -1;
+	Core.Init();
 
 	return Core.Run();
 }

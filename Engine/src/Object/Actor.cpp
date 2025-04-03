@@ -4,7 +4,6 @@
 
 namespace Engine
 {
-	using DirectX::SimpleMath::Vector3;
 	Actor::Actor(const std::string& _Name, Graphics::RenderContext* _RenderContext)
 		: Object(_Name)
 		, Renderer(new Graphics::Renderer)

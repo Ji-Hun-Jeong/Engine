@@ -10,7 +10,6 @@ namespace Engine
 		~Window();
 
 	public:
-		bool Init();
 		void ShowWindow() const
 		{
 			::ShowWindow(WindowHandle, SW_SHOW);

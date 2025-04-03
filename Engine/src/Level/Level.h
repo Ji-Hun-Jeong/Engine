@@ -26,6 +26,7 @@ namespace Engine
 	protected:
 		std::map<std::string, Object*> Objects;
 		std::map<std::string, Actor*> Actors;
+
 		Graphics::RenderContext* RenderContext;
 	};
 }

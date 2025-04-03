@@ -33,7 +33,10 @@
     <ClInclude Include="src\Platform\DirectX\DX.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\DirectX\DXBuffers.h">
+    <ClInclude Include="src\Renderer\RenderDevice.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\DirectX\DXDevice.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,7 +56,10 @@
     <ClCompile Include="src\Platform\DirectX\DXResources.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\DirectX\DXBuffers.cpp">
+    <ClCompile Include="src\Renderer\RenderDevice.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\DirectX\DXDevice.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

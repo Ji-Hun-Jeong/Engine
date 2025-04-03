@@ -1,41 +1,45 @@
 #include "pch.h"
 #include "Game.h"
-#include "World/World.h"
+#include "Level/MyLevel.h"
 #include "Input/Input.h"
 #include "Core/Time.h"
+#include "Platform/DirectX/DXContext.h"
+#include "Window/Window.h"
+#include "Renderer/RenderContext.h"
 
-Game::Game(UINT _ScreenWidth, UINT _ScreenHeight)
+GameWorld::GameWorld(UINT _ScreenWidth, UINT _ScreenHeight)
 	: Super(_ScreenWidth, _ScreenHeight)
-	, GameWorld(nullptr)
+	, CurrentLevel(nullptr)
+	, RenderContext(new Graphics::DX::DXContext(Window->GetWindowHandle()))
 {
+
 }
 
-Game::~Game()
+GameWorld::~GameWorld()
 {
-	if (GameWorld)
-		delete GameWorld;
+	if (RenderContext)
+		delete RenderContext;
+	Utility::ClearMap(Levels);
 }
 
-bool Game::Init()
+void GameWorld::Init()
 {
-	if (Super::Init() == false)
-		return false;
-
 	Time::Init();
-	GameWorld = new Engine::World(Window);
 
-	if (GameWorld->InitWorld() == false)
-		return false;
+	AddLevel("Test", new MyLevel(RenderContext));
+	SetCurrentLevel("Test");
 
-	return true;
+	for (auto iter : Levels)
+		iter.second->InitLevel();
 }
 
-bool Game::Process()
+bool GameWorld::Process()
 {
 	Time::Update();
 	Input::Update();
-	GameWorld->Update();
-	GameWorld->Render();
+
+	this->Update();
+	this->Render();
 
 	if (Input::GetKey(Input::eKeyType::Esc, Input::eButtonState::Tap))
 		Running = false;
@@ -43,8 +47,40 @@ bool Game::Process()
 	return Running;
 }
 
-void Game::ShutDown()
+void GameWorld::ShutDown()
 {
-	GameWorld->ShutDownWorld();
 	std::cout << "ShutDown\n";
+}
+
+void GameWorld::Update()
+{
+	CurrentLevel->Update();
+}
+
+void GameWorld::Render()
+{
+	static const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
+	RenderContext->ClearRenderTargetView(eCategoryRTV::BackBuffer, ClearColor);
+	RenderContext->ClearDepthStencilView(eCategoryDSV::BackBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+	eCategoryRTV RenderTargets[1] = { eCategoryRTV::BackBuffer };
+	RenderContext->OMSetRenderTargets(1, RenderTargets, eCategoryDSV::BackBuffer);
+	RenderContext->OMSetDepthStencilState(eCategoryDSS::Basic, 0);
+
+	CurrentLevel->Render();
+
+	RenderContext->Present();
+}
+
+void GameWorld::AddLevel(const std::string& _LevelName, Engine::Level* _Level)
+{
+	auto iter = Levels.insert(std::make_pair(_LevelName, _Level));
+	if (iter.second == false)
+		assert(0);
+}
+void GameWorld::SetCurrentLevel(const std::string& _LevelName)
+{
+	auto iter = Levels.find(_LevelName);
+	assert(iter->second);
+	CurrentLevel = iter->second;
 }

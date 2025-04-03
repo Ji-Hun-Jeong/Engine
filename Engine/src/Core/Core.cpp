@@ -14,11 +14,9 @@ namespace Engine
 			delete App;
 	}
 
-	bool Core::Init()
+	void Core::Init()
 	{
-		if (App->Init() == false)
-			return false;
-		return true;
+		App->Init();
 	}
 	
 	int Core::Run()

@@ -17,6 +17,7 @@ public:
 	virtual void InitObject() override;
 	virtual void Update() override;
 	virtual void Destory() override;
+
 	void Render(Graphics::RenderContext* _RenderContext) override;
 private:
 

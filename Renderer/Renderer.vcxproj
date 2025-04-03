@@ -137,7 +137,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Platform\DirectX\DXBuffers.h" />
+    <ClInclude Include="src\Platform\DirectX\DXDevice.h" />
+    <ClInclude Include="src\Renderer\RenderDevice.h" />
     <ClInclude Include="src\Platform\DirectX\DX.h" />
     <ClInclude Include="src\Platform\DirectX\DXResources.h" />
     <ClInclude Include="src\Platform\DirectX\DXContext.h" />
@@ -146,7 +147,8 @@
     <ClInclude Include="src\Renderer\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Platform\DirectX\DXBuffers.cpp" />
+    <ClCompile Include="src\Platform\DirectX\DXDevice.cpp" />
+    <ClCompile Include="src\Renderer\RenderDevice.cpp" />
     <ClCompile Include="src\Platform\DirectX\DXResources.cpp" />
     <ClCompile Include="src\Platform\DirectX\DXContext.cpp" />
     <ClCompile Include="pch.cpp">

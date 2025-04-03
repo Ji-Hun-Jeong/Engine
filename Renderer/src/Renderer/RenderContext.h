@@ -38,8 +38,6 @@ namespace Graphics
 		
 		virtual void Present() = 0;
 
-		virtual void MakeBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices
-			, std::vector<uint32_t>& _Indices) = 0;
 	protected:
 		HWND WindowHandle;
 		UINT ScreenWidth;

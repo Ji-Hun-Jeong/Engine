@@ -145,8 +145,7 @@
     <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="src\Object\Component\Transform.cpp" />
-    <ClCompile Include="src\World\Level.cpp" />
-    <ClCompile Include="src\World\World.cpp" />
+    <ClCompile Include="src\Level\Level.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,8 +159,7 @@
     <ClInclude Include="src\Base\pch.h" />
     <ClInclude Include="src\Window\Window.h" />
     <ClInclude Include="src\Object\Component\Transform.h" />
-    <ClInclude Include="src\World\Level.h" />
-    <ClInclude Include="src\World\World.h" />
+    <ClInclude Include="src\Level\Level.h" />
     <ClInclude Include="src\Core\Time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

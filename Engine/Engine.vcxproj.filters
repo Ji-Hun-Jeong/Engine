@@ -36,10 +36,7 @@
     <ClCompile Include="src\Input\Input.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\World\Level.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\World\World.cpp">
+    <ClCompile Include="src\Level\Level.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Base\pch.cpp">
@@ -80,10 +77,7 @@
     <ClInclude Include="src\Input\Input.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\World\Level.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\World\World.h">
+    <ClInclude Include="src\Level\Level.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Time.h">
