@@ -5,16 +5,7 @@ namespace Graphics
 	class RENDERER_API RenderContext
 	{
 	public:
-		RenderContext(HWND _WindowHandle)
-			: WindowHandle(_WindowHandle)
-			, ScreenWidth(0)
-			, ScreenHeight(0)
-		{
-			RECT r = { 0 };
-			::GetWindowRect(WindowHandle, &r);
-			ScreenWidth = r.right - r.left;
-			ScreenHeight = r.bottom - r.top;
-		}
+		RenderContext() = default;
 		RenderContext(const RenderContext&) = delete;
 		virtual ~RenderContext() {}
 
@@ -39,9 +30,7 @@ namespace Graphics
 		virtual void Present() = 0;
 
 	protected:
-		HWND WindowHandle;
-		UINT ScreenWidth;
-		UINT ScreenHeight;
+
 
 	};
 }

@@ -3,6 +3,7 @@
 
 namespace Graphics
 {
+	class RenderDevice;
 	class RenderContext;
 }
 namespace Engine
@@ -10,7 +11,7 @@ namespace Engine
 	class Level
 	{
 	public:
-		explicit Level(Graphics::RenderContext* _RenderContext);
+		explicit Level(Graphics::RenderDevice* _RenderDevice);
 		virtual ~Level() = 0;
 
 	public:
@@ -18,7 +19,7 @@ namespace Engine
 		virtual void EnterLevel();
 		virtual void Update();
 		virtual void ExitLevel();
-		void Render();
+		void Render(Graphics::RenderContext* _RenderContext);
 		
 		void AddObject(Object* _Object);
 		void AddActor(Actor* _Actor);
@@ -27,6 +28,6 @@ namespace Engine
 		std::map<std::string, Object*> Objects;
 		std::map<std::string, Actor*> Actors;
 
-		Graphics::RenderContext* RenderContext;
+		Graphics::RenderDevice* RenderDevice;
 	};
 }

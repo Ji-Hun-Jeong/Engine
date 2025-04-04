@@ -6,20 +6,13 @@ namespace Graphics
 {
 	namespace DX
 	{
-		DXContext::DXContext(HWND _WindowHandle)
-			: RenderContext(_WindowHandle)
-			, NumOfMultiSamplingLevel(0)
+		DXContext::DXContext(ID3D11DeviceContext* _Context, IDXGISwapChain* _SwapChain)
+			: RenderContext()
+			, Context(_Context)
+			, SwapChain(_SwapChain)
 		{
 			
-
-			D3D11_VIEWPORT& ViewPort = DXResource::ViewPort[(UINT)eCategoryVP::Basic];
-			ZeroMemory(&ViewPort, sizeof(D3D11_VIEWPORT));
-			ViewPort.TopLeftX = 0;
-			ViewPort.TopLeftY = 0;
-			ViewPort.Width = static_cast<float>(ScreenWidth);
-			ViewPort.Height = static_cast<float>(ScreenHeight);
-			ViewPort.MinDepth = 0.0f;
-			ViewPort.MaxDepth = 1.0f;
 		}
+		
 	}
 }

@@ -4,19 +4,21 @@
 #include "Input/Input.h"
 #include "Core/Time.h"
 #include "Platform/DirectX/DXContext.h"
+#include "Platform/DirectX/DXDevice.h"
 #include "Window/Window.h"
-#include "Renderer/RenderContext.h"
 
 GameWorld::GameWorld(UINT _ScreenWidth, UINT _ScreenHeight)
 	: Super(_ScreenWidth, _ScreenHeight)
 	, CurrentLevel(nullptr)
-	, RenderContext(new Graphics::DX::DXContext(Window->GetWindowHandle()))
+	, RenderDevice(new Graphics::DX::DXDevice(Window->GetWindowHandle()))
+	, RenderContext(RenderDevice->Initalize())
 {
-
 }
 
 GameWorld::~GameWorld()
 {
+	if (RenderDevice)
+		delete RenderDevice;
 	if (RenderContext)
 		delete RenderContext;
 	Utility::ClearMap(Levels);
@@ -26,7 +28,7 @@ void GameWorld::Init()
 {
 	Time::Init();
 
-	AddLevel("Test", new MyLevel(RenderContext));
+	AddLevel("Test", new MyLevel(RenderDevice));
 	SetCurrentLevel("Test");
 
 	for (auto iter : Levels)
@@ -67,7 +69,7 @@ void GameWorld::Render()
 	RenderContext->OMSetRenderTargets(1, RenderTargets, eCategoryDSV::BackBuffer);
 	RenderContext->OMSetDepthStencilState(eCategoryDSS::Basic, 0);
 
-	CurrentLevel->Render();
+	CurrentLevel->Render(RenderContext);
 
 	RenderContext->Present();
 }

@@ -5,7 +5,7 @@ class MyLevel : public Engine::Level
 {
 	using Super = Engine::Level;
 public:
-	explicit MyLevel(Graphics::RenderContext* _RenderContext);
+	explicit MyLevel(Graphics::RenderDevice* _RenderDevice);
 	~MyLevel();
 
 public:

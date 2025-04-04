@@ -6,7 +6,7 @@ class Player : public Engine::Actor
 	using Super = Engine::Actor;
 	CLONE(Player, Actor)
 public:
-	Player(const std::string& _Name, Graphics::RenderContext* _RenderContext);
+	Player(const std::string& _Name, Graphics::RenderDevice* _RenderContext);
 	Player(const Player& _Other);
 	Player(Player&& _Other) = delete;
 	Player& operator = (const Player& _Other) = delete;

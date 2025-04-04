@@ -4,6 +4,7 @@
 namespace Graphics
 {
 	class Renderer;
+	class RenderDevice;
 	class RenderContext;
 }
 namespace Engine
@@ -12,7 +13,7 @@ namespace Engine
     {
 		using Super = Object;
 	public:
-		Actor(const std::string& _Name, Graphics::RenderContext* _RenderContext);
+		Actor(const std::string& _Name);
 		Actor(const Actor& _Other);
 		Actor(Actor&& _Other) = delete;
 		Actor& operator = (const Actor& _Other) = delete;

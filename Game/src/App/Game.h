@@ -3,6 +3,7 @@
 
 namespace Graphics
 {
+	class RenderDevice;
 	class RenderContext;
 }
 namespace Engine
@@ -29,6 +30,7 @@ private:
 	std::map<std::string, Engine::Level*> Levels;
 	Engine::Level* CurrentLevel;
 
+	Graphics::RenderDevice* RenderDevice;
 	Graphics::RenderContext* RenderContext;
 };
 

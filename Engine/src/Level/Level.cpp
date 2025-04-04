@@ -3,8 +3,8 @@
 
 namespace Engine
 {
-	Level::Level(Graphics::RenderContext* _RenderContext)
-		: RenderContext(_RenderContext)
+	Level::Level(Graphics::RenderDevice* _RenderDevice)
+		: RenderDevice(_RenderDevice)
 	{
 	}
 
@@ -31,10 +31,10 @@ namespace Engine
 			iter->second->Update();
 	}
 
-	void Level::Render()
+	void Level::Render(Graphics::RenderContext* _RenderContext)
 	{
 		for (auto iter = Actors.begin(); iter != Actors.end(); ++iter)
-			iter->second->Render(RenderContext);
+			iter->second->Render(_RenderContext);
 	}
 
 	void Level::ExitLevel()

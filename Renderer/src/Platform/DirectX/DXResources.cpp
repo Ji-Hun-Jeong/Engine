@@ -69,6 +69,11 @@ namespace Graphics
 					shaderBlob->GetBufferSize(), InputLayout[(UINT)eCategoryIL::Basic].GetAddressOf());
 				if (FAILED(hr))	assert(0);
 
+				if (shaderBlob)
+					shaderBlob->Release();
+				if (errorBlob)
+					errorBlob->Release();
+
 				hr = D3DCompileFromFile(
 					L"../Release/Resource/Shader/BasicPS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
 					"ps_5_0", compileFlags, 0, &shaderBlob, &errorBlob);
@@ -78,6 +83,11 @@ namespace Graphics
 					shaderBlob->GetBufferSize(), NULL,
 					PixelShader[(UINT)eCategoryPS::Basic].GetAddressOf());
 				if (FAILED(hr))	assert(0);
+
+				if (shaderBlob)
+					shaderBlob->Release();
+				if (errorBlob)
+					errorBlob->Release();
 			}
 			void InitSampler(ID3D11Device* _Device)
 			{

@@ -9,20 +9,23 @@ namespace Graphics
         using Microsoft::WRL::ComPtr;
         using DirectX::SimpleMath::Vector3;
 
-        class DXDevice : public RenderDevice
+        class RENDERER_API DXDevice : public RenderDevice
         {
             using Super = RenderDevice;
         public:
             explicit DXDevice(HWND _WindowHandle);
+            ~DXDevice();
 
         public:
             class RenderContext* Initalize() override;
 
             void MakeBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices
                 , std::vector<uint32_t>& _Indices) override;
-
+            static void CheckD3DMemoryLeaks();
         private:
             ComPtr<ID3D11Device> Device;
+
+            UINT NumOfMultiSamplingLevel;
         };
     }
 }

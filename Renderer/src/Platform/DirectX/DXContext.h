@@ -9,11 +9,11 @@ namespace Graphics
 		using Microsoft::WRL::ComPtr;
 		using DirectX::SimpleMath::Vector3;
 
-		class RENDERER_API DXContext : public RenderContext
+		class RENDERER_API DXContext : public Graphics::RenderContext
 		{
 			using Super = RenderContext;
 		public:
-			DXContext(ID3D11DeviceContext* _Context);
+			DXContext(ID3D11DeviceContext* _Context, IDXGISwapChain* _SwapChain);
 			DXContext(const DXContext&) = delete;
 			DXContext(DXContext&&) = delete;
 			~DXContext()
@@ -104,9 +104,6 @@ namespace Graphics
 		private:
 			ComPtr<ID3D11DeviceContext> Context;
 			ComPtr<IDXGISwapChain> SwapChain;
-
-			UINT NumOfMultiSamplingLevel;
-
 
 		};
 	}

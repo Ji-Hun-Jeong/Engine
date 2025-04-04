@@ -5,9 +5,10 @@
 #include "Core/Time.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderContext.h"
+#include "Renderer/RenderDevice.h"
 
-Player::Player(const std::string& _Name, Graphics::RenderContext* _RenderContext)
-	: Super(_Name, _RenderContext)
+Player::Player(const std::string& _Name, Graphics::RenderDevice* _RenderDevice)
+	: Super(_Name)
 {
 	std::vector<Vertex> Vertices;
 	Vertex V;
@@ -25,7 +26,7 @@ Player::Player(const std::string& _Name, Graphics::RenderContext* _RenderContext
 
 	DrawIndexCount = static_cast<UINT>(Indices.size());
 
-	_RenderContext->MakeBuffers(Name, Vertices, Indices);
+	_RenderDevice->MakeBuffers(Name, Vertices, Indices);
 }
 
 Player::Player(const Player& _Other)

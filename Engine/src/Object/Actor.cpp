@@ -4,7 +4,7 @@
 
 namespace Engine
 {
-	Actor::Actor(const std::string& _Name, Graphics::RenderContext* _RenderContext)
+	Actor::Actor(const std::string& _Name)
 		: Object(_Name)
 		, Renderer(new Graphics::Renderer)
 		, DrawIndexCount(0)
