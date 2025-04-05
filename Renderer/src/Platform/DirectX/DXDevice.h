@@ -17,11 +17,10 @@ namespace Graphics
             ~DXDevice();
 
         public:
-            class RenderContext* Initalize() override;
+            Graphics::RenderContext* Initalize() override;
 
             void MakeBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices
                 , std::vector<uint32_t>& _Indices) override;
-            static void CheckD3DMemoryLeaks();
         private:
             ComPtr<ID3D11Device> Device;
 

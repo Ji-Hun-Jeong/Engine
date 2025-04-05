@@ -10,9 +10,6 @@ namespace Graphics
 			: RenderContext()
 			, Context(_Context)
 			, SwapChain(_SwapChain)
-		{
-			
-		}
-		
+		{}
 	}
 }

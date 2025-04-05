@@ -32,8 +32,6 @@ namespace Graphics
 			extern void InitSampler(ID3D11Device* _Device);
 			extern void InitRS(ID3D11Device* _Device);
 			extern void InitDSS(ID3D11Device* _Device);
-			extern void AddRTV(eCategoryRTV _CategoryRTV, ID3D11RenderTargetView* _RTV);
-			extern void AddDSV(eCategoryDSV _CategoryDSV, ID3D11DepthStencilView* _DSV);
 			extern void DestroyResource();
 		};
 	}

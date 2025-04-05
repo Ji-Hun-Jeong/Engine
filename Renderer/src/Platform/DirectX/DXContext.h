@@ -18,7 +18,7 @@ namespace Graphics
 			DXContext(DXContext&&) = delete;
 			~DXContext()
 			{
-				DXResource::DestroyResource();
+
 			}
 
 		public:

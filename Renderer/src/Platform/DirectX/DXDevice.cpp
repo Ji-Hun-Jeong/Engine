@@ -15,10 +15,10 @@ namespace Graphics
 
 		DXDevice::~DXDevice()
 		{
-			
+			DXResource::DestroyResource();
 		}
 
-		RenderContext* DXDevice::Initalize()
+		Graphics::RenderContext* DXDevice::Initalize()
         {
 			D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE;
 			UINT createDeviceFlags = 0;
@@ -54,12 +54,13 @@ namespace Graphics
 				, &outputLevel, &Context);
 			if (FAILED(hr)) assert(0);
 			
+			
 			hr = Device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4,
 				&NumOfMultiSamplingLevel);
 			if (FAILED(hr)) assert(0);
-
-			DXResource::InitResource(Device.Get());
 			
+			DXResource::InitResource(Device.Get());
+
 			// Texture를 이용해서 리소스를 만들고 난 후 항상 Texture를 Release해주기
 			ID3D11Texture2D* Buffer = nullptr;
 			hr = SwapChain->GetBuffer(0, IID_PPV_ARGS(&Buffer));
@@ -67,11 +68,11 @@ namespace Graphics
 			if (Buffer)
 				hr = Device->CreateRenderTargetView(Buffer, nullptr, &RenderTargetView);
 			if (FAILED(hr)) assert(0);
-
 			Buffer->Release();
+
 			DXResource::RenderTargetView[(UINT)eCategoryRTV::BackBuffer] = RenderTargetView;
-
-
+			RenderTargetView->Release();
+	
 			D3D11_TEXTURE2D_DESC DDesc;
 			ZeroMemory(&DDesc, sizeof(DDesc));
 			DDesc.Width = ScreenWidth;
@@ -85,15 +86,19 @@ namespace Graphics
 			DDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 			DDesc.CPUAccessFlags = 0;
 			DDesc.MiscFlags = 0;
-
+			
 			hr = Device->CreateTexture2D(&DDesc, nullptr, &Buffer);
 			ID3D11DepthStencilView* DepthStencilView = nullptr;
 			if (FAILED(hr)) assert(0);
 
 			hr = Device->CreateDepthStencilView(Buffer, nullptr, &DepthStencilView);
 			if (FAILED(hr)) assert(0);
+
 			Buffer->Release();
+
 			DXResource::DepthStencilView[(UINT)eCategoryDSV::BackBuffer] = DepthStencilView;
+			DepthStencilView->Release();
+			
 
 			D3D11_VIEWPORT& ViewPort = DXResource::ViewPort[(UINT)eCategoryVP::Basic];
 			ZeroMemory(&ViewPort, sizeof(D3D11_VIEWPORT));
@@ -109,7 +114,7 @@ namespace Graphics
 			return new DX::DXContext(Context, SwapChain);
         }
         void DXDevice::MakeBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices, std::vector<uint32_t>& _Indices)
-        {
+		{
 			DXBuffers* Buffers = new DXBuffers;
 
 			D3D11_BUFFER_DESC BufferDesc;

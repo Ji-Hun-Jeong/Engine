@@ -5,6 +5,7 @@
 MyLevel::MyLevel(Graphics::RenderDevice* _RenderDevice)
 	: Level(_RenderDevice)
 {
+	
 }
 
 MyLevel::~MyLevel()

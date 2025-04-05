@@ -30,6 +30,22 @@ namespace Graphics
 			}
 			void DestroyResource()
 			{
+				for (auto& vs : VertexShader)
+					vs.Reset();
+				for (auto& il : InputLayout)
+					il.Reset();
+				for (auto& ps : PixelShader)
+					ps.Reset();
+				for (auto& ss : SamplerState)
+					ss.Reset();
+				for (auto& rs : RasterizerState)
+					rs.Reset();
+				for (auto& dss : DepthStencilState)
+					dss.Reset();
+				for (auto& dsv : DepthStencilView)
+					dsv.Reset();
+				for (auto& rtv : RenderTargetView)
+					rtv.Reset();
 				for (auto iter = DXBuffers.begin(); iter != DXBuffers.end();)
 				{
 					delete iter->second;
@@ -50,7 +66,7 @@ namespace Graphics
 					L"./Renderer/resource/Shader/BasicVS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
 					"vs_5_0", compileFlags, 0, &shaderBlob, &errorBlob);
 				if (FAILED(hr))	assert(0);
-
+				
 				hr = _Device->CreateVertexShader(shaderBlob->GetBufferPointer(),
 					shaderBlob->GetBufferSize(), NULL,
 					VertexShader[(UINT)eCategoryVS::Basic].GetAddressOf());
@@ -69,11 +85,6 @@ namespace Graphics
 					shaderBlob->GetBufferSize(), InputLayout[(UINT)eCategoryIL::Basic].GetAddressOf());
 				if (FAILED(hr))	assert(0);
 
-				if (shaderBlob)
-					shaderBlob->Release();
-				if (errorBlob)
-					errorBlob->Release();
-
 				hr = D3DCompileFromFile(
 					L"./Renderer/resource/Shader/BasicPS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
 					"ps_5_0", compileFlags, 0, &shaderBlob, &errorBlob);
@@ -84,10 +95,6 @@ namespace Graphics
 					PixelShader[(UINT)eCategoryPS::Basic].GetAddressOf());
 				if (FAILED(hr))	assert(0);
 
-				if (shaderBlob)
-					shaderBlob->Release();
-				if (errorBlob)
-					errorBlob->Release();
 			}
 			void InitSampler(ID3D11Device* _Device)
 			{
@@ -129,14 +136,6 @@ namespace Graphics
 
 				HRESULT hr = _Device->CreateDepthStencilState(&depthStencilDesc, DepthStencilState[(UINT)eCategoryDSS::Basic].GetAddressOf());
 				if (FAILED(hr)) assert(0);
-			}
-			void AddRTV(eCategoryRTV _CategoryRTV, ID3D11RenderTargetView* _RTV)
-			{
-				RenderTargetView[(UINT)_CategoryRTV] = _RTV;
-			}
-			void AddDSV(eCategoryDSV _CategoryDSV, ID3D11DepthStencilView* _DSV)
-			{
-				DepthStencilView[(UINT)_CategoryDSV] = _DSV;
 			}
 		};
 	}
