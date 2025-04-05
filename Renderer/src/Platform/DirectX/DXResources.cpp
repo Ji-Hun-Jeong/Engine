@@ -47,7 +47,7 @@ namespace Graphics
 #endif
 
 				HRESULT hr = D3DCompileFromFile(
-					L"../Release/Resource/Shader/BasicVS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
+					L"./Renderer/resource/Shader/BasicVS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
 					"vs_5_0", compileFlags, 0, &shaderBlob, &errorBlob);
 				if (FAILED(hr))	assert(0);
 
@@ -75,7 +75,7 @@ namespace Graphics
 					errorBlob->Release();
 
 				hr = D3DCompileFromFile(
-					L"../Release/Resource/Shader/BasicPS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
+					L"./Renderer/resource/Shader/BasicPS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
 					"ps_5_0", compileFlags, 0, &shaderBlob, &errorBlob);
 				if (FAILED(hr))	assert(0);
 

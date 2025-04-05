@@ -63,4 +63,11 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="resource\Shader\Common.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="resource\Shader\BasicVS.hlsl" />
+    <FxCompile Include="resource\Shader\BasicPS.hlsl" />
+  </ItemGroup>
 </Project>
