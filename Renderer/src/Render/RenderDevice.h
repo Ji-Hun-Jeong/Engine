@@ -1,13 +1,7 @@
 #pragma once
 
-struct Vertex
-{
-	DirectX::SimpleMath::Vector3 pos;
-	DirectX::SimpleMath::Vector3 color;
-};
 namespace Graphics
 {
-	
 	class RenderDevice
 	{
 	public:

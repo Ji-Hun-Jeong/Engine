@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Geometry\Geometry.h" />
     <ClInclude Include="src\RenderType.h" />
     <ClInclude Include="src\Render\RenderDevice.h" />
     <ClInclude Include="src\Render\RenderContext.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="src\Render\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Geometry\Geometry.cpp" />
     <ClCompile Include="src\Render\RenderDevice.cpp" />
     <ClCompile Include="src\Render\RenderContext.cpp" />
     <ClCompile Include="src\Platform\DirectX\DXDevice.cpp" />

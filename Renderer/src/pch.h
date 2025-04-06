@@ -12,3 +12,10 @@
 	#define RENDERER_API __declspec(dllimport)
 #endif
 
+using DirectX::SimpleMath::Vector3;
+
+struct Vertex
+{
+	Vector3 pos;
+	Vector3 color;
+};

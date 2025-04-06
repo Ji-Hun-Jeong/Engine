@@ -4,6 +4,7 @@
 #include <Renderer/src/Render/Renderer.h>
 #include <Renderer/src/Render/RenderContext.h>
 #include <Renderer/src/Render/RenderDevice.h>
+#include <Renderer/src/Geometry/Geometry.h>
 
 namespace Game
 {
@@ -11,23 +12,11 @@ namespace Game
 	Player::Player(const std::string& _Name, Graphics::RenderDevice* _RenderDevice)
 		: Super(_Name)
 	{
-		std::vector<Vertex> Vertices;
-		Vertex V;
-		V.pos = Vector3(-0.3f, -0.3f, 0.1f);
-		V.color = Vector3(1.0f, 0.0f, 0.0f);
-		Vertices.push_back(V);
-		V.pos = Vector3(0.0f, 0.3f, 0.1f);
-		V.color = Vector3(0.0f, 1.0f, 0.0f);
-		Vertices.push_back(V);
-		V.pos = Vector3(0.3f, -0.3f, 0.1f);
-		V.color = Vector3(0.0f, 0.0f, 1.0f);
-		Vertices.push_back(V);
+		Graphics::Geometry::MeshData Md = Graphics::Geometry::GenerateSquare();
 
-		std::vector<uint32_t> Indices{ 0,1,2 };
+		DrawIndexCount = static_cast<UINT>(Md.Indices.size());
 
-		DrawIndexCount = static_cast<UINT>(Indices.size());
-
-		_RenderDevice->MakeBuffers(Name, Vertices, Indices);
+		_RenderDevice->MakeBuffers(Name, Md.Vertices, Md.Indices);
 	}
 
 	Player::Player(const Player& _Other)
