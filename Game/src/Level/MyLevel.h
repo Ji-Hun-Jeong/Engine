@@ -1,20 +1,24 @@
 #pragma once
 #include "Level/Level.h"
 
-class MyLevel : public Engine::Level
+namespace Game
 {
-	using Super = Engine::Level;
-public:
-	explicit MyLevel(Graphics::RenderDevice* _RenderDevice);
-	~MyLevel();
+	class MyLevel : public Level
+	{
+		using Super = Level;
+	public:
+		explicit MyLevel(Graphics::RenderDevice* _RenderDevice);
+		~MyLevel();
 
-public:
-	void InitLevel() override;
-	void EnterLevel() override;
-	void Update() override;
-	void ExitLevel() override;
+	public:
+		void InitLevel() override;
+		void EnterLevel() override;
+		void Update() override;
+		void ExitLevel() override;
 
-private:
+	private:
 
-};
+	};
+}
+
 

@@ -1,69 +1,61 @@
 #include "pch.h"
 #include "Player.h"
-#include "Object/Component/Transform.h"
-#include "Input/Input.h"
-#include "Core/Time.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/RenderContext.h"
-#include "Renderer/RenderDevice.h"
 
-Player::Player(const std::string& _Name, Graphics::RenderDevice* _RenderDevice)
-	: Super(_Name)
+#include <Renderer/src/Render/Renderer.h>
+#include <Renderer/src/Render/RenderContext.h>
+#include <Renderer/src/Render/RenderDevice.h>
+
+namespace Game
 {
-	std::vector<Vertex> Vertices;
-	Vertex V;
-	V.pos = Vector3(-0.3f, -0.3f, 0.1f);
-	V.color = Vector3(1.0f, 0.0f, 0.0f);
-	Vertices.push_back(V);
-	V.pos = Vector3(0.0f, 0.3f, 0.1f);
-	V.color = Vector3(0.0f, 1.0f, 0.0f);
-	Vertices.push_back(V);
-	V.pos = Vector3(0.3f, -0.3f, 0.1f);
-	V.color = Vector3(0.0f, 0.0f, 1.0f);
-	Vertices.push_back(V);
+	using DirectX::SimpleMath::Vector3;
+	Player::Player(const std::string& _Name, Graphics::RenderDevice* _RenderDevice)
+		: Super(_Name)
+	{
+		std::vector<Vertex> Vertices;
+		Vertex V;
+		V.pos = Vector3(-0.3f, -0.3f, 0.1f);
+		V.color = Vector3(1.0f, 0.0f, 0.0f);
+		Vertices.push_back(V);
+		V.pos = Vector3(0.0f, 0.3f, 0.1f);
+		V.color = Vector3(0.0f, 1.0f, 0.0f);
+		Vertices.push_back(V);
+		V.pos = Vector3(0.3f, -0.3f, 0.1f);
+		V.color = Vector3(0.0f, 0.0f, 1.0f);
+		Vertices.push_back(V);
 
-	std::vector<uint32_t> Indices{ 0,1,2 };
+		std::vector<uint32_t> Indices{ 0,1,2 };
 
-	DrawIndexCount = static_cast<UINT>(Indices.size());
+		DrawIndexCount = static_cast<UINT>(Indices.size());
 
-	_RenderDevice->MakeBuffers(Name, Vertices, Indices);
-}
+		_RenderDevice->MakeBuffers(Name, Vertices, Indices);
+	}
 
-Player::Player(const Player& _Other)
-	: Super(_Other)
-{
-}
+	Player::Player(const Player& _Other)
+		: Super(_Other)
+	{
+	}
 
-Player::~Player()
-{
-}
+	Player::~Player()
+	{
+	}
 
-void Player::InitObject()
-{
-	Super::InitObject();
-}
+	void Player::InitObject()
+	{
+		Super::InitObject();
+	}
 
-void Player::Update()
-{
-	Super::Update();
-	/*Vector2 Pos = Transform->GetPos();
-	if (Input::GetKey(Input::eKeyType::A, Input::eButtonState::Hold))
-		Pos.x -= 200.0f * Time::DeltaTime;
-	if (Input::GetKey(Input::eKeyType::D, Input::eButtonState::Hold))
-		Pos.x += 200.0f * Time::DeltaTime;
-	if (Input::GetKey(Input::eKeyType::W, Input::eButtonState::Hold))
-		Pos.y -= 200.0f * Time::DeltaTime;
-	if (Input::GetKey(Input::eKeyType::S, Input::eButtonState::Hold))
-		Pos.y += 200.0f * Time::DeltaTime;
-	Transform->SetPos(Pos);*/
-}
+	void Player::Update()
+	{
+		Super::Update();
+	}
 
-void Player::Destory()
-{
-	Super::Destory();
-}
+	void Player::Destory()
+	{
+		Super::Destory();
+	}
 
-void Player::Render(Graphics::RenderContext* _RenderContext)
-{
-	Renderer->BasicRender(_RenderContext, Name, DrawIndexCount);
+	void Player::Render(Graphics::RenderContext* _RenderContext)
+	{
+		Renderer->BasicRender(_RenderContext, Name, DrawIndexCount);
+	}
 }

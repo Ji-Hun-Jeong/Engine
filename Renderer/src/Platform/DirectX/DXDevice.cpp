@@ -4,8 +4,8 @@
 
 namespace Graphics
 {
-    namespace DX
-    {
+	namespace DX
+	{
 		DXDevice::DXDevice(HWND _WindowHandle)
 			: RenderDevice(_WindowHandle)
 			, NumOfMultiSamplingLevel(0)
@@ -19,7 +19,17 @@ namespace Graphics
 		}
 
 		Graphics::RenderContext* DXDevice::Initalize()
-        {
+		{
+			// DirectX는 리소스를 Com객체로 관리한다.
+			// Com객체는 내부적으로 RefCount를 가지고 있고 이 Com객체를 사용할 때 RefCount가 증가한다. 
+			// 그래서 반드시 사용한 후에 RefCount를 감소시켜줘야한다.
+			// ComPtr은 Com객체를 위한 스마트포인터고 ComPtr이 사라질 때 Release를 호출해서 RefCount를 감소시킨다.
+
+			// &는 이전 리소스의 참조를 없애고 포인터의 주소를 반환한다.
+			// GetAddressOf는 그대로 포인터의 주소를 반환한다.
+
+			// 따라서 DirectX의 리소스는 항상 만들고 더이상 그 객체를 사용할 일이 없으면 바로 Release를 호출하여 RefCount를 감소시켜야한다.
+
 			D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE;
 			UINT createDeviceFlags = 0;
 #if defined(DEBUG) || defined(_DEBUG)
@@ -27,7 +37,7 @@ namespace Graphics
 #endif
 			D3D_FEATURE_LEVEL featureLevel[] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_9_3 };
 			D3D_FEATURE_LEVEL outputLevel;
-			
+
 			DXGI_SWAP_CHAIN_DESC swapChainDesc;
 			ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
 			swapChainDesc.BufferDesc.Width = ScreenWidth;
@@ -44,7 +54,7 @@ namespace Graphics
 			swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 			swapChainDesc.SampleDesc.Count = 1;
 			swapChainDesc.SampleDesc.Quality = 0;
-			
+
 			ID3D11DeviceContext* Context = nullptr;
 			IDXGISwapChain* SwapChain = nullptr;
 			HRESULT hr = ::D3D11CreateDeviceAndSwapChain(nullptr, driverType, 0
@@ -53,12 +63,12 @@ namespace Graphics
 				, &SwapChain, Device.GetAddressOf()
 				, &outputLevel, &Context);
 			if (FAILED(hr)) assert(0);
-			
-			
+
+
 			hr = Device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4,
 				&NumOfMultiSamplingLevel);
 			if (FAILED(hr)) assert(0);
-			
+
 			DXResource::InitResource(Device.Get());
 
 			// Texture를 이용해서 리소스를 만들고 난 후 항상 Texture를 Release해주기
@@ -72,7 +82,7 @@ namespace Graphics
 
 			DXResource::RenderTargetView[(UINT)eCategoryRTV::BackBuffer] = RenderTargetView;
 			RenderTargetView->Release();
-	
+
 			D3D11_TEXTURE2D_DESC DDesc;
 			ZeroMemory(&DDesc, sizeof(DDesc));
 			DDesc.Width = ScreenWidth;
@@ -86,7 +96,7 @@ namespace Graphics
 			DDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 			DDesc.CPUAccessFlags = 0;
 			DDesc.MiscFlags = 0;
-			
+
 			hr = Device->CreateTexture2D(&DDesc, nullptr, &Buffer);
 			ID3D11DepthStencilView* DepthStencilView = nullptr;
 			if (FAILED(hr)) assert(0);
@@ -98,7 +108,7 @@ namespace Graphics
 
 			DXResource::DepthStencilView[(UINT)eCategoryDSV::BackBuffer] = DepthStencilView;
 			DepthStencilView->Release();
-			
+
 
 			D3D11_VIEWPORT& ViewPort = DXResource::ViewPort[(UINT)eCategoryVP::Basic];
 			ZeroMemory(&ViewPort, sizeof(D3D11_VIEWPORT));
@@ -112,8 +122,8 @@ namespace Graphics
 			Context->Release();
 			SwapChain->Release();
 			return new DX::DXContext(Context, SwapChain);
-        }
-        void DXDevice::MakeBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices, std::vector<uint32_t>& _Indices)
+		}
+		void DXDevice::MakeBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices, std::vector<uint32_t>& _Indices)
 		{
 			DXBuffers* Buffers = new DXBuffers;
 
@@ -154,6 +164,6 @@ namespace Graphics
 			Buffers->Stride = sizeof(Vertex);
 
 			DXResource::DXBuffers.insert(std::make_pair(_Key, Buffers));
-        }
-    }
+		}
+	}
 }

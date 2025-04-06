@@ -1,5 +1,5 @@
 #pragma once
-#include "Renderer/RenderContext.h"
+#include "Renderer/src/Render/RenderContext.h"
 #include "DXResources.h"
 
 namespace Graphics
@@ -11,7 +11,7 @@ namespace Graphics
 
 		class RENDERER_API DXContext : public Graphics::RenderContext
 		{
-			using Super = RenderContext;
+			using Super = Graphics::RenderContext;
 		public:
 			DXContext(ID3D11DeviceContext* _Context, IDXGISwapChain* _SwapChain);
 			DXContext(const DXContext&) = delete;
@@ -108,3 +108,4 @@ namespace Graphics
 		};
 	}
 }
+

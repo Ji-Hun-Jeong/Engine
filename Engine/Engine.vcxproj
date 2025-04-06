@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Renderer\src;$(SolutionDir)\Engine\src;$(SolutionDir)\Engine\src\Base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\;$(SolutionDir)\Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -124,7 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Renderer\src;$(SolutionDir)\Engine\src;$(SolutionDir)\Engine\src\Base;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\;$(SolutionDir)\Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,33 +134,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Base\pch.cpp">
+    <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Input\Input.cpp" />
-    <ClCompile Include="src\Object\Actor.cpp" />
-    <ClCompile Include="src\Object\Object.cpp" />
-    <ClCompile Include="src\Core\Application.cpp" />
-    <ClCompile Include="src\Core\Core.cpp" />
-    <ClCompile Include="src\Window\Window.cpp" />
-    <ClCompile Include="src\Object\Component\Transform.cpp" />
-    <ClCompile Include="src\Level\Level.cpp" />
-    <ClCompile Include="src\Core\Time.cpp" />
+    <ClCompile Include="src\Time\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Input\Input.h" />
-    <ClInclude Include="src\Base\MyMath.h" />
-    <ClInclude Include="src\Object\Actor.h" />
-    <ClInclude Include="src\Object\Object.h" />
-    <ClInclude Include="src\Base\Define.h" />
-    <ClInclude Include="src\Core\Application.h" />
-    <ClInclude Include="src\Core\Core.h" />
-    <ClInclude Include="src\Base\pch.h" />
-    <ClInclude Include="src\Window\Window.h" />
-    <ClInclude Include="src\Object\Component\Transform.h" />
-    <ClInclude Include="src\Level\Level.h" />
-    <ClInclude Include="src\Core\Time.h" />
+    <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Time\Time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

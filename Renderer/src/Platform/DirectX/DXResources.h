@@ -1,5 +1,6 @@
 #pragma once
 #include "DX.h"
+#include "Renderer/src/RenderType.h"
 
 namespace Graphics
 {

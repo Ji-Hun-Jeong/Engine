@@ -1,5 +1,5 @@
 #pragma once
-#include "Renderer/RenderDevice.h"
+#include "Renderer/src/Render/RenderDevice.h"
 #include "DX.h"
 
 namespace Graphics
@@ -9,9 +9,9 @@ namespace Graphics
         using Microsoft::WRL::ComPtr;
         using DirectX::SimpleMath::Vector3;
 
-        class RENDERER_API DXDevice : public RenderDevice
+        class RENDERER_API DXDevice : public Graphics::RenderDevice
         {
-            using Super = RenderDevice;
+            using Super = Graphics::RenderDevice;
         public:
             explicit DXDevice(HWND _WindowHandle);
             ~DXDevice();
