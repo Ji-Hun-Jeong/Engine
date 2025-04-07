@@ -123,7 +123,7 @@ namespace Graphics
 			SwapChain->Release();
 			return new DX::DXContext(Context, SwapChain);
 		}
-		void DXDevice::MakeBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices, std::vector<uint32_t>& _Indices)
+		void DXDevice::MakeGeometryBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices, std::vector<uint32_t>& _Indices)
 		{
 			DXBuffers* Buffers = new DXBuffers;
 

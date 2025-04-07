@@ -16,7 +16,7 @@ namespace Game
 
 		DrawIndexCount = static_cast<UINT>(Md.Indices.size());
 
-		_RenderDevice->MakeBuffers(Name, Md.Vertices, Md.Indices);
+		_RenderDevice->MakeGeometryBuffers(Name, Md.Vertices, Md.Indices);
 	}
 
 	Player::Player(const Player& _Other)

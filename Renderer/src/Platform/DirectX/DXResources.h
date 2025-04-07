@@ -11,6 +11,7 @@ namespace Graphics
 		{
 			ComPtr<ID3D11Buffer> VertexBuffer;
 			ComPtr<ID3D11Buffer> IndexBuffer;
+			ComPtr<ID3D11Buffer> ConstBuffer;
 			UINT Stride;
 		};
 		namespace DXResource
