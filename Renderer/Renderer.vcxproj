@@ -111,8 +111,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3dcompiler.lib;d3d11.lib;dxgi.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DirectXTK.lib;d3dcompiler.lib;d3d11.lib;dxgi.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\;$(SolutionDir)\Renderer\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,11 +132,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3dcompiler.lib;d3d11.lib;dxgi.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DirectXTK.lib;d3dcompiler.lib;d3d11.lib;dxgi.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\;$(SolutionDir)\Renderer\lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\SimpleMath.h" />
     <ClInclude Include="src\Geometry\Geometry.h" />
     <ClInclude Include="src\RenderType.h" />
     <ClInclude Include="src\Render\RenderDevice.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="src\Render\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\SimpleMath.cpp" />
     <ClCompile Include="src\Geometry\Geometry.cpp" />
     <ClCompile Include="src\Render\RenderDevice.cpp" />
     <ClCompile Include="src\Render\RenderContext.cpp" />
@@ -162,6 +164,8 @@
     <ClCompile Include="src\Render\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\Desktop\DirectXTK\Inc\SimpleMath.inl" />
+    <None Include="include\SimpleMath.inl" />
     <None Include="resource\Shader\Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +185,9 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\DirectXTK.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

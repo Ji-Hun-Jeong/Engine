@@ -45,6 +45,9 @@
     <ClInclude Include="src\Geometry\Geometry.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="include\SimpleMath.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Render\Renderer.cpp">
@@ -71,12 +74,24 @@
     <ClCompile Include="src\Geometry\Geometry.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="include\SimpleMath.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\Shader\Common.hlsli" />
+    <None Include="..\..\..\..\Desktop\DirectXTK\Inc\SimpleMath.inl">
+      <Filter>헤더 파일</Filter>
+    </None>
+    <None Include="include\SimpleMath.inl">
+      <Filter>헤더 파일</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="resource\Shader\BasicVS.hlsl" />
     <FxCompile Include="resource\Shader\BasicPS.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\DirectXTK.lib" />
   </ItemGroup>
 </Project>

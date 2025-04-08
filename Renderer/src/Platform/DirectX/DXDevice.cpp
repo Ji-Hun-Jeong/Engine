@@ -10,7 +10,7 @@ namespace Graphics
 			: RenderDevice(_WindowHandle)
 			, NumOfMultiSamplingLevel(0)
 		{
-
+			
 		}
 
 		DXDevice::~DXDevice()

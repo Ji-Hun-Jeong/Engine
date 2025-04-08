@@ -1012,7 +1012,7 @@ namespace DirectX
             static RECT __cdecl ComputeTitleSafeArea(UINT backBufferWidth, UINT backBufferHeight) noexcept;
         };
 
-    //#include "SimpleMath.inl"
+    #include "SimpleMath.inl"
 
     } // namespace SimpleMath
 

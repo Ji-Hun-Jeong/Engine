@@ -1,10 +1,10 @@
 #pragma once
 #include "Object.h"
+#include <Renderer/src/Render/RenderDevice.h>
 
 namespace Graphics
 {
 	class Renderer;
-	class RenderDevice;
 	class RenderContext;
 }
 namespace Game

@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <unordered_map>
-#include "../include/SimpleMath.h"
+#include "Renderer/include/SimpleMath.h"
 
 #ifdef RENDERER_DEFINE
 	#define RENDERER_API __declspec(dllexport)

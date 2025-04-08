@@ -9,11 +9,17 @@ namespace Graphics
     {
         _RenderContext->IASetInputLayout(eCategoryIL::Basic);
         _RenderContext->IASetPrimitiveTopology(eCategoryTopology::Triangle);
-        _RenderContext->IASetBuffers(0, 1, _BufferKey);
+        _RenderContext->IASetBuffers(_BufferKey, 0, 1);
+
+        eCategoryVSConst BasicConst = eCategoryVSConst::Basic;
         _RenderContext->VSSetShader(eCategoryVS::Basic);
+        _RenderContext->VSSetConstBuffers(_BufferKey, 1, &BasicConst);
+
         _RenderContext->RSSetState(eCategoryRS::SolidCw);
         _RenderContext->RSSetViewPort(1, eCategoryVP::Basic);
+
         _RenderContext->PSSetShader(eCategoryPS::Basic);
+
         _RenderContext->DrawIndexed(_IndexCount);
     }
 }

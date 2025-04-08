@@ -3,6 +3,18 @@
 
 namespace Game
 {
+	using DirectX::SimpleMath::Matrix;
+	struct PlayerConst : public Graphics::ConstData
+	{
+	public:
+		UINT SizeOf() const override 
+		{ 
+			return sizeof(MVP);
+		}
+
+		Matrix MVP;
+	};
+	
 	class Player : public Actor
 	{
 		using Super = Actor;
@@ -22,7 +34,7 @@ namespace Game
 
 		void Render(Graphics::RenderContext* _RenderContext) override;
 	private:
-
+		PlayerConst Constant;
 	};
 
 }

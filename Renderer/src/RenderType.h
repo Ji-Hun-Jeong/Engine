@@ -46,3 +46,13 @@ enum class eCategoryClearFlag
 	ClearStnecil = 2,
 	End = 100,
 };
+enum class eCategoryVSConst
+{
+	Basic,
+	End,
+};
+enum class eCategoryPSConst
+{
+	Basic,
+	End,
+};
