@@ -18,7 +18,7 @@ namespace Graphics
 			DXContext(DXContext&&) = delete;
 			~DXContext()
 			{
-
+				
 			}
 
 		public:
@@ -99,6 +99,19 @@ namespace Graphics
 			{
 				ID3D11PixelShader* PixelShader = DXResource::PixelShader[(UINT)_PixelShader].Get();
 				Context->PSSetShader(PixelShader, nullptr, 0);
+			}
+
+			void UpdateVSConstBuffer(const std::string& _Key, eCategoryVSConst _VSConst, void* _ConstData
+				, UINT _Size) override
+			{
+				DXBuffers* DXBuffer = DXResource::DXBuffers.find(_Key)->second;
+
+				D3D11_MAPPED_SUBRESOURCE Ms;
+				ZeroMemory(&Ms, sizeof(Ms));
+				
+				Context->Map(DXBuffer->VSConstBuffer[(UINT)_VSConst].Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &Ms);
+				memcpy(Ms.pData, _ConstData, _Size);
+				Context->Unmap(DXBuffer->VSConstBuffer[(UINT)_VSConst].Get(), 0);
 			}
 
 			void PSSetConstBuffers(const std::string& _Key, UINT _NumConst, eCategoryPSConst* _PSConst) override

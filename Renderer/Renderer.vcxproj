@@ -164,7 +164,6 @@
     <ClCompile Include="src\Render\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\Desktop\DirectXTK\Inc\SimpleMath.inl" />
     <None Include="include\SimpleMath.inl" />
     <None Include="resource\Shader\Common.hlsli" />
   </ItemGroup>

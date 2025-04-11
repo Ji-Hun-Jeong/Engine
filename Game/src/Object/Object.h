@@ -1,4 +1,5 @@
 #pragma once
+#include "Component/Transform/Transform.h"
 
 namespace Game
 {
@@ -21,7 +22,11 @@ namespace Game
 		void SetName(const std::string& _Name) { Name = _Name; }
 		const std::string& GetName() const { return Name; }
 
+		void SetTransform(Transform* _Transform) { Transform = _Transform; }
+
 	protected:
 		std::string Name;
+		Transform* Transform;
+
 	};
 }

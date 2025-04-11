@@ -13,6 +13,7 @@
 #endif
 
 using DirectX::SimpleMath::Vector3;
+using DirectX::SimpleMath::Matrix;
 
 struct Vertex
 {

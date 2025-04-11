@@ -21,6 +21,8 @@ namespace Graphics
 
 		virtual void VSSetShader(eCategoryVS _VertexShader) = 0;
 		virtual void VSSetConstBuffers(const std::string& _Key, UINT _NumConst, eCategoryVSConst* _VSConst) = 0;
+		virtual void UpdateVSConstBuffer(const std::string& _Key, eCategoryVSConst _VSConst, void* _ConstData
+			, UINT _Size) = 0;
 
 		virtual void RSSetState(eCategoryRS _RasterizerState) = 0;
 		virtual void RSSetViewPort(UINT _NumViewPort, eCategoryVP _ViewPort) = 0;

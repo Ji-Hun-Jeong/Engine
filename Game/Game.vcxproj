@@ -147,6 +147,8 @@
     <ClCompile Include="src\Player\Player.cpp" />
     <ClCompile Include="src\Level\MyLevel.cpp" />
     <ClCompile Include="src\App\Game.cpp" />
+    <ClCompile Include="src\Component\Transform\Transform.cpp" />
+    <ClCompile Include="src\Component\State\State.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Level\Level.h" />
@@ -156,6 +158,8 @@
     <ClInclude Include="src\Level\MyLevel.h" />
     <ClInclude Include="src\App\Game.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Component\Transform\Transform.h" />
+    <ClInclude Include="src\Component\State\State.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

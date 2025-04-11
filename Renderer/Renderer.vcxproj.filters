@@ -80,9 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\Shader\Common.hlsli" />
-    <None Include="..\..\..\..\Desktop\DirectXTK\Inc\SimpleMath.inl">
-      <Filter>헤더 파일</Filter>
-    </None>
     <None Include="include\SimpleMath.inl">
       <Filter>헤더 파일</Filter>
     </None>

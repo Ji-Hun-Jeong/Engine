@@ -19,6 +19,7 @@ namespace Game
 	}
 	void Object::Update()
 	{
+		
 	}
 	void Object::Destory()
 	{

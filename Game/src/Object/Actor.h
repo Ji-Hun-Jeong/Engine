@@ -27,7 +27,10 @@ namespace Game
 		virtual void Render(Graphics::RenderContext* _RenderContext) = 0;
 
 	protected:
+
+
 		Graphics::Renderer* Renderer;
 		UINT DrawIndexCount;
+
     };
 }

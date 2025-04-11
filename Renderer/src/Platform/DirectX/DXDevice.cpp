@@ -135,6 +135,8 @@ namespace Graphics
 			BufferDesc.CPUAccessFlags = 0;
 			BufferDesc.StructureByteStride = sizeof(Vertex);
 
+			// 딱 데이터를 한번만 전달할 때 사용
+			// map을 사용할 때는 필요없음
 			D3D11_SUBRESOURCE_DATA BufferData = { 0 };
 			BufferData.pSysMem = _Vertices.data();
 			BufferData.SysMemPitch = 0;
