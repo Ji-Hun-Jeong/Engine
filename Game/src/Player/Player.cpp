@@ -47,23 +47,6 @@ namespace Game
 		Super::Destory();
 	}
 
-	void Player::Move()
-	{
-		Vector3 Position = Transform.GetPosition();
-		if (Input::GetKey(Input::eKeyType::A, Input::eButtonState::Hold))
-			Position.x -= Time::DeltaTime * 2;
-		if (Input::GetKey(Input::eKeyType::D, Input::eButtonState::Hold))
-			Position.x += Time::DeltaTime * 2;
-		if (Input::GetKey(Input::eKeyType::W, Input::eButtonState::Hold))
-			Position.y += Time::DeltaTime * 2;
-		if (Input::GetKey(Input::eKeyType::S, Input::eButtonState::Hold))
-			Position.y -= Time::DeltaTime * 2;
-
-		Transform.SetPosition(Position);
-
-		Constant.MVP = Transform.GetModel().Transpose();
-	}
-
 	void Player::Render(Graphics::RenderContext* _RenderContext)
 	{
 		_RenderContext->UpdateVSConstBuffer(Name, eCategoryVSConst::Basic, &Constant, sizeof(Constant));

@@ -13,6 +13,8 @@ namespace Game
 	}
 	Object::~Object()
 	{
+		if (Transform)
+			delete Transform;
 	}
 	void Object::InitObject()
 	{
