@@ -18,4 +18,5 @@ namespace Input
 	};
 	extern void Update();
 	extern bool GetKey(eKeyType _KeyType, eButtonState _ButtonState);
+	extern eButtonState GetKeyState(eKeyType _KeyType);
 }

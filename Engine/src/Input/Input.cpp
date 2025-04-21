@@ -37,4 +37,8 @@ namespace Input
 	{
 		return KeyState[(UINT)_KeyType] == _ButtonState;
 	}
+	eButtonState GetKeyState(eKeyType _KeyType)
+	{
+		return KeyState[(size_t)_KeyType];
+	}
 }

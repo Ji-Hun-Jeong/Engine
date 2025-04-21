@@ -137,6 +137,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Base\Action.cpp" />
+    <ClCompile Include="src\Base\KeyInput.cpp" />
     <ClCompile Include="src\Level\Level.cpp" />
     <ClCompile Include="src\Object\Actor.cpp" />
     <ClCompile Include="src\Object\Object.cpp" />
@@ -151,6 +153,8 @@
     <ClCompile Include="src\Component\State\State.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Base\Action.h" />
+    <ClInclude Include="src\Base\KeyInput.h" />
     <ClInclude Include="src\Level\Level.h" />
     <ClInclude Include="src\Object\Actor.h" />
     <ClInclude Include="src\Object\Object.h" />

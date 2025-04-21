@@ -28,9 +28,13 @@ namespace Game
 
 		void Render(Graphics::RenderContext* _RenderContext) override;
 
+		void BindAction(const std::string& _ActionName, std::function<void()> _ActFunction);
+
 	private:
 		PlayerConst Constant;
 
+		class KeyInput* PlayerKeyInput;
+		class ActionController* PlayerActionController;
 	};
 
 }

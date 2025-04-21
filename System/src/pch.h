@@ -10,6 +10,8 @@
 #include <cmath>
 #include <iostream>
 #include <cassert>
+#include <array>
+#include <queue>
 
 #include "Define.h"
 

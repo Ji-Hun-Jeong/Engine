@@ -7,9 +7,7 @@ namespace Game
 	public:
 		explicit State(const std::string& _StateName)
 			: StateName(_StateName)
-		{
-
-		}
+		{}
 		virtual ~State() = 0 {}
 
 	public:
