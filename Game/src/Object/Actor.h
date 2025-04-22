@@ -1,6 +1,8 @@
 #pragma once
 #include "Object.h"
 #include <Renderer/src/Render/RenderDevice.h>
+#include <Engine/src/Input/Input.h>
+#include <Engine/src/Time/Time.h>
 
 namespace Graphics
 {

@@ -28,7 +28,30 @@ namespace Game
 
 		void Render(Graphics::RenderContext* _RenderContext) override;
 
-		void BindAction(const std::string& _ActionName, std::function<void()> _ActFunction);
+		void BindActionAndKey(const std::string& _ActionName, Input::eKeyType _KeyType, std::function<void(const std::string&, Input::eButtonState)> _KeyEvent);
+
+		void Attack()
+		{
+			static float ActionTime = 1.0f;
+			static float SumTime = 0.0f;
+			static int cnt = 0;
+			if (SumTime < ActionTime)
+			{
+				if (cnt < 1)
+				{
+					++cnt;
+					std::cout << "PlayerAttack!\n";
+				}
+				SumTime += Time::DeltaTime;
+			}
+			else
+			{
+				SumTime = 0.0f;
+				cnt = 0;
+			}
+		}
+	private:
+		void addAction();
 
 	private:
 		PlayerConst Constant;

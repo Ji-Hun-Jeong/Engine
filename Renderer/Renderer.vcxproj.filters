@@ -88,7 +88,4 @@
     <FxCompile Include="resource\Shader\BasicVS.hlsl" />
     <FxCompile Include="resource\Shader\BasicPS.hlsl" />
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="lib\DirectXTK.lib" />
-  </ItemGroup>
 </Project>

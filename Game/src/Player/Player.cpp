@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Player.h"
 
-#include <Engine/src/Input/Input.h>
-#include <Engine/src/Time/Time.h>
 #include <Renderer/src/Render/Renderer.h>
 #include <Renderer/src/Render/RenderContext.h>
 #include <Renderer/src/Geometry/Geometry.h>
@@ -27,14 +25,21 @@ namespace Game
 
 		Transform = new Game::Transform;
 
-		auto LeftMove = [this]()->void
-			{
-				Vector3 Position = Transform->GetPosition();
-				Position.x += -1 * Time::DeltaTime;
-				Transform->SetPosition(Position);
-			};
+		addAction();
+		{
+			ActionController* PActionController = this->PlayerActionController;
 
-		BindAction("LeftMove", LeftMove);
+			auto KeyEvent = [PActionController](const std::string& _KeyName, Input::eButtonState _KeyState)->void
+				{
+					PActionController->AddActionQueue(_KeyName);
+				};
+
+			BindActionAndKey("LeftMove", Input::eKeyType::Left, KeyEvent);
+			BindActionAndKey("RightMove", Input::eKeyType::Right, KeyEvent);
+			BindActionAndKey("UpMove", Input::eKeyType::Up, KeyEvent);
+			BindActionAndKey("DownMove", Input::eKeyType::Down, KeyEvent);
+			BindActionAndKey("Attack", Input::eKeyType::Ctrl, KeyEvent);
+		}
 	}
 
 	Player::Player(const Player& _Other)
@@ -61,6 +66,7 @@ namespace Game
 		PlayerKeyInput->UpdateKeyState();
 
 		PlayerActionController->PerformActions();
+
 		Constant.MVP = Transform->GetModel().Transpose();
 	}
 
@@ -75,22 +81,59 @@ namespace Game
 		Renderer->BasicRender(_RenderContext, Name, DrawIndexCount);
 	}
 
-	void Player::BindAction(const std::string& _ActionName, std::function<void()> _ActFunction)
+	void Player::BindActionAndKey(const std::string& _ActionName, Input::eKeyType _KeyType, std::function<void(const std::string&, Input::eButtonState)> _KeyEvent)
 	{
-		ActionController* PActionController = this->PlayerActionController;
-
-		Action* PlayerAction = new Action(_ActionName, _ActFunction);
-		PActionController->AddAction(PlayerAction);
-
-		auto KeyEvent = [PActionController](const std::string& _KeyName, Input::eButtonState _KeyState)->void
-			{
-				PActionController->AddActionQueue(_KeyName);
-			};
+		const Action* Action = PlayerActionController->GetAction(_ActionName);
+		if (Action == nullptr)
+			assert(0);
 
 		Key* KeyInfo = new Key;
 		KeyInfo->KeyName = _ActionName;
-		KeyInfo->KeyEvent = KeyEvent;
+		KeyInfo->KeyEvent = _KeyEvent;
 
-		PlayerKeyInput->AddKey(KeyInfo, Input::eKeyType::Left);
+		PlayerKeyInput->AddKey(KeyInfo, _KeyType);
+	}
+	void Player::addAction()
+	{
+		auto LeftMove = [this]()->void
+			{
+				Vector3 Position = Transform->GetPosition();
+				Position.x += -1 * Time::DeltaTime;
+				Transform->SetPosition(Position);
+			};
+		auto RightMove = [this]()->void
+			{
+				Vector3 Position = Transform->GetPosition();
+				Position.x += 1 * Time::DeltaTime;
+				Transform->SetPosition(Position);
+			};
+		auto UpMove = [this]()->void
+			{
+				Vector3 Position = Transform->GetPosition();
+				Position.y += 1 * Time::DeltaTime;
+				Transform->SetPosition(Position);
+			};
+		auto DownMove = [this]()->void
+			{
+				Vector3 Position = Transform->GetPosition();
+				Position.y += -1 * Time::DeltaTime;
+				Transform->SetPosition(Position);
+			};
+
+		Action* PlayerAction = new Action("LeftMove", LeftMove);
+		PlayerActionController->AddAction(PlayerAction);
+
+		PlayerAction = new Action("RightMove", RightMove);
+		PlayerActionController->AddAction(PlayerAction);
+
+		PlayerAction = new Action("UpMove", UpMove);
+		PlayerActionController->AddAction(PlayerAction);
+
+		PlayerAction = new Action("DownMove", DownMove);
+		PlayerActionController->AddAction(PlayerAction);
+
+		PlayerAction = new Action("Attack", std::bind(&Player::Attack, this));
+		PlayerActionController->AddAction(PlayerAction);
+
 	}
 }

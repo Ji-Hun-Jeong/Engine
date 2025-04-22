@@ -18,6 +18,9 @@ namespace Game
 		}
 		const std::string& GetActionName() const { return ActionName; }
 
+		// Action이 시작되는 조건 함수
+		// 끝나는 조건함수?
+
 	private:
 		std::string ActionName;
 		std::function<void()> ActFunction;
@@ -61,6 +64,14 @@ namespace Game
 
 				Action->Act();
 			}
+		}
+
+		const Action* GetAction(const std::string& _ActionName) const
+		{
+			auto iter = Actions.find(_ActionName);
+			if (iter == Actions.end())
+				return nullptr;
+			return iter->second;
 		}
 
 	private:

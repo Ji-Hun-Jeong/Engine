@@ -14,6 +14,7 @@
 #include <queue>
 
 #include "Define.h"
+#include "System/include/FString.h"
 
 namespace Utility
 {
