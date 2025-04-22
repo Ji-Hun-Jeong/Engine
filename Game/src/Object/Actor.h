@@ -15,7 +15,7 @@ namespace Game
     {
 		using Super = Object;
 	public:
-		Actor(const std::string& _Name);
+		Actor(const Str::FString& _Name);
 		Actor(const Actor& _Other);
 		Actor(Actor&& _Other) = delete;
 		Actor& operator = (const Actor& _Other) = delete;

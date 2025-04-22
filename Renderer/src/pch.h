@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include "Renderer/include/SimpleMath.h"
 
+#include <System/src/pch.h>
+
 #ifdef RENDERER_DEFINE
 	#define RENDERER_API __declspec(dllexport)
 #else

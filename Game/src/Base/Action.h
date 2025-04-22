@@ -5,7 +5,7 @@ namespace Game
 	class Action
 	{
 	public:
-		Action(const std::string& _ActionName, std::function<void()> _ActFunction)
+		Action(const Str::FString& _ActionName, std::function<void()> _ActFunction)
 			: ActionName(_ActionName)
 			, ActFunction(_ActFunction)
 		{}
@@ -16,13 +16,13 @@ namespace Game
 		{
 			ActFunction();
 		}
-		const std::string& GetActionName() const { return ActionName; }
+		const Str::FString& GetActionName() const { return ActionName; }
 
 		// Action이 시작되는 조건 함수
 		// 끝나는 조건함수?
 
 	private:
-		std::string ActionName;
+		Str::FString ActionName;
 		std::function<void()> ActFunction;
 
 	};
@@ -46,7 +46,7 @@ namespace Game
 			Actions.insert(std::make_pair(_Action->GetActionName(), _Action));
 		}
 
-		void AddActionQueue(const std::string& _ActionName)
+		void AddActionQueue(const Str::FString& _ActionName)
 		{
 			auto iter = Actions.find(_ActionName);
 			BePerformedAction.push(iter->second);
@@ -66,7 +66,7 @@ namespace Game
 			}
 		}
 
-		const Action* GetAction(const std::string& _ActionName) const
+		const Action* GetAction(const Str::FString& _ActionName) const
 		{
 			auto iter = Actions.find(_ActionName);
 			if (iter == Actions.end())
@@ -75,7 +75,7 @@ namespace Game
 		}
 
 	private:
-		std::unordered_map<std::string, Action*> Actions;
+		std::unordered_map<Str::FString, Action*> Actions;
 
 		std::queue<Action*> BePerformedAction;
 	};

@@ -19,7 +19,7 @@ namespace Graphics
 			ComPtr<ID3D11DepthStencilView> DepthStencilView[(UINT)eCategoryDSV::End];
 			ComPtr<ID3D11RenderTargetView> RenderTargetView[(UINT)eCategoryRTV::End];
 
-			std::unordered_map<std::string, struct DXBuffers*> DXBuffers;
+			std::unordered_map<Str::FString, struct DXBuffers*> DXBuffers;
 
 			void InitResource(ID3D11Device* _Device)
 			{

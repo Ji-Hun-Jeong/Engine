@@ -28,10 +28,23 @@ namespace Str
         char operator [] (size_t index) const;
 
         friend std::ostream& operator << (std::ostream& os, const FString& str);
+        friend struct std::hash<FString>;
 
         void Reset();
 
     private:
         const std::string* Str;
+    };
+}
+
+namespace std
+{
+    template <>
+    struct hash<Str::FString>
+    {
+        size_t operator()(const Str::FString& str) const
+        {
+            return hash<string>()(*str.Str);
+        }
     };
 }

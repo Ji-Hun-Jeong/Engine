@@ -9,7 +9,7 @@ namespace Graphics
 		~Renderer() {}
 
 	public:
-		void BasicRender(class RenderContext* _RenderContext, const std::string& _BufferKey, UINT _IndexCount);
+		void BasicRender(class RenderContext* _RenderContext, const Str::FString& _BufferKey, UINT _IndexCount);
 
 	};
 }

@@ -25,8 +25,8 @@ namespace Game
 		void AddActor(Actor* _Actor);
 
 	protected:
-		std::map<std::string, Object*> Objects;
-		std::map<std::string, Actor*> Actors;
+		std::map<Str::FString, Object*> Objects;
+		std::map<Str::FString, Actor*> Actors;
 
 		Graphics::RenderDevice* RenderDevice;
 	};

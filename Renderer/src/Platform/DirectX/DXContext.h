@@ -60,7 +60,7 @@ namespace Graphics
 				if (_PrimitiveTopology == eCategoryTopology::Triangle)
 					Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 			}
-			void IASetBuffers(const std::string& _Key, UINT _Start, UINT _Count) override
+			void IASetBuffers(const Str::FString& _Key, UINT _Start, UINT _Count) override
 			{
 				DXBuffers* Buffers = DXResource::DXBuffers.find(_Key)->second;
 
@@ -75,7 +75,7 @@ namespace Graphics
 				ID3D11VertexShader* VertexShader = DXResource::VertexShader[(UINT)_VertexShader].Get();
 				Context->VSSetShader(VertexShader, nullptr, 0);
 			}
-			void VSSetConstBuffers(const std::string& _Key, UINT _NumConst, eCategoryVSConst* _VSConst) override
+			void VSSetConstBuffers(const Str::FString& _Key, UINT _NumConst, eCategoryVSConst* _VSConst) override
 			{
 				DXBuffers* DXBuffer = DXResource::DXBuffers.find(_Key)->second;
 
@@ -101,7 +101,7 @@ namespace Graphics
 				Context->PSSetShader(PixelShader, nullptr, 0);
 			}
 
-			void UpdateVSConstBuffer(const std::string& _Key, eCategoryVSConst _VSConst, void* _ConstData
+			void UpdateVSConstBuffer(const Str::FString& _Key, eCategoryVSConst _VSConst, void* _ConstData
 				, UINT _Size) override
 			{
 				DXBuffers* DXBuffer = DXResource::DXBuffers.find(_Key)->second;
@@ -114,7 +114,7 @@ namespace Graphics
 				Context->Unmap(DXBuffer->VSConstBuffer[(UINT)_VSConst].Get(), 0);
 			}
 
-			void PSSetConstBuffers(const std::string& _Key, UINT _NumConst, eCategoryPSConst* _PSConst) override
+			void PSSetConstBuffers(const Str::FString& _Key, UINT _NumConst, eCategoryPSConst* _PSConst) override
 			{
 				DXBuffers* DXBuffer = DXResource::DXBuffers.find(_Key)->second;
 				ID3D11Buffer* PSConst[(UINT)eCategoryPSConst::End] = { nullptr };

@@ -5,7 +5,7 @@
 
 namespace Game
 {
-	Actor::Actor(const std::string& _Name)
+	Actor::Actor(const Str::FString& _Name)
 		: Object(_Name)
 		, Renderer(new Graphics::Renderer)
 		, DrawIndexCount(0)

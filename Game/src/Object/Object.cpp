@@ -3,7 +3,7 @@
 
 namespace Game
 {
-	Object::Object(const std::string& _Name)
+	Object::Object(const Str::FString& _Name)
 		: Name(_Name)
 	{
 	}

@@ -5,8 +5,8 @@ namespace Game
 {
 	struct Key
 	{
-		std::string KeyName;
-		std::function<void(const std::string&, Input::eButtonState)> KeyEvent;
+		Str::FString KeyName;
+		std::function<void(const Str::FString&, Input::eButtonState)> KeyEvent;
 	};
 
 	class KeyInput

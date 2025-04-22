@@ -5,7 +5,7 @@
 
 namespace Graphics
 {
-    void Renderer::BasicRender(RenderContext* _RenderContext, const std::string& _BufferKey, UINT _IndexCount)
+    void Renderer::BasicRender(RenderContext* _RenderContext, const Str::FString& _BufferKey, UINT _IndexCount)
     {
         _RenderContext->IASetInputLayout(eCategoryIL::Basic);
         _RenderContext->IASetPrimitiveTopology(eCategoryTopology::Triangle);

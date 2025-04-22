@@ -5,7 +5,7 @@ namespace Game
 	class State
 	{
 	public:
-		explicit State(const std::string& _StateName)
+		explicit State(const Str::FString& _StateName)
 			: StateName(_StateName)
 		{}
 		virtual ~State() = 0 {}
@@ -15,10 +15,10 @@ namespace Game
 		virtual void OnState() = 0;
 		virtual void ExitState() = 0;
 
-		const std::string& GetName() const { return StateName; }
+		const Str::FString& GetName() const { return StateName; }
 
 	protected:
-		std::string StateName;
+		Str::FString StateName;
 		std::function<void()> MoveFunction;
 
 	};
@@ -42,7 +42,7 @@ namespace Game
 		void AddState(State* _State) { States.insert(std::make_pair(_State->GetName(), _State)); }
 
 	private:
-		std::unordered_map<std::string, State*> States;
+		std::unordered_map<Str::FString, State*> States;
 
 		State* CurrentState;
 	};

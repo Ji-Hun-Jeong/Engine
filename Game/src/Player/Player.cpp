@@ -10,7 +10,7 @@
 
 namespace Game
 {
-	Player::Player(const std::string& _Name, Graphics::RenderDevice* _RenderDevice)
+	Player::Player(const Str::FString& _Name, Graphics::RenderDevice* _RenderDevice)
 		: Super(_Name)
 		, PlayerKeyInput(new KeyInput)
 		, PlayerActionController(new ActionController)
@@ -29,7 +29,7 @@ namespace Game
 		{
 			ActionController* PActionController = this->PlayerActionController;
 
-			auto KeyEvent = [PActionController](const std::string& _KeyName, Input::eButtonState _KeyState)->void
+			auto KeyEvent = [PActionController](const Str::FString& _KeyName, Input::eButtonState _KeyState)->void
 				{
 					PActionController->AddActionQueue(_KeyName);
 				};
@@ -68,6 +68,7 @@ namespace Game
 		PlayerActionController->PerformActions();
 
 		Constant.MVP = Transform->GetModel().Transpose();
+
 	}
 
 	void Player::Destory()
@@ -81,7 +82,7 @@ namespace Game
 		Renderer->BasicRender(_RenderContext, Name, DrawIndexCount);
 	}
 
-	void Player::BindActionAndKey(const std::string& _ActionName, Input::eKeyType _KeyType, std::function<void(const std::string&, Input::eButtonState)> _KeyEvent)
+	void Player::BindActionAndKey(const Str::FString& _ActionName, Input::eKeyType _KeyType, std::function<void(const Str::FString&, Input::eButtonState)> _KeyEvent)
 	{
 		const Action* Action = PlayerActionController->GetAction(_ActionName);
 		if (Action == nullptr)

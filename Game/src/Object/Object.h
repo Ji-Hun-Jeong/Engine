@@ -6,7 +6,7 @@ namespace Game
 	class Object
 	{
 	public:
-		Object(const std::string& _Name);
+		Object(const Str::FString& _Name);
 		Object(const Object& _Other);
 		Object(Object&& _Other) = delete;
 		Object& operator = (const Object& _Other) = delete;
@@ -19,13 +19,13 @@ namespace Game
 		virtual void Update();
 		virtual void Destory();
 
-		void SetName(const std::string& _Name) { Name = _Name; }
-		const std::string& GetName() const { return Name; }
+		void SetName(const Str::FString& _Name) { Name = _Name; }
+		const Str::FString& GetName() const { return Name; }
 
 		void SetTransform(Transform* _Transform) { Transform = _Transform; }
 
 	protected:
-		std::string Name;
+		Str::FString Name;
 		Transform* Transform;
 
 	};

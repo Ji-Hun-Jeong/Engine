@@ -14,7 +14,7 @@ namespace Game
 		using Super = Actor;
 		CLONE(Player, Actor)
 	public:
-		Player(const std::string& _Name, Graphics::RenderDevice* _RenderContext);
+		Player(const Str::FString& _Name, Graphics::RenderDevice* _RenderContext);
 		Player(const Player& _Other);
 		Player(Player&& _Other) = delete;
 		Player& operator = (const Player& _Other) = delete;
@@ -28,7 +28,7 @@ namespace Game
 
 		void Render(Graphics::RenderContext* _RenderContext) override;
 
-		void BindActionAndKey(const std::string& _ActionName, Input::eKeyType _KeyType, std::function<void(const std::string&, Input::eButtonState)> _KeyEvent);
+		void BindActionAndKey(const Str::FString& _ActionName, Input::eKeyType _KeyType, std::function<void(const Str::FString&, Input::eButtonState)> _KeyEvent);
 
 		void Attack()
 		{

@@ -78,14 +78,14 @@ namespace Game
 		CurrentLevel->Update();
 	}
 
-	void GameWorld::AddLevel(const std::string& _LevelName, Level* _Level)
+	void GameWorld::AddLevel(const Str::FString& _LevelName, Level* _Level)
 	{
 		auto iter = Levels.insert(std::make_pair(_LevelName, _Level));
 		if (iter.second == false)
 			assert(0);
 	}
 
-	void GameWorld::SetCurrentLevel(const std::string& _LevelName)
+	void GameWorld::SetCurrentLevel(const Str::FString& _LevelName)
 	{
 		auto iter = Levels.find(_LevelName);
 		assert(iter->second);

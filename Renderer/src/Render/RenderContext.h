@@ -17,18 +17,18 @@ namespace Graphics
 		virtual void OMSetDepthStencilState(eCategoryDSS _DepthStencilState, UINT _StencilRef) = 0;
 		virtual void IASetInputLayout(eCategoryIL _InputLayout) = 0;
 		virtual void IASetPrimitiveTopology(eCategoryTopology _PrimitiveTopology) = 0;
-		virtual void IASetBuffers(const std::string& _Key, UINT _Start, UINT _Count) = 0;
+		virtual void IASetBuffers(const Str::FString& _Key, UINT _Start, UINT _Count) = 0;
 
 		virtual void VSSetShader(eCategoryVS _VertexShader) = 0;
-		virtual void VSSetConstBuffers(const std::string& _Key, UINT _NumConst, eCategoryVSConst* _VSConst) = 0;
-		virtual void UpdateVSConstBuffer(const std::string& _Key, eCategoryVSConst _VSConst, void* _ConstData
+		virtual void VSSetConstBuffers(const Str::FString& _Key, UINT _NumConst, eCategoryVSConst* _VSConst) = 0;
+		virtual void UpdateVSConstBuffer(const Str::FString& _Key, eCategoryVSConst _VSConst, void* _ConstData
 			, UINT _Size) = 0;
 
 		virtual void RSSetState(eCategoryRS _RasterizerState) = 0;
 		virtual void RSSetViewPort(UINT _NumViewPort, eCategoryVP _ViewPort) = 0;
 
 		virtual void PSSetShader(eCategoryPS _PixelShader) = 0;
-		virtual void PSSetConstBuffers(const std::string& _Key, UINT _NumConst, eCategoryPSConst* _PSConst) = 0;
+		virtual void PSSetConstBuffers(const Str::FString& _Key, UINT _NumConst, eCategoryPSConst* _PSConst) = 0;
 
 		virtual void DrawIndexed(UINT _IndexCount) = 0;
 

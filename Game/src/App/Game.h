@@ -22,11 +22,11 @@ namespace Game
 		void ShutDown() override;
 		void Update();
 		void Render();
-		void AddLevel(const std::string& _LevelName, class Level* _Level);
-		void SetCurrentLevel(const std::string& _LevelName);
+		void AddLevel(const Str::FString& _LevelName, class Level* _Level);
+		void SetCurrentLevel(const Str::FString& _LevelName);
 
 	private:
-		std::map<std::string, class Level*> Levels;
+		std::map<Str::FString, class Level*> Levels;
 		class Level* CurrentLevel;
 
 		Graphics::RenderDevice* RenderDevice;

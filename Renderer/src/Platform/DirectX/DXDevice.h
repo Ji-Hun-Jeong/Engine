@@ -20,9 +20,9 @@ namespace Graphics
         public:
             RenderContext* Initalize() override;
 
-            void MakeGeometryBuffers(const std::string& _Key, std::vector<Vertex>& _Vertices
+            void MakeGeometryBuffers(const Str::FString& _Key, std::vector<Vertex>& _Vertices
                 , std::vector<uint32_t>& _Indices) override;
-            void MakeVSConstBuffer(const std::string& _Key, eCategoryVSConst _VSConstType
+            void MakeVSConstBuffer(const Str::FString& _Key, eCategoryVSConst _VSConstType
                 , UINT _ConstDataSize) override
             {
                 auto Iter = DXResource::DXBuffers.find(_Key);
@@ -43,7 +43,7 @@ namespace Graphics
                 if (FAILED(hr)) assert(0);
 
             }
-            void MakePSConstBuffer(const std::string& _Key, eCategoryPSConst _PSConstType
+            void MakePSConstBuffer(const Str::FString& _Key, eCategoryPSConst _PSConstType
                 , UINT _ConstDataSize) override
             {
                 auto Iter = DXResource::DXBuffers.find(_Key);
