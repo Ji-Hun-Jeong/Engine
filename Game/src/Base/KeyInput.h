@@ -3,30 +3,51 @@
 
 namespace Game
 {
-	/*
-		Input에서 Key, State들을 묶어서 반환
-		KeyValues에서 두 조합에 따른 String을 반환
-		이 String에 따라 Action실행
-	*/
-	struct Key
+	union KeyStateValue
 	{
-		Str::FString KeyName;
-		Input::eButtonState KeyState = Input::eButtonState::None;
-		std::function<void(const Str::FString&, Input::eButtonState)> KeyEvent = nullptr;
+		struct
+		{
+			Input::eKeyType KeyType;
+			Input::eButtonState KeyState;
+		};
+		uint32_t SolutionKey;
+	};
+
+	class KeyActioner
+	{
+		friend class KeyInput;
+	private:
+		KeyActioner() = default;
+		~KeyActioner() = default;
+
+	public:
+		void SetAction(std::function<void(const Str::FString&)> _Action) { Action = _Action; }
+		void PerformKeyAction()
+		{
+			while (!SelectedKeyValues.empty())
+			{
+				Str::FString KeyValue = std::move(SelectedKeyValues.front());
+				SelectedKeyValues.pop();
+
+				Action(KeyValue);
+			}
+		}
+
+	private:
+		std::queue<Str::FString> SelectedKeyValues;
+		std::function<void(const Str::FString&)> Action;
 	};
 
 	class KeyInput
 	{
 	public:
 		KeyInput()
-			: Keys{0}
+			: BeCheckedKeys{false}
 			, IsFocus(true)
 		{}
 		~KeyInput() 
 		{
-			for (size_t i = 0; i < Keys.size(); ++i)
-				if (Keys[i])
-					delete Keys[i];
+
 		}
 
 	public:
@@ -35,44 +56,48 @@ namespace Game
 			if (IsFocus == false)
 				return;
 
-			for (size_t i = 0; i < Keys.size(); ++i)
+			Input::eKeyType KeyType = Input::eKeyType::End;
+			Input::eButtonState KeyState = Input::eButtonState::None;
+			KeyStateValue Value = {};
+
+			auto iter = ValueOfKey.begin();
+			for (size_t i = 0; i < BeCheckedKeys.size(); ++i)
 			{
-				if (Keys[i] == nullptr)
+				if (BeCheckedKeys[i] == false)
 					continue;
 
-				Input::eButtonState KeyState = Input::GetKeyState(Input::eKeyType(i));
-				if (KeyState == Input::eButtonState::Hold
-					|| KeyState == Input::eButtonState::Tap)
-				{
-					Keys[i]->KeyState = KeyState;
+				KeyType = Input::eKeyType(i);
+				KeyState = Input::GetKeyState(KeyType);
+				Value.KeyType = KeyType;
+				Value.KeyState = KeyState;
+				
+				iter = ValueOfKey.find(Value.SolutionKey);
 
-					PressedKeys.push(Keys[i]);
-				}
+				if (iter != ValueOfKey.end())
+					Actioner.SelectedKeyValues.push(iter->second);
 			}
 		}
 
-		void PerformPressedKeys()
-		{
-			Key* Key = nullptr;
-			while (PressedKeys.empty() == false)
-			{
-				Key = PressedKeys.front();
-				PressedKeys.pop();
-				Key->KeyEvent(Key->KeyName, Key->KeyState);
-			}
-		}
+		KeyActioner* GetKeyActioner() { return &Actioner; }
 
-		void AddKey(Key* _KeyContext, Input::eKeyType _KeyType)
+		void AddKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState, const Str::FString& _KeyValue)
 		{
-			Keys[(size_t)_KeyType] = _KeyContext;
+			BeCheckedKeys[(size_t)_KeyType] = true;
+			KeyStateValue Value = {};
+			Value.KeyType = _KeyType;
+			Value.KeyState = _KeyState;
+
+			ValueOfKey.insert(std::make_pair(Value.SolutionKey, _KeyValue));
 		}
 
 		void SetFocus(bool _IsFocus) { IsFocus = _IsFocus; }
 		
 	private:
-		std::array<Key*, size_t(Input::eKeyType::End)> Keys;
+		std::array<bool, size_t(Input::eKeyType::End)> BeCheckedKeys;
 
-		std::queue<Key*> PressedKeys;
+		std::unordered_map<uint32_t, Str::FString> ValueOfKey;
+
+		KeyActioner Actioner;
 
 		bool IsFocus;
 	};

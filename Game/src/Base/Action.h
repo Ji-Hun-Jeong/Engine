@@ -8,18 +8,13 @@ namespace Game
 		Action(const Str::FString& _ActionName, std::function<void()> _ActFunction)
 			: ActionName(_ActionName)
 			, ActFunction(_ActFunction)
-			, BeActed(false)
 		{}
 		~Action() = default;
 
 	public:
 		void Act()
 		{
-			if (BeActed)
-			{
-				ActFunction();
-				BeActed = true;
-			}
+			ActFunction();
 		}
 
 		const Str::FString& GetActionName() const { return ActionName; }
@@ -31,7 +26,6 @@ namespace Game
 		Str::FString ActionName;
 		std::function<void()> ActFunction;
 
-		bool BeActed;
 	};
 
 	class ActionController

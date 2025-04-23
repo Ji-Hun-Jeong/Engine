@@ -8,7 +8,7 @@ namespace Game
 	{
 		Matrix MVP;
 	};
-	
+
 	class Player : public Actor
 	{
 		using Super = Actor;
@@ -28,27 +28,11 @@ namespace Game
 
 		void Render(Graphics::RenderContext* _RenderContext) override;
 
-		void BindActionAndKey(const Str::FString& _ActionName, Input::eKeyType _KeyType, std::function<void(const Str::FString&, Input::eButtonState)> _KeyEvent);
+		void BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState, const Str::FString& _ActionName);
 
 		void Attack()
 		{
-			static float ActionTime = 1.0f;
-			static float SumTime = 0.0f;
-			static int cnt = 0;
-			if (SumTime < ActionTime)
-			{
-				if (cnt < 1)
-				{
-					++cnt;
-					std::cout << "PlayerAttack!\n";
-				}
-				SumTime += Time::DeltaTime;
-			}
-			else
-			{
-				SumTime = 0.0f;
-				cnt = 0;
-			}
+			std::cout << "PlayerAttack!\n";
 		}
 	private:
 		void addAction();

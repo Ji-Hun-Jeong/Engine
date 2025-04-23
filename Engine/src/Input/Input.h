@@ -2,14 +2,14 @@
 
 namespace Input
 {
-	enum class eButtonState
+	enum class eButtonState : uint16_t
 	{
 		None,
 		Tap,
 		Hold,
 		Released,
 	};
-	enum class eKeyType
+	enum class eKeyType : uint16_t
 	{
 		Tab, Shift, Ctrl, Alt, Esc, Space, Left, Up, Right, Down,
 		_0, _1, _2, _3, _4, _5, _6, _7, _8, _9,

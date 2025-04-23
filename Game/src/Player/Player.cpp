@@ -31,16 +31,20 @@ namespace Game
 		{
 			ActionController* PActionController = this->PlayerActionController;
 
-			auto KeyEvent = [PActionController](const Str::FString& _KeyName, Input::eButtonState _KeyState)->void
+			auto KeyEvent = [PActionController](const Str::FString& _KeyName)->void
 				{
 					PActionController->AddActionQueue(_KeyName);
 				};
 
-			BindActionAndKey("LeftMove", Input::eKeyType::Left, KeyEvent);
-			BindActionAndKey("RightMove", Input::eKeyType::Right, KeyEvent);
-			BindActionAndKey("UpMove", Input::eKeyType::Up, KeyEvent);
-			BindActionAndKey("DownMove", Input::eKeyType::Down, KeyEvent);
-			BindActionAndKey("Attack", Input::eKeyType::Ctrl, KeyEvent);
+			PlayerKeyInput->GetKeyActioner()->SetAction(KeyEvent);
+
+			BindActionAndKey(Input::eKeyType::Left, Input::eButtonState::Hold, "LeftMove");
+			BindActionAndKey(Input::eKeyType::Right, Input::eButtonState::Hold, "RightMove");
+			BindActionAndKey(Input::eKeyType::Up, Input::eButtonState::Hold, "UpMove");
+			BindActionAndKey(Input::eKeyType::Down, Input::eButtonState::Hold, "DownMove");
+			BindActionAndKey(Input::eKeyType::Ctrl, Input::eButtonState::Tap, "Attack");
+			BindActionAndKey(Input::eKeyType::Ctrl, Input::eButtonState::Released, "Attack");
+
 		}
 	}
 
@@ -65,8 +69,11 @@ namespace Game
 	void Player::Update()
 	{
 		Super::Update();
+
 		PlayerKeyInput->UpdateKeyState();
-		PlayerKeyInput->PerformPressedKeys();
+
+		KeyActioner* KeyActioner = PlayerKeyInput->GetKeyActioner();
+		KeyActioner->PerformKeyAction();
 
 		PlayerActionController->PerformActions();
 
@@ -84,17 +91,13 @@ namespace Game
 		Renderer->BasicRender(_RenderContext, Name, DrawIndexCount);
 	}
 
-	void Player::BindActionAndKey(const Str::FString& _ActionName, Input::eKeyType _KeyType, std::function<void(const Str::FString&, Input::eButtonState)> _KeyEvent)
+	void Player::BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState, const Str::FString& _ActionName)
 	{
 		const Action* Action = PlayerActionController->GetAction(_ActionName);
 		if (Action == nullptr)
 			assert(0);
 
-		Key* KeyInfo = new Key;
-		KeyInfo->KeyName = _ActionName;
-		KeyInfo->KeyEvent = _KeyEvent;
-
-		PlayerKeyInput->AddKey(KeyInfo, _KeyType);
+		PlayerKeyInput->AddKey(_KeyType, _KeyState, _ActionName);
 	}
 
 	void Player::addAction()
