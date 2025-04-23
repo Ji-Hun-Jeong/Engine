@@ -75,7 +75,8 @@ namespace Game
 		KeyActioner* KeyActioner = PlayerKeyInput->GetKeyActioner();
 		KeyActioner->PerformKeyAction();
 
-		PlayerActionController->PerformActions();
+		ActionPerformer* ActionPerformer = PlayerActionController->GetActionPerformer();
+		ActionPerformer->PerformActions();
 
 		Constant.MVP = Transform->GetModel().Transpose();
 	}
@@ -105,25 +106,25 @@ namespace Game
 		auto LeftMove = [this]()->void
 			{
 				Vector3 Position = Transform->GetPosition();
-				Position.x += -1 * Time::DeltaTime;
+				Position.x += -1 * Time::GetDT();
 				Transform->SetPosition(Position);
 			};
 		auto RightMove = [this]()->void
 			{
 				Vector3 Position = Transform->GetPosition();
-				Position.x += 1 * Time::DeltaTime;
+				Position.x += 1 * Time::GetDT();
 				Transform->SetPosition(Position);
 			};
 		auto UpMove = [this]()->void
 			{
 				Vector3 Position = Transform->GetPosition();
-				Position.y += 1 * Time::DeltaTime;
+				Position.y += 1 * Time::GetDT();
 				Transform->SetPosition(Position);
 			};
 		auto DownMove = [this]()->void
 			{
 				Vector3 Position = Transform->GetPosition();
-				Position.y += -1 * Time::DeltaTime;
+				Position.y += -1 * Time::GetDT();
 				Transform->SetPosition(Position);
 			};
 

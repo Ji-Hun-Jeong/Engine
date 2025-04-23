@@ -2,8 +2,7 @@
 
 namespace Time 
 {
-    extern float DeltaTime;
-
+    extern inline float GetDT();
     extern void Init();
     extern void Update();
 };

@@ -19,13 +19,45 @@ namespace Game
 
 		const Str::FString& GetActionName() const { return ActionName; }
 
-		// Action이 시작되는 조건 함수
-		// 끝나는 조건함수?
-
 	private:
 		Str::FString ActionName;
 		std::function<void()> ActFunction;
 
+	};
+
+	class ActionPerformer
+	{
+		friend class ActionController;
+	private:
+		ActionPerformer()
+			: PrevedPerformAction(nullptr)
+		{}
+		~ActionPerformer()
+		{
+			while (!BePerformedAction.empty())
+			{
+				delete BePerformedAction.front();
+				BePerformedAction.pop();
+			}
+		}
+
+	public:
+		void PerformActions()
+		{
+			Action* Action = nullptr;
+			while (BePerformedAction.empty() == false)
+			{
+				Action = BePerformedAction.front();
+				BePerformedAction.pop();
+
+				Action->Act();
+			}
+		}
+
+	private:
+		std::queue<Action*> BePerformedAction;
+
+		Action* PrevedPerformAction;
 	};
 
 	class ActionController
@@ -50,22 +82,10 @@ namespace Game
 		void AddActionQueue(const Str::FString& _ActionName)
 		{
 			auto iter = Actions.find(_ActionName);
-			BePerformedAction.push(iter->second);
+			ActionPerformer.BePerformedAction.push(iter->second);
 		}
 
-		std::queue<Action*>& GetPerformedAction() { return BePerformedAction; }
-
-		void PerformActions()
-		{
-			Action* Action = nullptr;
-			while (BePerformedAction.empty() == false)
-			{
-				Action = BePerformedAction.front();
-				BePerformedAction.pop();
-
-				Action->Act();
-			}
-		}
+		ActionPerformer* GetActionPerformer() { return &ActionPerformer; }
 
 		const Action* GetAction(const Str::FString& _ActionName) const
 		{
@@ -78,7 +98,7 @@ namespace Game
 	private:
 		std::unordered_map<Str::FString, Action*> Actions;
 
-		std::queue<Action*> BePerformedAction;
+		ActionPerformer ActionPerformer;
 	};
 }
 

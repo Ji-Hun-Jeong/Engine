@@ -8,6 +8,8 @@ namespace Time
     LARGE_INTEGER CurrentTime;   
     float DeltaTime;
 
+    inline float GetDT() { return DeltaTime; }
+
     void Init() 
     {
         QueryPerformanceFrequency(&Frequency); 
