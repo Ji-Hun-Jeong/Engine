@@ -16,9 +16,3 @@
 
 using DirectX::SimpleMath::Vector3;
 using DirectX::SimpleMath::Matrix;
-
-struct Vertex
-{
-	Vector3 pos;
-	Vector3 color;
-};

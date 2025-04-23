@@ -20,7 +20,7 @@ namespace Graphics
         public:
             RenderContext* Initalize() override;
 
-            void MakeGeometryBuffers(const Str::FString& _Key, std::vector<Vertex>& _Vertices
+            void MakeGeometryBuffers(const Str::FString& _Key, void* _Data, size_t _VertexSize, size_t _NumOfVertex
                 , std::vector<uint32_t>& _Indices) override;
             void MakeVSConstBuffer(const Str::FString& _Key, eCategoryVSConst _VSConstType
                 , UINT _ConstDataSize) override

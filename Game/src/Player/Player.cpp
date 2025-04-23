@@ -15,17 +15,19 @@ namespace Game
 		, PlayerKeyInput(new KeyInput)
 		, PlayerActionController(new ActionController)
 	{
-		Graphics::Geometry::MeshData Md = Graphics::Geometry::GenerateSquare();
+		Graphics::Geometry::ColorMeshData Md = Graphics::Geometry::GenerateColorTriangle();
 
 		DrawIndexCount = static_cast<UINT>(Md.Indices.size());
 
-		_RenderDevice->MakeGeometryBuffers(Name, Md.Vertices, Md.Indices);
+		auto Vertices = Md.Vertices;
+		_RenderDevice->MakeGeometryBuffers(Name, Vertices.data(), sizeof(ColorVertex), Vertices.size(), Md.Indices);
 
 		_RenderDevice->MakeVSConstBuffer(Name, eCategoryVSConst::Basic, sizeof(Constant));
 
 		Transform = new Game::Transform;
 
 		addAction();
+
 		{
 			ActionController* PActionController = this->PlayerActionController;
 
@@ -64,11 +66,11 @@ namespace Game
 	{
 		Super::Update();
 		PlayerKeyInput->UpdateKeyState();
+		PlayerKeyInput->PerformPressedKeys();
 
 		PlayerActionController->PerformActions();
 
 		Constant.MVP = Transform->GetModel().Transpose();
-
 	}
 
 	void Player::Destory()
@@ -94,6 +96,7 @@ namespace Game
 
 		PlayerKeyInput->AddKey(KeyInfo, _KeyType);
 	}
+
 	void Player::addAction()
 	{
 		auto LeftMove = [this]()->void
@@ -120,6 +123,8 @@ namespace Game
 				Position.y += -1 * Time::DeltaTime;
 				Transform->SetPosition(Position);
 			};
+
+		
 
 		Action* PlayerAction = new Action("LeftMove", LeftMove);
 		PlayerActionController->AddAction(PlayerAction);

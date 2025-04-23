@@ -8,14 +8,20 @@ namespace Game
 		Action(const Str::FString& _ActionName, std::function<void()> _ActFunction)
 			: ActionName(_ActionName)
 			, ActFunction(_ActFunction)
+			, BeActed(false)
 		{}
 		~Action() = default;
 
 	public:
 		void Act()
 		{
-			ActFunction();
+			if (BeActed)
+			{
+				ActFunction();
+				BeActed = true;
+			}
 		}
+
 		const Str::FString& GetActionName() const { return ActionName; }
 
 		// Action이 시작되는 조건 함수
@@ -25,6 +31,7 @@ namespace Game
 		Str::FString ActionName;
 		std::function<void()> ActFunction;
 
+		bool BeActed;
 	};
 
 	class ActionController

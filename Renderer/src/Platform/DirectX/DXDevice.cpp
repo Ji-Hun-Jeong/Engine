@@ -123,28 +123,28 @@ namespace Graphics
 			SwapChain->Release();
 			return new DX::DXContext(Context, SwapChain);
 		}
-		void DXDevice::MakeGeometryBuffers(const Str::FString& _Key, std::vector<Vertex>& _Vertices, std::vector<uint32_t>& _Indices)
+		
+		void DXDevice::MakeGeometryBuffers(const Str::FString& _Key, void* _Data, size_t _VertexSize, size_t _NumOfVertex, std::vector<uint32_t>& _Indices)
 		{
 			DXBuffers* Buffers = new DXBuffers;
 
 			D3D11_BUFFER_DESC BufferDesc;
 			ZeroMemory(&BufferDesc, sizeof(BufferDesc));
 			BufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
-			BufferDesc.ByteWidth = UINT(sizeof(Vertex) * _Vertices.size());
+			BufferDesc.ByteWidth = UINT(_VertexSize * _NumOfVertex);
 			BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 			BufferDesc.CPUAccessFlags = 0;
-			BufferDesc.StructureByteStride = sizeof(Vertex);
+			BufferDesc.StructureByteStride = 0;
 
 			// 딱 데이터를 한번만 전달할 때 사용
 			// map을 사용할 때는 필요없음
 			D3D11_SUBRESOURCE_DATA BufferData = { 0 };
-			BufferData.pSysMem = _Vertices.data();
+			BufferData.pSysMem = _Data;
 			BufferData.SysMemPitch = 0;
 			BufferData.SysMemSlicePitch = 0;
 			HRESULT hr = Device->CreateBuffer(&BufferDesc, &BufferData, Buffers->VertexBuffer.GetAddressOf());
 			if (FAILED(hr)) assert(0);
 
-			_Vertices.clear();
 
 			ZeroMemory(&BufferDesc, sizeof(BufferDesc));
 			BufferDesc.Usage = D3D11_USAGE_IMMUTABLE; // 초기화 후 변경X
@@ -163,7 +163,7 @@ namespace Graphics
 
 			_Indices.clear();
 
-			Buffers->Stride = sizeof(Vertex);
+			Buffers->Stride = _VertexSize;
 
 			DXResource::DXBuffers.insert(std::make_pair(_Key, Buffers));
 		}

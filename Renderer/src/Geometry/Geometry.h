@@ -1,15 +1,21 @@
 #pragma once
 
+struct ColorVertex
+{
+	Vector3 Pos;
+	Vector3 Color;
+};
 namespace Graphics
 {
 	namespace Geometry
 	{
-		struct MeshData
+		struct ColorMeshData
 		{
-			std::vector<Vertex> Vertices;
+			std::vector<ColorVertex> Vertices;
 			std::vector<uint32_t> Indices;
 		};
-		extern RENDERER_API MeshData GenerateSquare();
+
+		extern RENDERER_API ColorMeshData GenerateColorTriangle();
 	}
 }
 
