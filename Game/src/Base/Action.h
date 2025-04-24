@@ -1,4 +1,5 @@
 #pragma once
+#include <Engine/src/Time/Time.h>
 
 namespace Game
 {
@@ -8,14 +9,37 @@ namespace Game
 		Action(const Str::FString& _ActionName, std::function<void()> _ActFunction)
 			: ActionName(_ActionName)
 			, ActFunction(_ActFunction)
+			, ActionDelay(0.0f)
+			, ActionDegree(0.0f)
+			, AlreadyAct(false)
+			, IsFinishAct(false)
 		{}
 		~Action() = default;
 
 	public:
 		void Act()
 		{
-			ActFunction();
+			if (AlreadyAct == false)
+			{
+				ActFunction();
+				AlreadyAct = true;
+			}
+			ActionDegree += Time::GetDT();
+			
+			if (ActionDelay <= ActionDegree)
+				IsFinishAct = true;
 		}
+
+		bool IsFinish() const { return IsFinishAct; }
+
+		void ActInit()
+		{
+			ActionDegree = 0.0f;
+			AlreadyAct = false;
+			IsFinishAct = false;
+		}
+
+		void SetActionDelay(float _ActionDelay) { ActionDelay = _ActionDelay; }
 
 		const Str::FString& GetActionName() const { return ActionName; }
 
@@ -23,6 +47,11 @@ namespace Game
 		Str::FString ActionName;
 		std::function<void()> ActFunction;
 
+		float ActionDelay;
+		float ActionDegree;
+
+		bool AlreadyAct;
+		bool IsFinishAct;
 	};
 
 	class ActionPerformer
@@ -30,34 +59,41 @@ namespace Game
 		friend class ActionController;
 	private:
 		ActionPerformer()
-			: PrevedPerformAction(nullptr)
 		{}
 		~ActionPerformer()
 		{
-			while (!BePerformedAction.empty())
-			{
-				delete BePerformedAction.front();
-				BePerformedAction.pop();
-			}
+			BePerformedAction.clear();
 		}
 
 	public:
 		void PerformActions()
 		{
 			Action* Action = nullptr;
-			while (BePerformedAction.empty() == false)
-			{
-				Action = BePerformedAction.front();
-				BePerformedAction.pop();
 
-				Action->Act();
+			for (auto iter = BePerformedAction.begin(); iter != BePerformedAction.end(); )
+			{
+				Action = *iter;
+				if (Action->IsFinish())
+				{
+					Action->ActInit();
+					iter = BePerformedAction.erase(iter);
+				}
+				else
+				{
+					++iter;
+					Action->Act();
+				}
 			}
 		}
 
-	private:
-		std::queue<Action*> BePerformedAction;
+		void AddPerformAction(Action* _PerformedAction)
+		{
+			BePerformedAction.insert(_PerformedAction);
+		}
 
-		Action* PrevedPerformAction;
+	private:
+		std::set<Action*> BePerformedAction;
+		
 	};
 
 	class ActionController
@@ -82,7 +118,7 @@ namespace Game
 		void AddActionQueue(const Str::FString& _ActionName)
 		{
 			auto iter = Actions.find(_ActionName);
-			ActionPerformer.BePerformedAction.push(iter->second);
+			ActionPerformer.AddPerformAction(iter->second);
 		}
 
 		ActionPerformer* GetActionPerformer() { return &ActionPerformer; }
@@ -92,6 +128,7 @@ namespace Game
 			auto iter = Actions.find(_ActionName);
 			if (iter == Actions.end())
 				return nullptr;
+
 			return iter->second;
 		}
 

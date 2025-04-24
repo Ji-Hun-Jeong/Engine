@@ -42,8 +42,7 @@ namespace Game
 			BindActionAndKey(Input::eKeyType::Right, Input::eButtonState::Hold, "RightMove");
 			BindActionAndKey(Input::eKeyType::Up, Input::eButtonState::Hold, "UpMove");
 			BindActionAndKey(Input::eKeyType::Down, Input::eButtonState::Hold, "DownMove");
-			BindActionAndKey(Input::eKeyType::Ctrl, Input::eButtonState::Tap, "Attack");
-			BindActionAndKey(Input::eKeyType::Ctrl, Input::eButtonState::Released, "Attack");
+			BindActionAndKey(Input::eKeyType::Ctrl, Input::eButtonState::Hold, "Attack");
 
 		}
 	}
@@ -143,6 +142,7 @@ namespace Game
 		PlayerActionController->AddAction(PlayerAction);
 
 		PlayerAction = new Action("Attack", std::bind(&Player::Attack, this));
+		PlayerAction->SetActionDelay(1.0f);
 		PlayerActionController->AddAction(PlayerAction);
 
 	}

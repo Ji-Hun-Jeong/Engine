@@ -24,9 +24,10 @@ namespace Game
 		void SetAction(std::function<void(const Str::FString&)> _Action) { Action = _Action; }
 		void PerformKeyAction()
 		{
+			Str::FString KeyValue;
 			while (!SelectedKeyValues.empty())
 			{
-				Str::FString KeyValue = std::move(SelectedKeyValues.front());
+				KeyValue = std::move(SelectedKeyValues.front());
 				SelectedKeyValues.pop();
 
 				Action(KeyValue);
