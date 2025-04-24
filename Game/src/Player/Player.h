@@ -42,6 +42,7 @@ namespace Game
 
 		class KeyInput* PlayerKeyInput;
 		class ActionController* PlayerActionController;
+		class ActionController* PlayerAtackActionController;
 	};
 
 }

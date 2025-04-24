@@ -45,6 +45,7 @@ namespace Game
 		Input::Update();
 
 		this->Update();
+
 		this->Render();
 
 		if (Input::GetKey(Input::eKeyType::Esc, Input::eButtonState::Tap))
@@ -62,9 +63,9 @@ namespace Game
 		eCategoryRTV RenderTargets[1] = { eCategoryRTV::BackBuffer };
 		RenderContext->OMSetRenderTargets(1, RenderTargets, eCategoryDSV::BackBuffer);
 		RenderContext->OMSetDepthStencilState(eCategoryDSS::Basic, 0);
-
+		
 		CurrentLevel->Render(RenderContext);
-
+		
 		RenderContext->Present();
 	}
 

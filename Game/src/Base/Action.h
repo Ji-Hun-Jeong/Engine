@@ -6,29 +6,11 @@ namespace Game
 	class Action
 	{
 	public:
-		Action(const Str::FString& _ActionName, std::function<void()> _ActFunction)
-			: ActionName(_ActionName)
-			, ActFunction(_ActFunction)
-			, ActionDelay(0.0f)
-			, ActionDegree(0.0f)
-			, AlreadyAct(false)
-			, IsFinishAct(false)
-		{}
+		Action(const Str::FString& _ActionName, std::function<void()> _ActFunction);
 		~Action() = default;
 
 	public:
-		void Act()
-		{
-			if (AlreadyAct == false)
-			{
-				ActFunction();
-				AlreadyAct = true;
-			}
-			ActionDegree += Time::GetDT();
-			
-			if (ActionDelay <= ActionDegree)
-				IsFinishAct = true;
-		}
+		void Act();
 
 		bool IsFinish() const { return IsFinishAct; }
 
@@ -58,34 +40,14 @@ namespace Game
 	{
 		friend class ActionController;
 	private:
-		ActionPerformer()
-		{}
+		ActionPerformer() = default;
 		~ActionPerformer()
 		{
 			BePerformedAction.clear();
 		}
 
 	public:
-		void PerformActions()
-		{
-			Action* Action = nullptr;
-
-			for (auto iter = BePerformedAction.begin(); iter != BePerformedAction.end(); )
-			{
-				Action = *iter;
-				Action->Act();
-
-				if (Action->IsFinish())
-				{
-					Action->ActInit();
-					iter = BePerformedAction.erase(iter);
-				}
-				else
-				{
-					++iter;
-				}
-			}
-		}
+		void PerformActions();
 
 		void AddPerformAction(Action* _PerformedAction)
 		{
@@ -101,14 +63,7 @@ namespace Game
 	{
 	public:
 		ActionController() = default;
-		~ActionController()
-		{
-			for (auto iter = Actions.begin(); iter != Actions.end();)
-			{
-				delete iter->second;
-				iter = Actions.erase(iter);
-			}
-		}
+		~ActionController();
 
 	public:
 		void AddAction(Action* _Action)

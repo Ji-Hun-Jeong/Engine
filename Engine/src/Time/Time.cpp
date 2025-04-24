@@ -23,7 +23,7 @@ namespace Time
         QueryPerformanceCounter(&CurrentTime); 
 
         DeltaTime = static_cast<float>(CurrentTime.QuadPart - PrevTime.QuadPart) / static_cast<float>(Frequency.QuadPart);
-        static int frame = 0;
+        /*static int frame = 0;
         static float sum = 0.0f;
         sum += DeltaTime;
         frame += 1;
@@ -32,7 +32,7 @@ namespace Time
             std::cout << frame << '\n';
             sum = 0.0f;
             frame = 0;
-        }
+        }*/
         PrevTime = CurrentTime;
     }
 }

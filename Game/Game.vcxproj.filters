@@ -48,6 +48,9 @@
     <ClCompile Include="src\Base\Action.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\Base\Skill.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -81,6 +84,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Base\Action.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Base\Skill.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

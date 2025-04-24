@@ -14,6 +14,7 @@ namespace Game
 		: Super(_Name)
 		, PlayerKeyInput(new KeyInput)
 		, PlayerActionController(new ActionController)
+		, PlayerAtackActionController(new ActionController)
 	{
 		Graphics::Geometry::ColorMeshData Md = Graphics::Geometry::GenerateColorTriangle();
 
@@ -30,12 +31,13 @@ namespace Game
 
 		{
 			ActionController* PActionController = this->PlayerActionController;
-
+			ActionController* PAttackActionController = this->PlayerAtackActionController;
 			auto KeyEvent = [PActionController](const Str::FString& _KeyName)->void
 				{
 					PActionController->AddActionQueue(_KeyName);
 				};
 
+			// Input에서 여러곳으로 action을 할 수 있게만들기 그래서 controller 2개로 제어
 			PlayerKeyInput->GetKeyActioner()->SetAction(KeyEvent);
 
 			BindActionAndKey(Input::eKeyType::Left, Input::eButtonState::Hold, "LeftMove");
