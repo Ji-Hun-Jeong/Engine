@@ -73,6 +73,8 @@ namespace Game
 			for (auto iter = BePerformedAction.begin(); iter != BePerformedAction.end(); )
 			{
 				Action = *iter;
+				Action->Act();
+
 				if (Action->IsFinish())
 				{
 					Action->ActInit();
@@ -81,7 +83,6 @@ namespace Game
 				else
 				{
 					++iter;
-					Action->Act();
 				}
 			}
 		}
@@ -122,7 +123,7 @@ namespace Game
 		}
 
 		ActionPerformer* GetActionPerformer() { return &ActionPerformer; }
-
+		
 		const Action* GetAction(const Str::FString& _ActionName) const
 		{
 			auto iter = Actions.find(_ActionName);
