@@ -36,6 +36,23 @@ namespace Game
 		bool IsFinishAct;
 	};
 
+	class ActionQueue
+	{
+		friend class ActionController;
+	private:
+		ActionQueue() = default;
+		~ActionQueue() = default;
+
+	public:
+		bool IsExistPreparedAction() { return PreparedActions.size() > 0; }
+
+		std::queue<const Action*> GetPreparedActions() { return PreparedActions; }
+
+	private:
+		std::queue<const Action*> PreparedActions;
+
+	};
+
 	class ActionPerformer
 	{
 		friend class ActionController;
@@ -49,47 +66,86 @@ namespace Game
 	public:
 		void PerformActions();
 
-		void AddPerformAction(Action* _PerformedAction)
+		void AddPerformAction(ActionQueue* _ActionQueue)
 		{
-			BePerformedAction.insert(_PerformedAction);
+			std::queue<const Action*> PreparedActions = _ActionQueue->GetPreparedActions();
+			Action* PrepareAction = nullptr;
+			while (PreparedActions.empty() == false)
+			{
+				PrepareAction = (Action*)PreparedActions.front();
+				PreparedActions.pop();
+
+				BePerformedAction.insert(PrepareAction);
+			}
 		}
 
 	private:
 		std::set<Action*> BePerformedAction;
-		
+
 	};
 
 	class ActionController
 	{
 	public:
 		ActionController() = default;
-		~ActionController();
+		virtual ~ActionController();
 
 	public:
+		virtual void ControllAction() = 0;
+
+		void AddActionQueue(const Str::FString& _ClassName)
+		{
+			auto Iter = ActionQueues.find(_ClassName);
+			if (Iter != ActionQueues.end())
+				assert(0);
+			else
+				ActionQueues.insert(std::make_pair(_ClassName, new ActionQueue));
+		}
 		void AddAction(Action* _Action)
 		{
-			Actions.insert(std::make_pair(_Action->GetActionName(), _Action));
+			auto Iter = Actions.find(_Action->GetActionName());
+			if (Iter == Actions.end())
+				assert(0);
+			else
+				Actions.insert(std::make_pair(_Action->GetActionName(), _Action));
 		}
 
-		void AddActionQueue(const Str::FString& _ActionName)
+		void PrepareAction(const Str::FString& _ClassName, const Str::FString& _ActionName)
 		{
-			auto iter = Actions.find(_ActionName);
-			ActionPerformer.AddPerformAction(iter->second);
+			const Action* Action = GetAction(_ActionName);
+			if (Action)
+			{
+				ActionQueue* ActionQueue = getActionQueue(_ClassName);
+				if (ActionQueue)
+					ActionQueue->PreparedActions.push(Action);
+			}			
+		}
+
+		const Action* GetAction(const Str::FString& _ActionName) const
+		{
+			auto Iter = Actions.find(_ActionName);
+			if (Iter == Actions.end())
+				assert(0);
+			else
+				return Iter->second;
+			
+			return nullptr;
 		}
 
 		ActionPerformer* GetActionPerformer() { return &ActionPerformer; }
-		
-		const Action* GetAction(const Str::FString& _ActionName) const
-		{
-			auto iter = Actions.find(_ActionName);
-			if (iter == Actions.end())
-				return nullptr;
 
-			return iter->second;
+	protected:
+		ActionQueue* getActionQueue(const Str::FString& _ClassName)
+		{
+			auto Iter = ActionQueues.find(_ClassName);
+			if (Iter == ActionQueues.end())
+				assert(0);
+			return Iter->second;
 		}
 
-	private:
+	protected:
 		std::unordered_map<Str::FString, Action*> Actions;
+		std::map<Str::FString, ActionQueue*> ActionQueues;
 
 		ActionPerformer ActionPerformer;
 	};
