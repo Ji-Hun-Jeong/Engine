@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Player\PlayerComponent\PlayerSkillBundle.cpp" />
     <ClCompile Include="src\Player\PlayerComponent\PlayerActionController.cpp" />
     <ClCompile Include="src\Base\Skill.cpp" />
     <ClCompile Include="src\Component\Action\Action.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="src\Component\State\State.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Player\PlayerComponent\PlayerSkillBundle.h" />
     <ClInclude Include="src\Player\PlayerComponent\PlayerActionController.h" />
     <ClInclude Include="src\Base\Skill.h" />
     <ClInclude Include="src\Component\Action\Action.h" />

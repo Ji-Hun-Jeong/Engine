@@ -24,8 +24,8 @@ namespace Game
 		void SetActionDelay(float _ActionDelay) { ActionDelay = _ActionDelay; }
 
 		const Str::FString& GetActionName() const 
-		{ 
-			return ActionName; 
+		{
+			return ActionName;
 		}
 
 	private:
@@ -75,6 +75,7 @@ namespace Game
 	{
 	public:
 		ActionController() = default;
+		ActionController(const ActionController&) = delete;
 		virtual ~ActionController();
 
 	public:

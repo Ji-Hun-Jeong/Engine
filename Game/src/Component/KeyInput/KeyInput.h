@@ -54,6 +54,7 @@ namespace Game
 			: BeCheckedKeys{false}
 			, IsFocus(true)
 		{}
+		KeyInput(const KeyInput&) = delete;
 		~KeyInput();
 
 	public:

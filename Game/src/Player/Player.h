@@ -31,23 +31,25 @@ namespace Game
 		void BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState
 			, const Str::FString& _ActionClass, const Str::FString& _ActionName);
 
+		void AddActionBySkill(const Str::FString& _ManagementName, const Str::FString& _SkillName, const Str::FString& _ActionName);
+
 		void Attack()
 		{
 			std::cout << "PlayerAttack!\n";
 		}
-		void Uld()
-		{
-			std::cout << "UltimitDrive!\n";
-		}
+
 	private:
 		void addAction();
 		void addKey();
+		void addSkill();
 
 	private:
 		PlayerConst Constant;
 
-		class KeyInput* PlayerKeyInput;
+		class KeyInput* KeyInput;
 		class ActionController* ActionController;
+		class SkillManager* SkillManager;
+		class PlayerSkillBundle* SkillBundle;
 
 	};
 
