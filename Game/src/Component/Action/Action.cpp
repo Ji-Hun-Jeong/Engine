@@ -44,17 +44,26 @@ namespace Game
 				iter = BePerformedAction.erase(iter);
 			}
 			else
-			{
 				++iter;
-			}
 		}
 	}
 	ActionController::~ActionController()
 	{
-		for (auto iter = Actions.begin(); iter != Actions.end();)
+		for (auto& Pair : Actions)
 		{
-			delete iter->second;
-			iter = Actions.erase(iter);
+			delete Pair.second;
 		}
+
+		for (auto& Pair : ActionPerformers)
+		{
+			delete Pair.second;
+		}
+	}
+	void ActionController::Update()
+	{
+		insertToPerformer(); // 실행 대기 중인 액션을 퍼포머에 추가
+		controlAction(); // 사용자 정의 액션 컨트롤
+		for (auto& Performer : ActionPerformers)
+			Performer.second->PerformActions(); // 실제 액션 수행
 	}
 }

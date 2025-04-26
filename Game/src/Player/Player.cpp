@@ -5,16 +5,15 @@
 #include <Renderer/src/Render/RenderContext.h>
 #include <Renderer/src/Geometry/Geometry.h>
 
-#include "Base/KeyInput.h"
-#include "Base/Action.h"
+#include "Component/KeyInput/KeyInput.h"
+#include "PlayerComponent/PlayerActionController.h"
 
 namespace Game
 {
 	Player::Player(const Str::FString& _Name, Graphics::RenderDevice* _RenderDevice)
 		: Super(_Name)
 		, PlayerKeyInput(new KeyInput)
-		, PlayerActionController(new ActionController)
-		, PlayerAtackActionController(new ActionController)
+		, ActionController(new PlayerActionController)
 	{
 		Graphics::Geometry::ColorMeshData Md = Graphics::Geometry::GenerateColorTriangle();
 
@@ -28,24 +27,14 @@ namespace Game
 		Transform = new Game::Transform;
 
 		addAction();
-
+		addKey();
 		{
-			ActionController* PActionController = this->PlayerActionController;
-			ActionController* PAttackActionController = this->PlayerAtackActionController;
-			auto KeyEvent = [PActionController](const Str::FString& _KeyName)->void
-				{
-					PActionController->AddActionQueue(_KeyName);
-				};
-
-			// Input에서 여러곳으로 action을 할 수 있게만들기 그래서 controller 2개로 제어
-			PlayerKeyInput->GetKeyActioner()->SetAction(KeyEvent);
-
-			BindActionAndKey(Input::eKeyType::Left, Input::eButtonState::Hold, "LeftMove");
-			BindActionAndKey(Input::eKeyType::Right, Input::eButtonState::Hold, "RightMove");
-			BindActionAndKey(Input::eKeyType::Up, Input::eButtonState::Hold, "UpMove");
-			BindActionAndKey(Input::eKeyType::Down, Input::eButtonState::Hold, "DownMove");
-			BindActionAndKey(Input::eKeyType::Ctrl, Input::eButtonState::Hold, "Attack");
-
+			BindActionAndKey(Input::eKeyType::Left, Input::eButtonState::Hold, "BasicAction", "LeftMove");
+			BindActionAndKey(Input::eKeyType::Right, Input::eButtonState::Hold, "BasicAction", "RightMove");
+			BindActionAndKey(Input::eKeyType::Up, Input::eButtonState::Hold, "BasicAction", "UpMove");
+			BindActionAndKey(Input::eKeyType::Down, Input::eButtonState::Hold, "BasicAction", "DownMove");
+			BindActionAndKey(Input::eKeyType::Ctrl, Input::eButtonState::Hold, "CantMoveAction", "Attack");
+			BindActionAndKey(Input::eKeyType::Shift, Input::eButtonState::Hold, "MoveAction", "Uld");
 		}
 	}
 
@@ -58,8 +47,8 @@ namespace Game
 	{
 		if (PlayerKeyInput)
 			delete PlayerKeyInput;
-		if (PlayerActionController)
-			delete PlayerActionController;
+		if (ActionController)
+			delete ActionController;
 	}
 
 	void Player::InitObject()
@@ -76,8 +65,7 @@ namespace Game
 		KeyActioner* KeyActioner = PlayerKeyInput->GetKeyActioner();
 		KeyActioner->PerformKeyAction();
 
-		ActionPerformer* ActionPerformer = PlayerActionController->GetActionPerformer();
-		ActionPerformer->PerformActions();
+		ActionController->Update();
 
 		Constant.MVP = Transform->GetModel().Transpose();
 	}
@@ -93,13 +81,23 @@ namespace Game
 		Renderer->BasicRender(_RenderContext, Name, DrawIndexCount);
 	}
 
-	void Player::BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState, const Str::FString& _ActionName)
+	void Player::BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState
+		, const Str::FString& _ActionClass, const Str::FString& _ActionName)
 	{
-		const Action* Action = PlayerActionController->GetAction(_ActionName);
-		if (Action == nullptr)
-			assert(0);
+		if (ActionController->IsExistAction(_ActionName) == false)
+			return;
 
-		PlayerKeyInput->AddKey(_KeyType, _KeyState, _ActionName);
+		KeyValue* FindKeyValue = PlayerKeyInput->GetKeyValue(_KeyType, _KeyState);
+		if (FindKeyValue == nullptr)
+			return;
+
+		Game::ActionController* PActionController = ActionController;
+		auto Event = [PActionController, _ActionClass, _ActionName](const Str::FString& _KeyName)->void
+			{
+				PActionController->PrepareAction(_ActionClass, _ActionName);
+			};
+		FindKeyValue->SetKeyEvent(Event);
+
 	}
 
 	void Player::addAction()
@@ -129,23 +127,33 @@ namespace Game
 				Transform->SetPosition(Position);
 			};
 
-		
-
 		Action* PlayerAction = new Action("LeftMove", LeftMove);
-		PlayerActionController->AddAction(PlayerAction);
+		ActionController->AddAction(PlayerAction);
 
 		PlayerAction = new Action("RightMove", RightMove);
-		PlayerActionController->AddAction(PlayerAction);
+		ActionController->AddAction(PlayerAction);
 
 		PlayerAction = new Action("UpMove", UpMove);
-		PlayerActionController->AddAction(PlayerAction);
+		ActionController->AddAction(PlayerAction);
 
 		PlayerAction = new Action("DownMove", DownMove);
-		PlayerActionController->AddAction(PlayerAction);
+		ActionController->AddAction(PlayerAction);
 
 		PlayerAction = new Action("Attack", std::bind(&Player::Attack, this));
 		PlayerAction->SetActionDelay(1.0f);
-		PlayerActionController->AddAction(PlayerAction);
+		ActionController->AddAction(PlayerAction);
 
+		PlayerAction = new Action("Uld", std::bind(&Player::Uld, this));
+		PlayerAction->SetActionDelay(0.5f);
+		ActionController->AddAction(PlayerAction);
+	}
+	void Player::addKey()
+	{
+		PlayerKeyInput->AddKey(Input::eKeyType::Left, Input::eButtonState::Hold, "LeftMove");
+		PlayerKeyInput->AddKey(Input::eKeyType::Right, Input::eButtonState::Hold, "RightMove");
+		PlayerKeyInput->AddKey(Input::eKeyType::Up, Input::eButtonState::Hold, "UpMove");
+		PlayerKeyInput->AddKey(Input::eKeyType::Down, Input::eButtonState::Hold, "DownMove");
+		PlayerKeyInput->AddKey(Input::eKeyType::Ctrl, Input::eButtonState::Hold, "Attack");
+		PlayerKeyInput->AddKey(Input::eKeyType::Shift, Input::eButtonState::Hold, "Uld");
 	}
 }

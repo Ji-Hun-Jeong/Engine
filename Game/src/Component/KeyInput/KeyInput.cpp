@@ -5,19 +5,25 @@ namespace Game
 {
 	void KeyActioner::PerformKeyAction()
 	{
-		Str::FString KeyValue;
+		KeyValue* KeyValue = nullptr;
 		while (!SelectedKeyValues.empty())
 		{
-			KeyValue = std::move(SelectedKeyValues.front());
+			KeyValue = SelectedKeyValues.front();
 			SelectedKeyValues.pop();
 
-			Action(KeyValue);
+			KeyValue->KeyEvent(KeyValue->KeyName);
 		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////
+
+	KeyInput::~KeyInput()
+	{
+		for (auto iter = ValueOfKeys.begin(); iter != ValueOfKeys.end(); ++iter)
+			delete iter->second;
+	}
 
 	void KeyInput::UpdateKeyState()
 	{
@@ -28,7 +34,7 @@ namespace Game
 		Input::eButtonState KeyState = Input::eButtonState::None;
 		KeyStateValue Value = {};
 
-		auto iter = ValueOfKey.begin();
+		auto iter = ValueOfKeys.begin();
 		for (size_t i = 0; i < BeCheckedKeys.size(); ++i)
 		{
 			if (BeCheckedKeys[i] == false)
@@ -39,19 +45,24 @@ namespace Game
 			Value.KeyType = KeyType;
 			Value.KeyState = KeyState;
 
-			iter = ValueOfKey.find(Value.SolutionKey);
+			iter = ValueOfKeys.find(Value.SolutionKey);
 
-			if (iter != ValueOfKey.end())
+			if (iter != ValueOfKeys.end())
 				Actioner.SelectedKeyValues.push(iter->second);
 		}
 	}
-	void KeyInput::AddKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState, const Str::FString& _KeyValue)
+	void KeyInput::AddKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState, const Str::FString& _KeyName)
 	{
 		BeCheckedKeys[(size_t)_KeyType] = true;
 		KeyStateValue Value = {};
 		Value.KeyType = _KeyType;
 		Value.KeyState = _KeyState;
 
-		ValueOfKey.insert(std::make_pair(Value.SolutionKey, _KeyValue));
+		if (ValueOfKeys.find(Value.SolutionKey) != ValueOfKeys.end())
+			return;
+
+		KeyValue* KeyValue = new Game::KeyValue(_KeyName);
+
+		ValueOfKeys.insert(std::make_pair(Value.SolutionKey, KeyValue));
 	}
 }

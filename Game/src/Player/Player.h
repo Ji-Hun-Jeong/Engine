@@ -28,21 +28,27 @@ namespace Game
 
 		void Render(Graphics::RenderContext* _RenderContext) override;
 
-		void BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState, const Str::FString& _ActionName);
+		void BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState
+			, const Str::FString& _ActionClass, const Str::FString& _ActionName);
 
 		void Attack()
 		{
 			std::cout << "PlayerAttack!\n";
 		}
+		void Uld()
+		{
+			std::cout << "UltimitDrive!\n";
+		}
 	private:
 		void addAction();
+		void addKey();
 
 	private:
 		PlayerConst Constant;
 
 		class KeyInput* PlayerKeyInput;
-		class ActionController* PlayerActionController;
-		class ActionController* PlayerAtackActionController;
+		class ActionController* ActionController;
+
 	};
 
 }

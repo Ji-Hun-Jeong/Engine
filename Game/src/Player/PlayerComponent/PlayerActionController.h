@@ -1,16 +1,17 @@
 #pragma once
-#include "Base/Action.h"
+#include "Component/Action/Action.h"
 
 namespace Game
 {
 	class PlayerActionController : public ActionController
 	{
+		using Super = ActionController;
 	public:
 		PlayerActionController();
 		~PlayerActionController() = default;
 
 	public:
-		void ControllAction() override;
+		void controlAction() override;
 
 	};
 }
