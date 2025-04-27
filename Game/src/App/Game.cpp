@@ -4,6 +4,7 @@
 
 #include <Engine/src/Time/Time.h>
 #include <Engine/src/Input/Input.h>
+#include <Engine/src/Path/Path.h>
 #include <Renderer/src/Platform/DirectX/DXContext.h>
 #include <Renderer/src/Platform/DirectX/DXDevice.h>
 #include <System/src/Core/Window.h>
@@ -31,9 +32,12 @@ namespace Game
 	void GameWorld::Init()
 	{
 		Time::Init();
+		Path::Init("Game");
 
 		AddLevel("Test", new MyLevel(RenderDevice));
 		SetCurrentLevel("Test");
+
+		((Graphics::DX::DXDevice*)RenderDevice)->LoadSRV(Path::GetProjectPath() + "resource/image/Player/Stand/0.png", "Stand1");
 
 		for (auto iter : Levels)
 			iter.second->InitLevel();

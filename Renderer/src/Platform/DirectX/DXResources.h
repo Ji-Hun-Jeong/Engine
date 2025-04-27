@@ -29,6 +29,7 @@ namespace Graphics
 			extern ComPtr<ID3D11RenderTargetView> RenderTargetView[(UINT)eCategoryRTV::End];
 
 			extern std::unordered_map<Str::FString, struct DXBuffers*> DXBuffers;
+			extern std::unordered_map<Str::FString, ComPtr<ID3D11ShaderResourceView>> Images;
 
 			extern void InitResource(ID3D11Device* _Device);
 			extern void InitShader(ID3D11Device* _Device);

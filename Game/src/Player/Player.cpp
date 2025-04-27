@@ -6,7 +6,7 @@
 #include <Renderer/src/Geometry/Geometry.h>
 
 #include "Component/KeyInput/KeyInput.h"
-#include "Base/Skill.h"
+#include "Component/Skill/Skill.h"
 #include "PlayerComponent/PlayerActionController.h"
 #include "PlayerComponent/PlayerSkillBundle.h"
 
@@ -94,7 +94,7 @@ namespace Game
 	void Player::Render(Graphics::RenderContext* _RenderContext)
 	{
 		_RenderContext->UpdateVSConstBuffer(Name, eCategoryVSConst::Basic, &Constant, sizeof(Constant));
-		Renderer->BasicRender(_RenderContext, Name, DrawIndexCount);
+		Renderer->ColorRender(_RenderContext, Name, DrawIndexCount);
 	}
 
 	void Player::BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState

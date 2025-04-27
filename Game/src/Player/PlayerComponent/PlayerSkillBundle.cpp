@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "PlayerSkillBundle.h"
-#include "Base/Skill.h"
+#include "Player/Player.h"
 
 namespace Game
 {

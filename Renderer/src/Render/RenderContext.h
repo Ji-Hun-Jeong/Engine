@@ -29,6 +29,7 @@ namespace Graphics
 
 		virtual void PSSetShader(eCategoryPS _PixelShader) = 0;
 		virtual void PSSetConstBuffers(const Str::FString& _Key, UINT _NumConst, eCategoryPSConst* _PSConst) = 0;
+		virtual void PSSetShaderResources(const std::vector<Str::FString>& _SRVKey) = 0;
 
 		virtual void DrawIndexed(UINT _IndexCount) = 0;
 

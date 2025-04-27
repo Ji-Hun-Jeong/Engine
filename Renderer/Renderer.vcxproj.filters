@@ -85,7 +85,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="resource\Shader\BasicVS.hlsl" />
-    <FxCompile Include="resource\Shader\BasicPS.hlsl" />
+    <FxCompile Include="resource\Shader\ColorVS.hlsl" />
+    <FxCompile Include="resource\Shader\ColorPS.hlsl" />
   </ItemGroup>
 </Project>

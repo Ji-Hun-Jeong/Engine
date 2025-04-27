@@ -2,11 +2,11 @@
 
 enum class eCategoryVS
 {
-	Basic, End,
+	Color, End,
 };
 enum class eCategoryPS
 {
-	Basic, End,
+	Color, End,
 };
 enum class eCategorySS
 {

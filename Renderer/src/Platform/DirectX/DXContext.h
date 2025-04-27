@@ -122,6 +122,19 @@ namespace Graphics
 					PSConst[i] = DXBuffer->VSConstBuffer[(UINT)_PSConst[i]].Get();
 				Context->PSSetConstantBuffers(0, _NumConst, PSConst);
 			}
+
+			void PSSetShaderResources(const std::vector<Str::FString>& _SRVKey)
+			{
+				std::vector<ID3D11ShaderResourceView*> SRV(_SRVKey.size(), nullptr);
+				auto Iter = DXResource::Images.begin();
+				for (size_t i = 0; i < _SRVKey.size(); ++i)
+				{
+					Iter = DXResource::Images.find(_SRVKey[i]);
+					SRV[i] = Iter->second.Get();
+				}
+				Context->PSSetShaderResources(0, SRV.size(), SRV.data());
+			}
+
 			void DrawIndexed(UINT _IndexCount) override
 			{
 				Context->DrawIndexed(_IndexCount, 0, 0);

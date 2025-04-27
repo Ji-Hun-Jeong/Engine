@@ -14,7 +14,7 @@ namespace Game
 		using Super = Actor;
 		CLONE(Player, Actor)
 	public:
-		Player(const Str::FString& _Name, Graphics::RenderDevice* _RenderContext);
+		Player(const Str::FString& _Name, Graphics::RenderDevice* _RenderDevice);
 		Player(const Player& _Other);
 		Player(Player&& _Other) = delete;
 		Player& operator = (const Player& _Other) = delete;

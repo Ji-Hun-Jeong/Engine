@@ -107,6 +107,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\;$(SolutionDir)Game\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,6 +127,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)\;$(SolutionDir)Game\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,7 +141,7 @@
   <ItemGroup>
     <ClCompile Include="src\Player\PlayerComponent\PlayerSkillBundle.cpp" />
     <ClCompile Include="src\Player\PlayerComponent\PlayerActionController.cpp" />
-    <ClCompile Include="src\Base\Skill.cpp" />
+    <ClCompile Include="src\Component\Skill\Skill.cpp" />
     <ClCompile Include="src\Component\Action\Action.cpp" />
     <ClCompile Include="src\Component\KeyInput\KeyInput.cpp" />
     <ClCompile Include="src\Level\Level.cpp" />
@@ -158,7 +160,7 @@
   <ItemGroup>
     <ClInclude Include="src\Player\PlayerComponent\PlayerSkillBundle.h" />
     <ClInclude Include="src\Player\PlayerComponent\PlayerActionController.h" />
-    <ClInclude Include="src\Base\Skill.h" />
+    <ClInclude Include="src\Component\Skill\Skill.h" />
     <ClInclude Include="src\Component\Action\Action.h" />
     <ClInclude Include="src\Component\KeyInput\KeyInput.h" />
     <ClInclude Include="src\Level\Level.h" />

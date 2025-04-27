@@ -14,6 +14,7 @@ namespace Graphics
 			, std::vector<uint32_t>& _Indices) = 0;
 		virtual void MakeVSConstBuffer(const Str::FString& _Key, eCategoryVSConst _VSConstType, UINT _ConstDataSize) = 0;
 		virtual void MakePSConstBuffer(const Str::FString& _Key, eCategoryPSConst _PSConstType, UINT _ConstDataSize) = 0;
+		virtual void LoadSRV(const Str::FString& _Path, const Str::FString& _ImageName) = 0;
 
 	protected:
 		HWND WindowHandle;

@@ -30,6 +30,12 @@ namespace Str
         friend std::ostream& operator << (std::ostream& os, const FString& str);
         friend struct std::hash<FString>;
 
+        operator std::wstring () const { return std::wstring(Str->begin(), Str->end()); }
+        operator const std::string& () const { return *Str; }
+        const std::string& GetString() const { return *Str; }
+        std::wstring GetWString() const { return std::wstring(Str->begin(), Str->end()); }
+        const char* CString() const { return Str->c_str(); }
+
         void Reset();
 
     private:

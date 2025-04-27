@@ -48,7 +48,7 @@
     <ClCompile Include="src\Component\Action\Action.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Base\Skill.cpp">
+    <ClCompile Include="src\Component\Skill\Skill.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Player\PlayerComponent\PlayerActionController.cpp">
@@ -92,7 +92,7 @@
     <ClInclude Include="src\Component\Action\Action.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Base\Skill.h">
+    <ClInclude Include="src\Component\Skill\Skill.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Player\PlayerComponent\PlayerActionController.h">

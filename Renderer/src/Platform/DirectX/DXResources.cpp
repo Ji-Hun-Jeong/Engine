@@ -20,6 +20,7 @@ namespace Graphics
 			ComPtr<ID3D11RenderTargetView> RenderTargetView[(UINT)eCategoryRTV::End];
 
 			std::unordered_map<Str::FString, struct DXBuffers*> DXBuffers;
+			std::unordered_map<Str::FString, ComPtr<ID3D11ShaderResourceView>> Images;
 
 			void InitResource(ID3D11Device* _Device)
 			{
@@ -51,6 +52,8 @@ namespace Graphics
 					delete iter->second;
 					iter = DXBuffers.erase(iter);
 				}
+				for (auto& SRV : Images)
+					SRV.second.Reset();
 			}
 			void InitShader(ID3D11Device* _Device)
 			{
@@ -63,13 +66,13 @@ namespace Graphics
 #endif
 
 				HRESULT hr = D3DCompileFromFile(
-					L"./Renderer/resource/Shader/BasicVS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
+					L"./Renderer/resource/Shader/ColorVS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
 					"vs_5_0", compileFlags, 0, &shaderBlob, &errorBlob);
 				if (FAILED(hr))	assert(0);
 				
 				hr = _Device->CreateVertexShader(shaderBlob->GetBufferPointer(),
 					shaderBlob->GetBufferSize(), NULL,
-					VertexShader[(UINT)eCategoryVS::Basic].GetAddressOf());
+					VertexShader[(UINT)eCategoryVS::Color].GetAddressOf());
 				if (FAILED(hr))	assert(0);
 
 				std::vector<D3D11_INPUT_ELEMENT_DESC> basicInputElements =
@@ -86,13 +89,13 @@ namespace Graphics
 				if (FAILED(hr))	assert(0);
 
 				hr = D3DCompileFromFile(
-					L"./Renderer/resource/Shader/BasicPS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
+					L"./Renderer/resource/Shader/ColorPS.hlsl", 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
 					"ps_5_0", compileFlags, 0, &shaderBlob, &errorBlob);
 				if (FAILED(hr))	assert(0);
 
 				hr = _Device->CreatePixelShader(shaderBlob->GetBufferPointer(),
 					shaderBlob->GetBufferSize(), NULL,
-					PixelShader[(UINT)eCategoryPS::Basic].GetAddressOf());
+					PixelShader[(UINT)eCategoryPS::Color].GetAddressOf());
 				if (FAILED(hr))	assert(0);
 
 			}
