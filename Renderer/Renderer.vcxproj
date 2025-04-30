@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\DirectX\DXModel.h" />
+    <ClInclude Include="src\Model\Model.h" />
     <ClInclude Include="include\SimpleMath.h" />
     <ClInclude Include="src\Geometry\Geometry.h" />
     <ClInclude Include="src\RenderType.h" />
@@ -152,6 +154,8 @@
     <ClInclude Include="src\Render\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\DirectX\DXModel.cpp" />
+    <ClCompile Include="src\Model\Model.cpp" />
     <ClCompile Include="include\SimpleMath.cpp" />
     <ClCompile Include="src\Geometry\Geometry.cpp" />
     <ClCompile Include="src\Render\RenderDevice.cpp" />
@@ -186,6 +190,10 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\Debug\DirectXTK.lib" />
+    <Library Include="lib\Release\DirectXTK.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

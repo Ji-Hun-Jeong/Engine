@@ -13,142 +13,141 @@ namespace Graphics
 		{
 			using Super = Graphics::RenderContext;
 		public:
-			DXContext(ID3D11DeviceContext* _Context, IDXGISwapChain* _SwapChain);
+			DXContext(DXResource& _Resource);
 			DXContext(const DXContext&) = delete;
 			DXContext(DXContext&&) = delete;
 			~DXContext()
 			{
-				
+
 			}
 
 		public:
 			void ClearRenderTargetView(eCategoryRTV _RenderTargetView, const float* _Color) override
 			{
-				ID3D11RenderTargetView* RenderTargetView = DXResource::RenderTargetView[(UINT)_RenderTargetView].Get();
-				Context->ClearRenderTargetView(RenderTargetView, _Color);
+				ID3D11RenderTargetView* RenderTargetView = Resource.RenderTargetView[(UINT)_RenderTargetView].Get();
+				Resource.Context->ClearRenderTargetView(RenderTargetView, _Color);
 			}
 			void ClearDepthStencilView(eCategoryDSV _DepthStnecilView, UINT _Flag, float _Depth, UINT _Stencil) override
 			{
-				ID3D11DepthStencilView* DepthStencilView = DXResource::DepthStencilView[(UINT)_DepthStnecilView].Get();
-				Context->ClearDepthStencilView(DepthStencilView, _Flag, _Depth, _Stencil);
+				ID3D11DepthStencilView* DepthStencilView = Resource.DepthStencilView[(UINT)_DepthStnecilView].Get();
+				Resource.Context->ClearDepthStencilView(DepthStencilView, _Flag, _Depth, _Stencil);
 			}
 			void OMSetRenderTargets(UINT _NumView, eCategoryRTV* _RenderTargets, eCategoryDSV _DepthStencilView) override
 			{
 				ID3D11RenderTargetView* RenderTargets[(UINT)eCategoryRTV::End] = { nullptr };
 				for (UINT i = 0; i < _NumView; ++i)
-					RenderTargets[i] = DXResource::RenderTargetView[i].Get();
+					RenderTargets[i] = Resource.RenderTargetView[i].Get();
 
 				ID3D11DepthStencilView* DepthStencilView =
-					DXResource::DepthStencilView[(UINT)_DepthStencilView].Get();
+					Resource.DepthStencilView[(UINT)_DepthStencilView].Get();
 
-				Context->OMSetRenderTargets(_NumView, RenderTargets, DepthStencilView);
+				Resource.Context->OMSetRenderTargets(_NumView, RenderTargets, DepthStencilView);
 			}
 			void OMSetDepthStencilState(eCategoryDSS _DepthStencilState, UINT _StencilRef) override
 			{
 				ID3D11DepthStencilState* DepthStencilState =
-					DXResource::DepthStencilState[(UINT)_DepthStencilState].Get();
+					Resource.DepthStencilState[(UINT)_DepthStencilState].Get();
 
-				Context->OMSetDepthStencilState(DepthStencilState, _StencilRef);
+				Resource.Context->OMSetDepthStencilState(DepthStencilState, _StencilRef);
 			}
 			void IASetInputLayout(eCategoryIL _InputLayout) override
 			{
-				ID3D11InputLayout* InputLayout = DXResource::InputLayout[(UINT)_InputLayout].Get();
-				Context->IASetInputLayout(InputLayout);
+				ID3D11InputLayout* InputLayout = Resource.InputLayout[(UINT)_InputLayout].Get();
+				Resource.Context->IASetInputLayout(InputLayout);
 			}
 			void IASetPrimitiveTopology(eCategoryTopology _PrimitiveTopology) override
 			{
 				if (_PrimitiveTopology == eCategoryTopology::Triangle)
-					Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+					Resource.Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 			}
 			void IASetBuffers(const Str::FString& _Key, UINT _Start, UINT _Count) override
 			{
-				DXBuffers* Buffers = DXResource::DXBuffers.find(_Key)->second;
+				DXBuffers* Buffers = Resource.DXBuffers.find(_Key)->second;
 
 				static UINT Stride = Buffers->Stride;
 				static UINT Offset = 0;
 
-				Context->IASetVertexBuffers(_Start, _Count, Buffers->VertexBuffer.GetAddressOf(), &Stride, &Offset);
-				Context->IASetIndexBuffer(Buffers->IndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+				Resource.Context->IASetVertexBuffers(_Start, _Count, Buffers->VertexBuffer.GetAddressOf(), &Stride, &Offset);
+				Resource.Context->IASetIndexBuffer(Buffers->IndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 			}
 			void VSSetShader(eCategoryVS _VertexShader) override
 			{
-				ID3D11VertexShader* VertexShader = DXResource::VertexShader[(UINT)_VertexShader].Get();
-				Context->VSSetShader(VertexShader, nullptr, 0);
+				ID3D11VertexShader* VertexShader = Resource.VertexShader[(UINT)_VertexShader].Get();
+				Resource.Context->VSSetShader(VertexShader, nullptr, 0);
 			}
 			void VSSetConstBuffers(const Str::FString& _Key, UINT _NumConst, eCategoryVSConst* _VSConst) override
 			{
-				DXBuffers* DXBuffer = DXResource::DXBuffers.find(_Key)->second;
+				DXBuffers* DXBuffer = Resource.DXBuffers.find(_Key)->second;
 
 				ID3D11Buffer* VSConst[(UINT)eCategoryVSConst::End] = { nullptr };
 				for (UINT i = 0; i < _NumConst; ++i)
 					VSConst[i] = DXBuffer->VSConstBuffer[(UINT)_VSConst[i]].Get();
 
-				Context->VSSetConstantBuffers(0, _NumConst, VSConst);
+				Resource.Context->VSSetConstantBuffers(0, _NumConst, VSConst);
 			}
 			void RSSetState(eCategoryRS _RasterizerState) override
 			{
-				ID3D11RasterizerState* RasterizerState = DXResource::RasterizerState[(UINT)_RasterizerState].Get();
-				Context->RSSetState(RasterizerState);
+				ID3D11RasterizerState* RasterizerState = Resource.RasterizerState[(UINT)_RasterizerState].Get();
+				Resource.Context->RSSetState(RasterizerState);
 			}
 			void RSSetViewPort(UINT _NumViewPort, eCategoryVP _ViewPort) override
 			{
-				D3D11_VIEWPORT& ViewPort = DXResource::ViewPort[(UINT)_ViewPort];
-				Context->RSSetViewports(_NumViewPort, &ViewPort);
+				D3D11_VIEWPORT& ViewPort = Resource.ViewPort[(UINT)_ViewPort];
+				Resource.Context->RSSetViewports(_NumViewPort, &ViewPort);
 			}
 			void PSSetShader(eCategoryPS _PixelShader) override
 			{
-				ID3D11PixelShader* PixelShader = DXResource::PixelShader[(UINT)_PixelShader].Get();
-				Context->PSSetShader(PixelShader, nullptr, 0);
+				ID3D11PixelShader* PixelShader = Resource.PixelShader[(UINT)_PixelShader].Get();
+				Resource.Context->PSSetShader(PixelShader, nullptr, 0);
 			}
 
 			void UpdateVSConstBuffer(const Str::FString& _Key, eCategoryVSConst _VSConst, void* _ConstData
 				, UINT _Size) override
 			{
-				DXBuffers* DXBuffer = DXResource::DXBuffers.find(_Key)->second;
+				DXBuffers* DXBuffer = Resource.DXBuffers.find(_Key)->second;
 
 				D3D11_MAPPED_SUBRESOURCE Ms;
 				ZeroMemory(&Ms, sizeof(Ms));
-				
-				Context->Map(DXBuffer->VSConstBuffer[(UINT)_VSConst].Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &Ms);
+
+				Resource.Context->Map(DXBuffer->VSConstBuffer[(UINT)_VSConst].Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &Ms);
 				memcpy(Ms.pData, _ConstData, _Size);
-				Context->Unmap(DXBuffer->VSConstBuffer[(UINT)_VSConst].Get(), 0);
+				Resource.Context->Unmap(DXBuffer->VSConstBuffer[(UINT)_VSConst].Get(), 0);
 			}
 
 			void PSSetConstBuffers(const Str::FString& _Key, UINT _NumConst, eCategoryPSConst* _PSConst) override
 			{
-				DXBuffers* DXBuffer = DXResource::DXBuffers.find(_Key)->second;
+				DXBuffers* DXBuffer = Resource.DXBuffers.find(_Key)->second;
 				ID3D11Buffer* PSConst[(UINT)eCategoryPSConst::End] = { nullptr };
 				for (UINT i = 0; i < _NumConst; ++i)
 					PSConst[i] = DXBuffer->VSConstBuffer[(UINT)_PSConst[i]].Get();
-				Context->PSSetConstantBuffers(0, _NumConst, PSConst);
+				Resource.Context->PSSetConstantBuffers(0, _NumConst, PSConst);
 			}
 
 			void PSSetShaderResources(const std::vector<Str::FString>& _SRVKey)
 			{
 				std::vector<ID3D11ShaderResourceView*> SRV(_SRVKey.size(), nullptr);
-				auto Iter = DXResource::Images.begin();
+				auto Iter = Resource.Images.begin();
 				for (size_t i = 0; i < _SRVKey.size(); ++i)
 				{
-					Iter = DXResource::Images.find(_SRVKey[i]);
+					Iter = Resource.Images.find(_SRVKey[i]);
 					SRV[i] = Iter->second.Get();
 				}
-				Context->PSSetShaderResources(0, SRV.size(), SRV.data());
+				Resource.Context->PSSetShaderResources(0, SRV.size(), SRV.data());
 			}
 
 			void DrawIndexed(UINT _IndexCount) override
 			{
-				Context->DrawIndexed(_IndexCount, 0, 0);
+				Resource.Context->DrawIndexed(_IndexCount, 0, 0);
 			}
 			void Present() override
 			{
-				SwapChain->Present(1, 0);
+				Resource.SwapChain->Present(1, 0);
 			}
 
 			void DestoryBuffers(const std::string& _Key) {}
 
 		private:
-			ComPtr<ID3D11DeviceContext> Context;
-			ComPtr<IDXGISwapChain> SwapChain;
+			DXResource& Resource;
 
 		};
 	}

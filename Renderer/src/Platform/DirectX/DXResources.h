@@ -15,28 +15,41 @@ namespace Graphics
 			ComPtr<ID3D11Buffer> PSConstBuffer[(UINT)eCategoryPSConst::End];
 			UINT Stride = 0;
 		};
-		namespace DXResource
+		class DXResource
 		{
-			extern ComPtr<ID3D11VertexShader> VertexShader[(UINT)eCategoryVS::End];
-			extern ComPtr<ID3D11InputLayout> InputLayout[(UINT)eCategoryIL::End];
-			extern ComPtr<ID3D11PixelShader> PixelShader[(UINT)eCategoryPS::End];
-			extern ComPtr<ID3D11SamplerState> SamplerState[(UINT)eCategorySS::End];
+			friend class DXDevice;
+			friend class DXContext;
+			friend class DXModel;
+		public:
+			DXResource();
+			~DXResource();
 
-			extern D3D11_VIEWPORT ViewPort[(UINT)eCategoryVP::End];
-			extern ComPtr<ID3D11RasterizerState> RasterizerState[(UINT)eCategoryRS::End];
-			extern ComPtr<ID3D11DepthStencilState> DepthStencilState[(UINT)eCategoryDSS::End];
-			extern ComPtr<ID3D11DepthStencilView> DepthStencilView[(UINT)eCategoryDSV::End];
-			extern ComPtr<ID3D11RenderTargetView> RenderTargetView[(UINT)eCategoryRTV::End];
+		public:
+			void Initalize();
+			void InitShader();
+			void InitSampler();
+			void InitRS();
+			void InitDSS();
 
-			extern std::unordered_map<Str::FString, struct DXBuffers*> DXBuffers;
-			extern std::unordered_map<Str::FString, ComPtr<ID3D11ShaderResourceView>> Images;
+		private:
+			ComPtr<ID3D11VertexShader> VertexShader[(UINT)eCategoryVS::End];
+			ComPtr<ID3D11InputLayout> InputLayout[(UINT)eCategoryIL::End];
+			ComPtr<ID3D11PixelShader> PixelShader[(UINT)eCategoryPS::End];
+			ComPtr<ID3D11SamplerState> SamplerState[(UINT)eCategorySS::End];
 
-			extern void InitResource(ID3D11Device* _Device);
-			extern void InitShader(ID3D11Device* _Device);
-			extern void InitSampler(ID3D11Device* _Device);
-			extern void InitRS(ID3D11Device* _Device);
-			extern void InitDSS(ID3D11Device* _Device);
-			extern void DestroyResource();
+			D3D11_VIEWPORT ViewPort[(UINT)eCategoryVP::End];
+			ComPtr<ID3D11RasterizerState> RasterizerState[(UINT)eCategoryRS::End];
+			ComPtr<ID3D11DepthStencilState> DepthStencilState[(UINT)eCategoryDSS::End];
+			ComPtr<ID3D11DepthStencilView> DepthStencilView[(UINT)eCategoryDSV::End];
+			ComPtr<ID3D11RenderTargetView> RenderTargetView[(UINT)eCategoryRTV::End];
+
+			std::unordered_map<Str::FString, struct DXBuffers*> DXBuffers;
+			std::unordered_map<Str::FString, ComPtr<ID3D11ShaderResourceView>> Images;
+
+			ComPtr<ID3D11Device> Device;
+			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<IDXGISwapChain> SwapChain;
+			UINT NumOfMultiSamplingLevel;
 		};
 	}
 }

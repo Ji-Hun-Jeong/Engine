@@ -8,14 +8,14 @@ namespace Graphics
 	{
 		DXDevice::DXDevice(HWND _WindowHandle)
 			: RenderDevice(_WindowHandle)
-			, NumOfMultiSamplingLevel(0)
+			, Resource()
 		{
 			
 		}
 
 		DXDevice::~DXDevice()
 		{
-			DXResource::DestroyResource();
+			
 		}
 
 		Graphics::RenderContext* DXDevice::Initalize()
@@ -55,33 +55,33 @@ namespace Graphics
 			swapChainDesc.SampleDesc.Count = 1;
 			swapChainDesc.SampleDesc.Quality = 0;
 
-			ID3D11DeviceContext* Context = nullptr;
-			IDXGISwapChain* SwapChain = nullptr;
+			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<IDXGISwapChain> SwapChain;
 			HRESULT hr = ::D3D11CreateDeviceAndSwapChain(nullptr, driverType, 0
 				, createDeviceFlags, featureLevel, 1
 				, D3D11_SDK_VERSION, &swapChainDesc
-				, &SwapChain, Device.GetAddressOf()
-				, &outputLevel, &Context);
+				, SwapChain.GetAddressOf(), Resource.Device.GetAddressOf()
+				, &outputLevel, Context.GetAddressOf());
 			if (FAILED(hr)) assert(0);
 
 
-			hr = Device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4,
-				&NumOfMultiSamplingLevel);
+			hr = Resource.Device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4,
+				&Resource.NumOfMultiSamplingLevel);
 			if (FAILED(hr)) assert(0);
 
-			DXResource::InitResource(Device.Get());
+			Resource.Context = Context;
+			Resource.SwapChain = SwapChain;
 
 			// Texture를 이용해서 리소스를 만들고 난 후 항상 Texture를 Release해주기
-			ID3D11Texture2D* Buffer = nullptr;
+			ID3D11Texture2D* Buffer;
 			hr = SwapChain->GetBuffer(0, IID_PPV_ARGS(&Buffer));
-			ID3D11RenderTargetView* RenderTargetView = nullptr;
+			ComPtr<ID3D11RenderTargetView> RenderTargetView;
 			if (Buffer)
-				hr = Device->CreateRenderTargetView(Buffer, nullptr, &RenderTargetView);
+				hr = Resource.Device->CreateRenderTargetView(Buffer, nullptr, RenderTargetView.GetAddressOf());
 			if (FAILED(hr)) assert(0);
 			Buffer->Release();
 
-			DXResource::RenderTargetView[(UINT)eCategoryRTV::BackBuffer] = RenderTargetView;
-			RenderTargetView->Release();
+			Resource.RenderTargetView[(UINT)eCategoryRTV::BackBuffer] = RenderTargetView;
 
 			D3D11_TEXTURE2D_DESC DDesc;
 			ZeroMemory(&DDesc, sizeof(DDesc));
@@ -97,20 +97,18 @@ namespace Graphics
 			DDesc.CPUAccessFlags = 0;
 			DDesc.MiscFlags = 0;
 
-			hr = Device->CreateTexture2D(&DDesc, nullptr, &Buffer);
-			ID3D11DepthStencilView* DepthStencilView = nullptr;
+			hr = Resource.Device->CreateTexture2D(&DDesc, nullptr, &Buffer);
+			ComPtr<ID3D11DepthStencilView> DepthStencilView;
 			if (FAILED(hr)) assert(0);
 
-			hr = Device->CreateDepthStencilView(Buffer, nullptr, &DepthStencilView);
+			hr = Resource.Device->CreateDepthStencilView(Buffer, nullptr, DepthStencilView.GetAddressOf());
 			if (FAILED(hr)) assert(0);
-
 			Buffer->Release();
 
-			DXResource::DepthStencilView[(UINT)eCategoryDSV::BackBuffer] = DepthStencilView;
-			DepthStencilView->Release();
+			Resource.DepthStencilView[(UINT)eCategoryDSV::BackBuffer] = DepthStencilView;
 
 
-			D3D11_VIEWPORT& ViewPort = DXResource::ViewPort[(UINT)eCategoryVP::Basic];
+			D3D11_VIEWPORT& ViewPort = Resource.ViewPort[(UINT)eCategoryVP::Basic];
 			ZeroMemory(&ViewPort, sizeof(D3D11_VIEWPORT));
 			ViewPort.TopLeftX = 0;
 			ViewPort.TopLeftY = 0;
@@ -119,9 +117,9 @@ namespace Graphics
 			ViewPort.MinDepth = 0.0f;
 			ViewPort.MaxDepth = 1.0f;
 
-			Context->Release();
-			SwapChain->Release();
-			return new DX::DXContext(Context, SwapChain);
+			Resource.Initalize();
+
+			return new DX::DXContext(Resource);
 		}
 		
 		void DXDevice::MakeGeometryBuffers(const Str::FString& _Key, void* _Data, size_t _VertexSize, size_t _NumOfVertex, std::vector<uint32_t>& _Indices)
@@ -142,7 +140,7 @@ namespace Graphics
 			BufferData.pSysMem = _Data;
 			BufferData.SysMemPitch = 0;
 			BufferData.SysMemSlicePitch = 0;
-			HRESULT hr = Device->CreateBuffer(&BufferDesc, &BufferData, Buffers->VertexBuffer.GetAddressOf());
+			HRESULT hr = Resource.Device->CreateBuffer(&BufferDesc, &BufferData, Buffers->VertexBuffer.GetAddressOf());
 			if (FAILED(hr)) assert(0);
 
 
@@ -157,7 +155,7 @@ namespace Graphics
 			BufferData.SysMemPitch = 0;
 			BufferData.SysMemSlicePitch = 0;
 
-			hr = Device->CreateBuffer(&BufferDesc, &BufferData,
+			hr = Resource.Device->CreateBuffer(&BufferDesc, &BufferData,
 				Buffers->IndexBuffer.GetAddressOf());
 			if (FAILED(hr)) assert(0);
 
@@ -165,7 +163,7 @@ namespace Graphics
 
 			Buffers->Stride = _VertexSize;
 
-			DXResource::DXBuffers.insert(std::make_pair(_Key, Buffers));
+			Resource.DXBuffers.insert(std::make_pair(_Key, Buffers));
 		}
 	}
 }

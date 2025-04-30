@@ -48,6 +48,12 @@
     <ClInclude Include="include\SimpleMath.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model\Model.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\DirectX\DXModel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Render\Renderer.cpp">
@@ -77,6 +83,12 @@
     <ClCompile Include="include\SimpleMath.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model\Model.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\DirectX\DXModel.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\Shader\Common.hlsli" />
@@ -87,5 +99,9 @@
   <ItemGroup>
     <FxCompile Include="resource\Shader\ColorVS.hlsl" />
     <FxCompile Include="resource\Shader\ColorPS.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\Debug\DirectXTK.lib" />
+    <Library Include="lib\Release\DirectXTK.lib" />
   </ItemGroup>
 </Project>

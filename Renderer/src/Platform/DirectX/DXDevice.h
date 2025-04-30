@@ -1,8 +1,7 @@
 #pragma once
 #include "Renderer/src/Render/RenderDevice.h"
-#include "DX.h"
-#include "DXResources.h"
 #include "Renderer/include/WICTextureLoader.h"
+#include "DXResources.h"
 
 namespace Graphics
 {
@@ -26,8 +25,8 @@ namespace Graphics
             void MakeVSConstBuffer(const Str::FString& _Key, eCategoryVSConst _VSConstType
                 , UINT _ConstDataSize) override
             {
-                auto Iter = DXResource::DXBuffers.find(_Key);
-                if (Iter == DXResource::DXBuffers.end())
+                auto Iter = Resource.DXBuffers.find(_Key);
+                if (Iter == Resource.DXBuffers.end())
                     assert(0);
                 
                 DXBuffers* Buffers = Iter->second;
@@ -40,15 +39,15 @@ namespace Graphics
                 BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
                 BufferDesc.StructureByteStride = 0;
 
-                HRESULT hr = Device->CreateBuffer(&BufferDesc, nullptr, Buffers->VSConstBuffer[(UINT)_VSConstType].GetAddressOf());
+                HRESULT hr = Resource.Device->CreateBuffer(&BufferDesc, nullptr, Buffers->VSConstBuffer[(UINT)_VSConstType].GetAddressOf());
                 if (FAILED(hr)) assert(0);
 
             }
             void MakePSConstBuffer(const Str::FString& _Key, eCategoryPSConst _PSConstType
                 , UINT _ConstDataSize) override
             {
-                auto Iter = DXResource::DXBuffers.find(_Key);
-                if (Iter == DXResource::DXBuffers.end())
+                auto Iter = Resource.DXBuffers.find(_Key);
+                if (Iter == Resource.DXBuffers.end())
                     assert(0);
 
                 DXBuffers* Buffers = Iter->second;
@@ -61,29 +60,29 @@ namespace Graphics
                 BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
                 BufferDesc.StructureByteStride = 0;
 
-                HRESULT hr = Device->CreateBuffer(&BufferDesc, nullptr, Buffers->PSConstBuffer[(UINT)_PSConstType].GetAddressOf());
+                HRESULT hr = Resource.Device->CreateBuffer(&BufferDesc, nullptr, Buffers->PSConstBuffer[(UINT)_PSConstType].GetAddressOf());
                 if (FAILED(hr)) assert(0);
             }
 
             void LoadSRV(const Str::FString& _Path, const Str::FString& _ImageName) override
             {
-                if (DXResource::Images.find(_ImageName) != DXResource::Images.end())
+                if (Resource.Images.find(_ImageName) != Resource.Images.end())
                     return;
 
                 std::wstring WPath = _Path.GetWString();
                 ID3D11ShaderResourceView* Image = nullptr;
-                HRESULT HR = DirectX::CreateWICTextureFromFile(Device.Get(), WPath.c_str(), nullptr, &Image);
+                HRESULT HR = DirectX::CreateWICTextureFromFile(Resource.Device.Get(), WPath.c_str(), nullptr, &Image);
                 if (FAILED(HR))
                     assert(0);
 
-                DXResource::Images.insert(std::make_pair(_ImageName, Image));
+                Resource.Images.insert(std::make_pair(_ImageName, Image));
                 Image->Release();
             }
 
         private:
-            ComPtr<ID3D11Device> Device;
+            DXResource Resource;
 
-            UINT NumOfMultiSamplingLevel;
+            
 
             
         };
