@@ -54,6 +54,12 @@
     <ClInclude Include="src\Platform\DirectX\DXModel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="include\WICTextureLoader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RefPtr.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Render\Renderer.cpp">

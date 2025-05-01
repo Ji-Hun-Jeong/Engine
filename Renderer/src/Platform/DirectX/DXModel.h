@@ -1,33 +1,33 @@
 #pragma once
-#include "Model/Model.h"
-#include "DXResources.h"
+#include "DX.h"
 
 namespace Graphics
 {
     namespace DX
     {
         using Microsoft::WRL::ComPtr;
-        class DXConstant : public Constant
+        class DXConstant
         {
         public:
+            DXConstant() {}
             ~DXConstant()
             {
                 for (auto VCB : VertexConstBuffers)
                     VCB->Release();
             }
+
         private:
             std::vector<ID3D11Buffer*> VertexConstBuffers;
+
         };
 
-        class DXModel : public Model
+        class DXModel
         {
         public:
-            DXModel(DXResource& _Resource)
+            DXModel()
                 : VertexBuffer(nullptr)
                 , IndexBuffer(nullptr)
                 , Stride(0)
-                , IndexCount(0)
-                , Resource(_Resource)
             {
                 
             }
@@ -42,9 +42,6 @@ namespace Graphics
                     PCB->Release();
             }
 
-        public:
-            
-
         private:
             // 세팅할 때 get쓰지도 않게 그냥 포인터로
             ID3D11Buffer* VertexBuffer;
@@ -55,9 +52,8 @@ namespace Graphics
 
             UINT Stride;
             UINT IndexCount;
-
-            DXResource& Resource;
         };
+
     }
     
 }
