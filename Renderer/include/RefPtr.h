@@ -34,14 +34,26 @@ private:
 template <typename T>
 class RefPtr
 {
+	template <typename U> 
+	friend class RefPtr;
 public:
 	RefPtr()
 		: ReferenceTable(nullptr)
+	{}
+	RefPtr(std::nullptr_t _NullPtr)
+		: RefPtr()
 	{}
 	explicit RefPtr(T* _RefObject)
 		: ReferenceTable(new RefTable<T>(_RefObject))
 	{
 		ReferenceTable->Refer();
+	}
+	template <typename U>
+	RefPtr(const RefPtr<U>& _Other)
+		: ReferenceTable(reinterpret_cast<RefTable<T>*>(_Other.ReferenceTable))
+	{
+		if (ReferenceTable)
+			ReferenceTable->Refer();
 	}
 	RefPtr(const RefPtr& _Other);
 	RefPtr(RefPtr&& _Other) noexcept;
@@ -70,7 +82,7 @@ private:
 template <typename T, typename... Args>
 RefPtr<T> MakeRef(Args&&... args)
 {
-	return RefPtr<T>(new T(args)...);
+	return RefPtr<T>(new T(std::forward<Args>(args)...));
 }
 
 template <typename T>

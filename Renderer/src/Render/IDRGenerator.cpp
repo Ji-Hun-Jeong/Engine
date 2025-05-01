@@ -1,8 +1,7 @@
 #include "pch.h"
-#include "Model.h"
+#include "IDRGenerator.h"
 
 namespace Graphics
 {
 
 }
-

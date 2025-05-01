@@ -19,7 +19,7 @@ namespace Game
 		virtual void EnterLevel();
 		virtual void Update();
 		virtual void ExitLevel();
-		void Render(Graphics::RenderContext* _RenderContext);
+		virtual void Render(Graphics::RenderContext* _RenderContext);
 		
 		void AddObject(Object* _Object);
 		void AddActor(Actor* _Actor);

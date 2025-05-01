@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Game.h"
 #include "Level/MyLevel.h"
+#include "Level/TestLevel.h"
 
 #include <Engine/src/Time/Time.h>
 #include <Engine/src/Input/Input.h>
@@ -14,8 +15,10 @@ namespace Game
 	GameWorld::GameWorld(UINT _ScreenWidth, UINT _ScreenHeight)
 		: Super(_ScreenWidth, _ScreenHeight)
 		, CurrentLevel(nullptr)
-		, RenderDevice(new Graphics::DX::DXDevice(AppWindow->GetWindowHandle()))
-		, RenderContext(RenderDevice->Initalize())
+		, RenderDevice(nullptr)
+		, RenderContext(nullptr)
+		/*, RenderDevice(new Graphics::DX::DXDevice(AppWindow->GetWindowHandle()))
+		, RenderContext(RenderDevice->Initalize())*/
 	{
 		
 	}
@@ -34,10 +37,12 @@ namespace Game
 		Time::Init();
 		Path::Init("Game");
 
-		AddLevel("Test", new MyLevel(RenderDevice));
+		// AddLevel("Test", new MyLevel(RenderDevice));
+		Graphics::DX::DXRGenerator* Generator = new Graphics::DX::DXRGenerator(AppWindow->GetWindowHandle());
+		AddLevel("Test", new TestLevel(*Generator));
 		SetCurrentLevel("Test");
 
-		((Graphics::DX::DXDevice*)RenderDevice)->LoadSRV(Path::GetProjectPath() + "resource/image/Player/Stand/0.png", "Stand1");
+		//((Graphics::DX::DXDevice*)RenderDevice)->LoadSRV(Path::GetProjectPath() + "resource/image/Player/Stand/0.png", "Stand1");
 
 		for (auto iter : Levels)
 			iter.second->InitLevel();
@@ -60,17 +65,17 @@ namespace Game
 
 	void GameWorld::Render()
 	{
-		static const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
-		RenderContext->ClearRenderTargetView(eCategoryRTV::BackBuffer, ClearColor);
-		RenderContext->ClearDepthStencilView(eCategoryDSV::BackBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
-		eCategoryRTV RenderTargets[1] = { eCategoryRTV::BackBuffer };
-		RenderContext->OMSetRenderTargets(1, RenderTargets, eCategoryDSV::BackBuffer);
-		RenderContext->OMSetDepthStencilState(eCategoryDSS::Basic, 0);
+		//static const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
+		//RenderContext->ClearRenderTargetView(eCategoryRTV::BackBuffer, ClearColor);
+		//RenderContext->ClearDepthStencilView(eCategoryDSV::BackBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
+		//
+		//eCategoryRTV RenderTargets[1] = { eCategoryRTV::BackBuffer };
+		//RenderContext->OMSetRenderTargets(1, RenderTargets, eCategoryDSV::BackBuffer);
+		//RenderContext->OMSetDepthStencilState(eCategoryDSS::Basic, 0);
 		
 		CurrentLevel->Render(RenderContext);
 		
-		RenderContext->Present();
+		//RenderContext->Present();
 	}
 
 	void GameWorld::ShutDown()

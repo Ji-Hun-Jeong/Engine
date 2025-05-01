@@ -12,6 +12,7 @@
 #include <cassert>
 #include <array>
 #include <queue>
+#include <memory>
 
 #include "Define.h"
 #include "System/include/FString.h"

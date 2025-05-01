@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\;$(SolutionDir)Game\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\;$(SolutionDir)Game\src\;$(SolutionDir)Renderer\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -126,7 +126,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\;$(SolutionDir)Game\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\;$(SolutionDir)Game\src\;$(SolutionDir)Renderer\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -156,6 +156,7 @@
     <ClCompile Include="src\App\Game.cpp" />
     <ClCompile Include="src\Component\Transform\Transform.cpp" />
     <ClCompile Include="src\Component\State\State.cpp" />
+    <ClCompile Include="src\Level\TestLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Player\PlayerComponent\PlayerSkillBundle.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Component\Transform\Transform.h" />
     <ClInclude Include="src\Component\State\State.h" />
+    <ClInclude Include="src\Level\TestLevel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

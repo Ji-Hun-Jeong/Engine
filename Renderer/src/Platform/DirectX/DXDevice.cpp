@@ -10,12 +10,12 @@ namespace Graphics
 			: RenderDevice(_WindowHandle)
 			, Resource()
 		{
-			
+
 		}
 
 		DXDevice::~DXDevice()
 		{
-			
+
 		}
 
 		Graphics::RenderContext* DXDevice::Initalize()
@@ -72,6 +72,10 @@ namespace Graphics
 			Resource.Context = Context;
 			Resource.SwapChain = SwapChain;
 
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 			// Texture를 이용해서 리소스를 만들고 난 후 항상 Texture를 Release해주기
 			ID3D11Texture2D* Buffer;
 			hr = SwapChain->GetBuffer(0, IID_PPV_ARGS(&Buffer));
@@ -107,6 +111,9 @@ namespace Graphics
 
 			Resource.DepthStencilView[(UINT)eCategoryDSV::BackBuffer] = DepthStencilView;
 
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			D3D11_VIEWPORT& ViewPort = Resource.ViewPort[(UINT)eCategoryVP::Basic];
 			ZeroMemory(&ViewPort, sizeof(D3D11_VIEWPORT));
@@ -121,7 +128,7 @@ namespace Graphics
 
 			return new DX::DXContext(Resource);
 		}
-		
+
 		void DXDevice::MakeGeometryBuffers(const Str::FString& _Key, void* _Data, size_t _VertexSize, size_t _NumOfVertex, std::vector<uint32_t>& _Indices)
 		{
 			DXBuffers* Buffers = new DXBuffers;

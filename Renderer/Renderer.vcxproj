@@ -139,10 +139,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Interface\IDraw.h" />
+    <ClInclude Include="src\Render\IRenderer.h" />
+    <ClInclude Include="src\Interface\IConstBuffer.h" />
+    <ClInclude Include="src\Interface\IRasterizerState.h" />
+    <ClInclude Include="src\Interface\ISampler.h" />
+    <ClInclude Include="src\Interface\IPixelShader.h" />
+    <ClInclude Include="src\Interface\IModel.h" />
     <ClInclude Include="include\RefPtr.h" />
+    <ClInclude Include="src\Interface\IViewPort.h" />
+    <ClInclude Include="src\Interface\ITopology.h" />
+    <ClInclude Include="src\Interface\IVertexShaderInputLayout.h" />
+    <ClInclude Include="src\Interface\IDepthStencilState.h" />
+    <ClInclude Include="src\Interface\IRenderTargetView.h" />
+    <ClInclude Include="src\Platform\DirectX\DXRGenerator.h" />
+    <ClInclude Include="src\Render\IDRGenerator.h" />
     <ClInclude Include="include\WICTextureLoader.h" />
-    <ClInclude Include="src\Platform\DirectX\DXModel.h" />
-    <ClInclude Include="src\Model\Model.h" />
     <ClInclude Include="include\SimpleMath.h" />
     <ClInclude Include="src\Geometry\Geometry.h" />
     <ClInclude Include="src\RenderType.h" />
@@ -156,8 +168,20 @@
     <ClInclude Include="src\Render\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Platform\DirectX\DXModel.cpp" />
-    <ClCompile Include="src\Model\Model.cpp" />
+    <ClCompile Include="src\Interface\IDraw.cpp" />
+    <ClCompile Include="src\Render\IRenderer.cpp" />
+    <ClCompile Include="src\Interface\IConstBuffer.cpp" />
+    <ClCompile Include="src\Interface\IRasterizerState.cpp" />
+    <ClCompile Include="src\Interface\ISampler.cpp" />
+    <ClCompile Include="src\Interface\IPixelShader.cpp" />
+    <ClCompile Include="src\Interface\IModel.cpp" />
+    <ClCompile Include="src\Interface\IViewPort.cpp" />
+    <ClCompile Include="src\Interface\ITopology.cpp" />
+    <ClCompile Include="src\Interface\IVertexShaderInputLayout.cpp" />
+    <ClCompile Include="src\Interface\IDepthStencilState.cpp" />
+    <ClCompile Include="src\Interface\IRenderTargetView.cpp" />
+    <ClCompile Include="src\Platform\DirectX\DXRGenerator.cpp" />
+    <ClCompile Include="src\Render\IDRGenerator.cpp" />
     <ClCompile Include="include\SimpleMath.cpp" />
     <ClCompile Include="src\Geometry\Geometry.cpp" />
     <ClCompile Include="src\Render\RenderDevice.cpp" />
