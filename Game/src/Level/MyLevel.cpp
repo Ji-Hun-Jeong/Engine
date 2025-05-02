@@ -4,8 +4,8 @@
 
 namespace Game
 {
-	MyLevel::MyLevel(Graphics::RenderDevice* _RenderDevice)
-		: Level(_RenderDevice)
+	MyLevel::MyLevel()
+		: Level()
 	{
 
 	}
@@ -17,7 +17,7 @@ namespace Game
 	void MyLevel::InitLevel()
 	{
 		Super::InitLevel();
-		AddActor(new Player("Test", RenderDevice));
+		AddActor(new Player("Test"));
 	}
 
 	void MyLevel::EnterLevel()

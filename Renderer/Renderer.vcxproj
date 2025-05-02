@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Counter.h" />
+    <ClInclude Include="include\RefCounter.h" />
     <ClInclude Include="src\Interface\IDraw.h" />
     <ClInclude Include="src\Render\IRenderer.h" />
     <ClInclude Include="src\Interface\IConstBuffer.h" />
@@ -158,16 +160,11 @@
     <ClInclude Include="include\SimpleMath.h" />
     <ClInclude Include="src\Geometry\Geometry.h" />
     <ClInclude Include="src\RenderType.h" />
-    <ClInclude Include="src\Render\RenderDevice.h" />
-    <ClInclude Include="src\Render\RenderContext.h" />
-    <ClInclude Include="src\Platform\DirectX\DXDevice.h" />
-    <ClInclude Include="src\Platform\DirectX\DXContext.h" />
     <ClInclude Include="src\Platform\DirectX\DX.h" />
-    <ClInclude Include="src\Platform\DirectX\DXResources.h" />
     <ClInclude Include="src\pch.h" />
-    <ClInclude Include="src\Render\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Counter.cpp" />
     <ClCompile Include="src\Interface\IDraw.cpp" />
     <ClCompile Include="src\Render\IRenderer.cpp" />
     <ClCompile Include="src\Interface\IConstBuffer.cpp" />
@@ -184,16 +181,10 @@
     <ClCompile Include="src\Render\IDRGenerator.cpp" />
     <ClCompile Include="include\SimpleMath.cpp" />
     <ClCompile Include="src\Geometry\Geometry.cpp" />
-    <ClCompile Include="src\Render\RenderDevice.cpp" />
-    <ClCompile Include="src\Render\RenderContext.cpp" />
-    <ClCompile Include="src\Platform\DirectX\DXDevice.cpp" />
-    <ClCompile Include="src\Platform\DirectX\DXContext.cpp" />
-    <ClCompile Include="src\Platform\DirectX\DXResources.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Render\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\SimpleMath.inl" />

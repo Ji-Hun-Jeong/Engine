@@ -6,8 +6,6 @@
 #include <Engine/src/Time/Time.h>
 #include <Engine/src/Input/Input.h>
 #include <Engine/src/Path/Path.h>
-#include <Renderer/src/Platform/DirectX/DXContext.h>
-#include <Renderer/src/Platform/DirectX/DXDevice.h>
 #include <System/src/Core/Window.h>
 
 namespace Game
@@ -15,21 +13,16 @@ namespace Game
 	GameWorld::GameWorld(UINT _ScreenWidth, UINT _ScreenHeight)
 		: Super(_ScreenWidth, _ScreenHeight)
 		, CurrentLevel(nullptr)
-		, RenderDevice(nullptr)
-		, RenderContext(nullptr)
-		/*, RenderDevice(new Graphics::DX::DXDevice(AppWindow->GetWindowHandle()))
-		, RenderContext(RenderDevice->Initalize())*/
+		, RenderResourceGenerator(new Graphics::DX::DXRGenerator(AppWindow->GetWindowHandle()))
 	{
 		
 	}
 
 	GameWorld::~GameWorld()
 	{
-		if (RenderDevice)
-			delete RenderDevice;
-		if (RenderContext)
-			delete RenderContext;
 		Utility::ClearMap(Levels);
+		if (RenderResourceGenerator)
+			delete RenderResourceGenerator;
 	}
 
 	void GameWorld::Init()
@@ -38,11 +31,8 @@ namespace Game
 		Path::Init("Game");
 
 		// AddLevel("Test", new MyLevel(RenderDevice));
-		Graphics::DX::DXRGenerator* Generator = new Graphics::DX::DXRGenerator(AppWindow->GetWindowHandle());
-		AddLevel("Test", new TestLevel(*Generator));
+		AddLevel("Test", new TestLevel(*RenderResourceGenerator));
 		SetCurrentLevel("Test");
-
-		//((Graphics::DX::DXDevice*)RenderDevice)->LoadSRV(Path::GetProjectPath() + "resource/image/Player/Stand/0.png", "Stand1");
 
 		for (auto iter : Levels)
 			iter.second->InitLevel();
@@ -73,7 +63,7 @@ namespace Game
 		//RenderContext->OMSetRenderTargets(1, RenderTargets, eCategoryDSV::BackBuffer);
 		//RenderContext->OMSetDepthStencilState(eCategoryDSS::Basic, 0);
 		
-		CurrentLevel->Render(RenderContext);
+		CurrentLevel->Render();
 		
 		//RenderContext->Present();
 	}

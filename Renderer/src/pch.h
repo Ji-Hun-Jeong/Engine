@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include "Renderer/include/SimpleMath.h"
 #include "Renderer/include/RefPtr.h"
+#include "Renderer/include/RefCounter.h"
 
 #include <System/src/pch.h>
 

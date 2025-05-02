@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IViewPort
+	class IViewPort : public RefCounter
 	{
 	public:
 		IViewPort() = default;
@@ -40,7 +40,7 @@ namespace Graphics
 
 		private:
 			std::vector<D3D11_VIEWPORT> ViewPorts;
-			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<ID3D11DeviceContext>& Context;
 		};
 	}
 

@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IDraw
+	class IDraw : public RefCounter
 	{
 	public:
 		IDraw() {}
@@ -42,8 +42,8 @@ namespace Graphics
 			}
 		private:
 			
-			ComPtr<ID3D11DeviceContext> Context;
-			ComPtr<IDXGISwapChain> SwapChain;
+			ComPtr<ID3D11DeviceContext>& Context;
+			ComPtr<IDXGISwapChain>& SwapChain;
 		};
 	}
 }

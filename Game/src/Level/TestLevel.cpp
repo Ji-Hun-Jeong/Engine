@@ -4,16 +4,18 @@
 
 namespace Game
 {
-	TestLevel::TestLevel(Graphics::DX::DXRGenerator& _Generator)
-		: Level(nullptr)
+	TestLevel::TestLevel(Graphics::IDRGenerator& _Generator)
+		: Level()
 		, Generator(_Generator)
-		, GraphicProcess(new Graphics::BasicRenderProcess(Generator))
+		, GraphicProcess(*new Graphics::BasicRenderProcess(Generator))
 	{
 
 	}
 
 	TestLevel::~TestLevel()
 	{
+		if (&GraphicProcess)
+			delete &GraphicProcess;
 	}
 
 	void TestLevel::InitLevel()
@@ -36,9 +38,9 @@ namespace Game
 	{
 		Super::ExitLevel();
 	}
-	void TestLevel::Render(Graphics::RenderContext* _RenderContext)
+	void TestLevel::Render()
 	{
-		GraphicProcess->UpdateGPUBuffer();
-		GraphicProcess->RenderProcess();
+		GraphicProcess.UpdateGPUBuffer();
+		GraphicProcess.RenderProcess();
 	}
 }

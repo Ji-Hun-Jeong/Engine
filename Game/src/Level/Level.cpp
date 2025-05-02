@@ -3,8 +3,7 @@
 
 namespace Game
 {
-	Level::Level(Graphics::RenderDevice* _RenderDevice)
-		: RenderDevice(_RenderDevice)
+	Level::Level()
 	{
 	}
 
@@ -31,10 +30,10 @@ namespace Game
 			iter->second->Update();
 	}
 
-	void Level::Render(Graphics::RenderContext* _RenderContext)
+	void Level::Render()
 	{
-		for (auto iter = Actors.begin(); iter != Actors.end(); ++iter)
-			iter->second->Render(_RenderContext);
+		/*for (auto iter = Actors.begin(); iter != Actors.end(); ++iter)
+			iter->second->Render(_RenderContext);*/
 	}
 
 	void Level::ExitLevel()

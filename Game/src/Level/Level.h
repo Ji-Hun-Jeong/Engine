@@ -11,7 +11,7 @@ namespace Game
 	class Level
 	{
 	public:
-		explicit Level(Graphics::RenderDevice* _RenderDevice);
+		explicit Level();
 		virtual ~Level() = 0;
 
 	public:
@@ -19,7 +19,7 @@ namespace Game
 		virtual void EnterLevel();
 		virtual void Update();
 		virtual void ExitLevel();
-		virtual void Render(Graphics::RenderContext* _RenderContext);
+		virtual void Render();
 		
 		void AddObject(Object* _Object);
 		void AddActor(Actor* _Actor);
@@ -27,7 +27,5 @@ namespace Game
 	protected:
 		std::map<Str::FString, Object*> Objects;
 		std::map<Str::FString, Actor*> Actors;
-
-		Graphics::RenderDevice* RenderDevice;
 	};
 }

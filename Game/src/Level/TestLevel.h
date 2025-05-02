@@ -8,7 +8,7 @@ namespace Game
 	{
 		using Super = Level;
 	public:
-		explicit TestLevel(Graphics::DX::DXRGenerator& _Generator);
+		explicit TestLevel(Graphics::IDRGenerator& _Generator);
 		~TestLevel();
 
 	public:
@@ -16,11 +16,11 @@ namespace Game
 		void EnterLevel() override;
 		void Update() override;
 		void ExitLevel() override;
-		void Render(Graphics::RenderContext* _RenderContext) override;
+		void Render() override;
 
 	private:
-		Graphics::DX::DXRGenerator& Generator;
-		Graphics::IGraphicProcess* GraphicProcess;
+		Graphics::IDRGenerator& Generator;
+		Graphics::IGraphicProcess& GraphicProcess;
 	};
 }
 

@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IModel
+	class IModel : public RefCounter
 	{
 	public:
 		IModel() = default;
@@ -69,7 +69,7 @@ namespace Graphics
 			UINT Offset;
 			UINT IndexCount;
 
-			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<ID3D11DeviceContext>& Context;
 		};
 	}
 

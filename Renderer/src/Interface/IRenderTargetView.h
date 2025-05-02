@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IRenderTargetView
+	class IRenderTargetView : public RefCounter
 	{
 	public:
 		IRenderTargetView() = default;
@@ -62,7 +62,8 @@ namespace Graphics
 		private:
 			std::vector<ID3D11RenderTargetView*> RenderTargetViews;
 			ID3D11DepthStencilView* DepthStencilView;
-			ComPtr<ID3D11DeviceContext> Context;
+
+			ComPtr<ID3D11DeviceContext>& Context;
 		};
 	}
 	

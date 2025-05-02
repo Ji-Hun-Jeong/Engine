@@ -23,7 +23,7 @@ namespace Graphics
 		eInputClass InputClass;
 	};
 
-	class IVertexShader
+	class IVertexShader : public RefCounter
 	{
 	public:
 		IVertexShader() = default;
@@ -70,7 +70,7 @@ namespace Graphics
 		private:
 			ID3D11VertexShader* VertexShader;
 			ID3D11InputLayout* InputLayout;
-			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<ID3D11DeviceContext>& Context;
 		};
 	}
 

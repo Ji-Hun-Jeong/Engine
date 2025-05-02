@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IDepthStencilState
+	class IDepthStencilState : public RefCounter
 	{
 	public:
 		IDepthStencilState() {}
@@ -41,7 +41,7 @@ namespace Graphics
 
 		private:
 			ID3D11DepthStencilState* DepthStencilState;
-			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<ID3D11DeviceContext>& Context;
 
 		};
 	}

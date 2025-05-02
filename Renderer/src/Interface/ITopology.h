@@ -7,7 +7,7 @@ namespace Graphics
 	{
 		Triangle, End,
 	};
-	class ITopology
+	class ITopology : public RefCounter
 	{
 	public:
 		ITopology() = default;
@@ -41,7 +41,7 @@ namespace Graphics
 
 		private:
 			D3D11_PRIMITIVE_TOPOLOGY Topology;
-			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<ID3D11DeviceContext>& Context;
 		};
 	}
 

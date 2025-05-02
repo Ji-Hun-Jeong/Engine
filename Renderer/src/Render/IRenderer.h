@@ -8,7 +8,10 @@ namespace Graphics
 	{
 	public:
 		IGraphicProcess() = default;
-		virtual ~IGraphicProcess() = default;
+		virtual ~IGraphicProcess()
+		{
+
+		}
 
 	public:
 		void UpdateGPUBuffer()
@@ -16,26 +19,27 @@ namespace Graphics
 			for (auto& ConstBuffer : ConstBuffers)
 				ConstBuffer->UpdateBuffer();
 		}
-		void AddModel(std::shared_ptr<IModel>& _Model)
+		void AddModel(RefCounterPtr<IModel>& _Model)
 		{
 			Models.push_back(_Model);
 		}
-		void AddConstBuffer(std::shared_ptr<IConstBuffer>& _Buffer)
+		void AddConstBuffer(RefCounterPtr<IConstBuffer>& _Buffer)
 		{
 			ConstBuffers.push_back(_Buffer);
 		}
 		virtual void RenderProcess() = 0;
 
 	protected:
-		std::vector<std::shared_ptr<IModel>> Models;
-		std::vector<std::shared_ptr<IConstBuffer>> ConstBuffers;
+		// Interface객체 참조카운트 관리할 수 있는 부모 클래스 만들기
+		std::vector<RefCounterPtr<IModel>> Models;
+		std::vector<RefCounterPtr<IConstBuffer>> ConstBuffers;
 
 	};
 
 	class BasicRenderProcess : public IGraphicProcess
 	{
 	public:
-		BasicRenderProcess(DX::DXRGenerator& _Generator)
+		BasicRenderProcess(Graphics::IDRGenerator& _Generator)
 			: Generator(_Generator)
 		{
 			RenderTargetView = Generator.GenerateMainRenderTargetView();
@@ -102,15 +106,15 @@ namespace Graphics
 		}
 
 	private:
-		DX::DXRGenerator& Generator;
-		std::shared_ptr<IRenderTargetView> RenderTargetView;
-		std::shared_ptr<IDepthStencilState> DepthStencilState;
-		std::shared_ptr<IRasterizerState> RasterizerState;
-		std::shared_ptr<IVertexShader> VertexShader;
-		std::shared_ptr<IPixelShader> PixelShader;
-		std::shared_ptr<ITopology> Topology;
-		std::shared_ptr<IViewPort> ViewPort;
-		std::shared_ptr<IDraw> Drawer;
+		Graphics::IDRGenerator& Generator;
+		RefCounterPtr<IRenderTargetView> RenderTargetView;
+		RefCounterPtr<IDepthStencilState> DepthStencilState;
+		RefCounterPtr<IRasterizerState> RasterizerState;
+		RefCounterPtr<IVertexShader> VertexShader;
+		RefCounterPtr<IPixelShader> PixelShader;
+		RefCounterPtr<ITopology> Topology;
+		RefCounterPtr<IViewPort> ViewPort;
+		RefCounterPtr<IDraw> Drawer;
 	};
 }
 

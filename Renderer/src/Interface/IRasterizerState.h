@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IRasterizerState
+	class IRasterizerState : public RefCounter
 	{
 	public:
 		IRasterizerState() = default;
@@ -41,7 +41,7 @@ namespace Graphics
 
 		private:
 			ID3D11RasterizerState* RasterizerState;
-			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<ID3D11DeviceContext>& Context;
 		};
 	}
 

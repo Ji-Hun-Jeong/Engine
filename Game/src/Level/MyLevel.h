@@ -7,7 +7,7 @@ namespace Game
 	{
 		using Super = Level;
 	public:
-		explicit MyLevel(Graphics::RenderDevice* _RenderDevice);
+		explicit MyLevel();
 		~MyLevel();
 
 	public:

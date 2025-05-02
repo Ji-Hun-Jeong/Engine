@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IPixelShader
+	class IPixelShader : public RefCounter
 	{
 	public:
 		IPixelShader() = default;
@@ -41,7 +41,7 @@ namespace Graphics
 
 		private:
 			ID3D11PixelShader* PixelShader;
-			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<ID3D11DeviceContext>& Context;
 		};
 	}
 

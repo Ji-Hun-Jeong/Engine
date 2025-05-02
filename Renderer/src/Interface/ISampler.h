@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class ISampler
+	class ISampler : public RefCounter
 	{
 	public:
 		ISampler() = default;
@@ -50,7 +50,7 @@ namespace Graphics
 
 		private:
 			std::vector<ID3D11SamplerState*> Samplers;
-			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<ID3D11DeviceContext>& Context;
 		};
 	}
 

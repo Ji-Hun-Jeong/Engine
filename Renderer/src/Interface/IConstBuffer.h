@@ -8,7 +8,7 @@ namespace Graphics
 		void* Data;
 		UINT Size;
 	};
-	class IConstBuffer
+	class IConstBuffer : public RefCounter
 	{
 	public:
 		IConstBuffer() = default;
@@ -45,6 +45,9 @@ namespace Graphics
 			{
 				for (auto Buffer : Buffers)
 					Buffer->Release();
+				for (auto CpuConstData : CpuData)
+					if (CpuConstData)
+						delete CpuConstData;
 			}
 
 		public:
@@ -72,7 +75,7 @@ namespace Graphics
 			std::vector<ID3D11Buffer*> Buffers;
 			std::vector<CpuConstData*> CpuData;
 
-			ComPtr<ID3D11DeviceContext> Context;
+			ComPtr<ID3D11DeviceContext>& Context;
 		};
 	}
 

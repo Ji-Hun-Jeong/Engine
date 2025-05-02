@@ -3,10 +3,8 @@
 
 namespace Graphics
 {
-	class RenderDevice;
-	class RenderContext;
+	class IDRGenerator;
 }
-
 namespace Game
 {
 	class GameWorld : public System::Application
@@ -29,8 +27,7 @@ namespace Game
 		std::map<Str::FString, class Level*> Levels;
 		class Level* CurrentLevel;
 
-		Graphics::RenderDevice* RenderDevice;
-		Graphics::RenderContext* RenderContext;
+		Graphics::IDRGenerator* RenderResourceGenerator;
 	};
 }
 

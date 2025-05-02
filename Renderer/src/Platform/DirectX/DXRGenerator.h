@@ -15,7 +15,7 @@ namespace Graphics
 			~DXRGenerator() = default;
 
 		public:
-			std::shared_ptr<IRenderTargetView> GenerateMainRenderTargetView()
+			RefCounterPtr<IRenderTargetView> GenerateMainRenderTargetView() override
 			{
 				ID3D11Texture2D* Buffer;
 				HRESULT hr = SwapChain->GetBuffer(0, IID_PPV_ARGS(&Buffer));
@@ -48,10 +48,10 @@ namespace Graphics
 				Buffer->Release();
 
 				std::vector<ComPtr<ID3D11RenderTargetView>> RenderTargetViews{ RenderTargetView };
-				return std::make_shared<DXRenderTargetView>(Context, RenderTargetViews, DepthStencilView);
+				return MakeRefCounter<DXRenderTargetView>(Context, RenderTargetViews, DepthStencilView);
 			}
 
-			std::shared_ptr<IViewPort> GenerateMainViewPort()
+			RefCounterPtr<IViewPort> GenerateMainViewPort() override
 			{
 				D3D11_VIEWPORT ViewPort;
 				ZeroMemory(&ViewPort, sizeof(D3D11_VIEWPORT));
@@ -62,11 +62,11 @@ namespace Graphics
 				ViewPort.MinDepth = 0.0f;
 				ViewPort.MaxDepth = 1.0f;
 				std::vector<D3D11_VIEWPORT> ViewPorts{ ViewPort };
-				return std::make_shared<DXViewPort>(Context, ViewPorts);
+				return MakeRefCounter<DXViewPort>(Context, ViewPorts);
 			}
 
-			std::shared_ptr<IModel> GenerateModel(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
-				, void* _IndexData, size_t _IndexSize, size_t _NumOfIndex)
+			RefCounterPtr<IModel> GenerateModel(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
+				, void* _IndexData, size_t _IndexSize, size_t _NumOfIndex) override
 			{
 				D3D11_BUFFER_DESC BufferDesc;
 				ZeroMemory(&BufferDesc, sizeof(BufferDesc));
@@ -119,10 +119,11 @@ namespace Graphics
 				}
 
 				std::vector<ComPtr<ID3D11Buffer>> VertexBuffers{ VertexBuffer };
-				return std::make_shared<DXModel>(Context, VertexBuffers, IndexBuffer, Format, _VertexSize, 0, _NumOfIndex);
+				return MakeRefCounter<DXModel>(Context, VertexBuffers, IndexBuffer, Format, _VertexSize, 0, _NumOfIndex);
 			}
 
-			std::shared_ptr<IVertexShader> GenerateVertexShaderAndInputLayout(const Str::FString& _Path, const std::vector<InputElementDesc>& _InputElements)
+			RefCounterPtr<IVertexShader> GenerateVertexShaderAndInputLayout(const Str::FString& _Path
+				, const std::vector<InputElementDesc>& _InputElements) override
 			{
 				ComPtr<ID3DBlob> shaderBlob;
 				ComPtr<ID3DBlob> errorBlob;
@@ -186,10 +187,10 @@ namespace Graphics
 					shaderBlob->GetBufferSize(), InputLayout.GetAddressOf());
 				if (FAILED(hr))	assert(0);
 
-				return std::make_shared<DXVertexShader>(Context, VertexShader, InputLayout);
+				return MakeRefCounter<DXVertexShader>(Context, VertexShader, InputLayout);
 			}
 
-			std::shared_ptr<IPixelShader> GeneratePixelShader(const Str::FString& _Path)
+			RefCounterPtr<IPixelShader> GeneratePixelShader(const Str::FString& _Path) override
 			{
 				ComPtr<ID3DBlob> shaderBlob;
 				ComPtr<ID3DBlob> errorBlob;
@@ -209,10 +210,10 @@ namespace Graphics
 					shaderBlob->GetBufferSize(), NULL,
 					PixelShader.GetAddressOf());
 				if (FAILED(hr))	assert(0);
-				return std::make_shared<DXPixelShader>(Context, PixelShader);
+				return MakeRefCounter<DXPixelShader>(Context, PixelShader);
 			}
 
-			std::shared_ptr<ISampler> GenerateLinearSampler()
+			RefCounterPtr<ISampler> GenerateLinearSampler() override
 			{
 				D3D11_SAMPLER_DESC sampDesc;
 				ZeroMemory(&sampDesc, sizeof(sampDesc));
@@ -230,10 +231,10 @@ namespace Graphics
 					assert(0);
 
 				std::vector<ComPtr<ID3D11SamplerState>> Samplers{ SamplerState };
-				return std::make_shared<DXSampler>(Context, Samplers);
+				return MakeRefCounter<DXSampler>(Context, Samplers);
 			}
 
-			std::shared_ptr<IRasterizerState> GenerateSolidCWState()
+			RefCounterPtr<IRasterizerState> GenerateSolidCWState() override
 			{
 				D3D11_RASTERIZER_DESC RDesc;
 				ZeroMemory(&RDesc, sizeof(RDesc));
@@ -247,10 +248,10 @@ namespace Graphics
 				HRESULT hr = Device->CreateRasterizerState(&RDesc, RasterizerState.GetAddressOf());
 				if (FAILED(hr)) assert(0);
 
-				return std::make_shared<DXRasterizerState>(Context, RasterizerState);
+				return MakeRefCounter<DXRasterizerState>(Context, RasterizerState);
 			}
 
-			std::shared_ptr<IDepthStencilState> GenerateBasicDepthStencilState()
+			RefCounterPtr<IDepthStencilState> GenerateBasicDepthStencilState() override
 			{
 				D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 				ZeroMemory(&depthStencilDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
@@ -264,10 +265,10 @@ namespace Graphics
 				HRESULT hr = Device->CreateDepthStencilState(&depthStencilDesc, DepthStencilState.GetAddressOf());
 				if (FAILED(hr)) assert(0);
 
-				return std::make_shared<DXDepthStencilState>(Context, DepthStencilState);
+				return MakeRefCounter<DXDepthStencilState>(Context, DepthStencilState);
 			}
 
-			std::shared_ptr<IConstBuffer> GenerateConstBuffer(const std::vector<CpuConstData*>& _CpuData)
+			RefCounterPtr<IConstBuffer> GenerateConstBuffer(const std::vector<CpuConstData*>& _CpuData) override
 			{
 				std::vector<ComPtr<ID3D11Buffer>> Buffers;
 				
@@ -287,10 +288,10 @@ namespace Graphics
 					if (FAILED(hr)) assert(0);
 					Buffers.push_back(Buffer);
 				}
-				return std::make_shared<DXConstBuffer>(Context, Buffers, _CpuData);
+				return MakeRefCounter<DXConstBuffer>(Context, Buffers, _CpuData);
 			}
 
-			std::shared_ptr<ITopology> GenerateTopology(eTopology _Topology)
+			RefCounterPtr<ITopology> GenerateTopology(eTopology _Topology) override
 			{
 				D3D11_PRIMITIVE_TOPOLOGY Topology;
 				switch (_Topology)
@@ -301,12 +302,12 @@ namespace Graphics
 				default:
 					return nullptr;
 				}
-				return std::make_shared<DXTopology>(Context, Topology);
+				return MakeRefCounter<DXTopology>(Context, Topology);
 			}
 
-			std::shared_ptr<IDraw> GenerateDrawer()
+			RefCounterPtr<IDraw> GenerateDrawer() override
 			{
-				return std::make_shared<DXDraw>(Context, SwapChain);
+				return MakeRefCounter<DXDraw>(Context, SwapChain);
 			}
 		private:
 			ComPtr<ID3D11Device> Device;

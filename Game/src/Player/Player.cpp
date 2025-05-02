@@ -1,8 +1,5 @@
 #include "pch.h"
 #include "Player.h"
-
-#include <Renderer/src/Render/Renderer.h>
-#include <Renderer/src/Render/RenderContext.h>
 #include <Renderer/src/Geometry/Geometry.h>
 
 #include "Component/KeyInput/KeyInput.h"
@@ -12,7 +9,7 @@
 
 namespace Game
 {
-	Player::Player(const Str::FString& _Name, Graphics::RenderDevice* _RenderDevice)
+	Player::Player(const Str::FString& _Name)
 		: Super(_Name)
 		, KeyInput(new Game::KeyInput)
 		, ActionController(new PlayerActionController)
@@ -25,9 +22,9 @@ namespace Game
 		DrawIndexCount = static_cast<UINT>(Md.Indices.size());
 
 		auto Vertices = Md.Vertices;
-		_RenderDevice->MakeGeometryBuffers(Name, Vertices.data(), sizeof(ColorVertex), Vertices.size(), Md.Indices);
+		/*_RenderDevice->MakeGeometryBuffers(Name, Vertices.data(), sizeof(ColorVertex), Vertices.size(), Md.Indices);
 
-		_RenderDevice->MakeVSConstBuffer(Name, eCategoryVSConst::Basic, sizeof(Constant));
+		_RenderDevice->MakeVSConstBuffer(Name, eCategoryVSConst::Basic, sizeof(Constant));*/
 
 		Transform = new Game::Transform;
 
@@ -89,12 +86,6 @@ namespace Game
 	void Player::Destory()
 	{
 		Super::Destory();
-	}
-
-	void Player::Render(Graphics::RenderContext* _RenderContext)
-	{
-		_RenderContext->UpdateVSConstBuffer(Name, eCategoryVSConst::Basic, &Constant, sizeof(Constant));
-		Renderer->ColorRender(_RenderContext, Name, DrawIndexCount);
 	}
 
 	void Player::BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState
