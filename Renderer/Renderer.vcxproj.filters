@@ -78,10 +78,10 @@
     <ClInclude Include="src\Interface\IDraw.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Counter.h">
+    <ClInclude Include="include\RefCounter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\RefCounter.h">
+    <ClInclude Include="src\Render\ModelRegistry.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -137,7 +137,7 @@
     <ClCompile Include="src\Interface\IDraw.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Counter.cpp">
+    <ClCompile Include="src\Render\ModelRegistry.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

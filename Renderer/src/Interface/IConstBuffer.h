@@ -30,7 +30,7 @@ namespace Graphics
 		{
 		public:
 			DXConstBuffer(ComPtr<ID3D11DeviceContext>& _Context, const std::vector<ComPtr<ID3D11Buffer>>& _Buffers
-				, const std::vector<CpuConstData*>& _CpuData)
+				, const std::vector<CpuConstData>& _CpuData)
 				: Context(_Context)
 				, Buffers{}
 				, CpuData(_CpuData)
@@ -45,9 +45,6 @@ namespace Graphics
 			{
 				for (auto Buffer : Buffers)
 					Buffer->Release();
-				for (auto CpuConstData : CpuData)
-					if (CpuConstData)
-						delete CpuConstData;
 			}
 
 		public:
@@ -65,15 +62,16 @@ namespace Graphics
 				ZeroMemory(&Ms, sizeof(Ms));
 				for (size_t i = 0; i < Buffers.size(); ++i)
 				{
+					Matrix* m = (Matrix*)CpuData[i].Data;
 					Context->Map(Buffers[i], 0, D3D11_MAP_WRITE_DISCARD, 0, &Ms);
-					memcpy(Ms.pData, CpuData[i]->Data, CpuData[i]->Size);
+					memcpy(Ms.pData, CpuData[i].Data, CpuData[i].Size);
 					Context->Unmap(Buffers[i], 0);
 				}
 			}
 
 		private:
 			std::vector<ID3D11Buffer*> Buffers;
-			std::vector<CpuConstData*> CpuData;
+			std::vector<CpuConstData> CpuData;
 
 			ComPtr<ID3D11DeviceContext>& Context;
 		};

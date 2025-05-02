@@ -5,7 +5,6 @@ namespace Graphics
 {
 	namespace Geometry
 	{
-
 		RENDERER_API ColorMeshData GenerateColorTriangle()
 		{
 			ColorMeshData ReturnData;

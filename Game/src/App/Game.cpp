@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Game.h"
 #include "Level/MyLevel.h"
-#include "Level/TestLevel.h"
 
+#include <Renderer/src/Platform/DirectX/DXRGenerator.h>
 #include <Engine/src/Time/Time.h>
 #include <Engine/src/Input/Input.h>
 #include <Engine/src/Path/Path.h>
@@ -30,8 +30,7 @@ namespace Game
 		Time::Init();
 		Path::Init("Game");
 
-		// AddLevel("Test", new MyLevel(RenderDevice));
-		AddLevel("Test", new TestLevel(*RenderResourceGenerator));
+		AddLevel("Test", new MyLevel(*RenderResourceGenerator));
 		SetCurrentLevel("Test");
 
 		for (auto iter : Levels)
@@ -55,17 +54,7 @@ namespace Game
 
 	void GameWorld::Render()
 	{
-		//static const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
-		//RenderContext->ClearRenderTargetView(eCategoryRTV::BackBuffer, ClearColor);
-		//RenderContext->ClearDepthStencilView(eCategoryDSV::BackBuffer, D3D11_CLEAR_DEPTH, 1.0f, 0);
-		//
-		//eCategoryRTV RenderTargets[1] = { eCategoryRTV::BackBuffer };
-		//RenderContext->OMSetRenderTargets(1, RenderTargets, eCategoryDSV::BackBuffer);
-		//RenderContext->OMSetDepthStencilState(eCategoryDSS::Basic, 0);
-		
 		CurrentLevel->Render();
-		
-		//RenderContext->Present();
 	}
 
 	void GameWorld::ShutDown()

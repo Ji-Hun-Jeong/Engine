@@ -1,14 +1,13 @@
 #pragma once
+#include "Renderer/src/Render/ModelRegistry.h"
 #include "Renderer/src/Platform/DirectX/DX.h"
 #include "Renderer/src/Interface/IRenderTargetView.h"
 #include "Renderer/src/Interface/IViewPort.h"
-#include "Renderer/src/Interface/IModel.h"
 #include "Renderer/src/Interface/IVertexShaderInputLayout.h"
 #include "Renderer/src/Interface/IPixelShader.h"
 #include "Renderer/src/Interface/ISampler.h"
 #include "Renderer/src/Interface/IRasterizerState.h"
 #include "Renderer/src/Interface/IDepthStencilState.h"
-#include "Renderer/src/Interface/IConstBuffer.h"
 #include "Renderer/src/Interface/ITopology.h"
 #include "Renderer/src/Interface/IDraw.h"
 
@@ -53,10 +52,11 @@ namespace Graphics
 		virtual RefCounterPtr<ISampler> GenerateLinearSampler() = 0;
 		virtual RefCounterPtr<IRasterizerState> GenerateSolidCWState() = 0;
 		virtual RefCounterPtr<IDepthStencilState> GenerateBasicDepthStencilState() = 0;
-		virtual RefCounterPtr<IConstBuffer> GenerateConstBuffer(const std::vector<CpuConstData*>& _CpuData) = 0;
+		virtual RefCounterPtr<IConstBuffer> GenerateConstBuffer(const std::vector<CpuConstData>& _CpuData) = 0;
 		virtual RefCounterPtr<ITopology> GenerateTopology(eTopology _Topology) = 0;
 		virtual RefCounterPtr<IDraw> GenerateDrawer() = 0;
 		
+		ModelRegistry& GetRegistry() { return ModelRegistry; }
 		/*void LoadSRV(const Str::FString& _Path, const Str::FString& _ImageName) override
 		{
 			if (Resource.Images.find(_ImageName) != Resource.Images.end())
@@ -77,6 +77,7 @@ namespace Graphics
 		UINT ScreenWidth;
 		UINT ScreenHeight;
 
+		ModelRegistry ModelRegistry;
 	};
 
 }

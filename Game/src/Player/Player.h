@@ -14,7 +14,7 @@ namespace Game
 		using Super = Actor;
 		CLONE(Player, Actor)
 	public:
-		Player(const Str::FString& _Name);
+		Player(const Str::FString& _Name, Graphics::IDRGenerator& _Generator);
 		Player(const Player& _Other);
 		Player(Player&& _Other) = delete;
 		Player& operator = (const Player& _Other) = delete;
@@ -42,7 +42,7 @@ namespace Game
 		void addSkill();
 
 	private:
-		PlayerConst Constant;
+		PlayerConst ActorCpuConstant;
 
 		class KeyInput* KeyInput;
 		class ActionController* ActionController;

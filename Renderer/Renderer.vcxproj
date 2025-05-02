@@ -139,8 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Counter.h" />
     <ClInclude Include="include\RefCounter.h" />
+    <ClInclude Include="src\Render\ModelRegistry.h" />
     <ClInclude Include="src\Interface\IDraw.h" />
     <ClInclude Include="src\Render\IRenderer.h" />
     <ClInclude Include="src\Interface\IConstBuffer.h" />
@@ -164,7 +164,7 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Counter.cpp" />
+    <ClCompile Include="src\Render\ModelRegistry.cpp" />
     <ClCompile Include="src\Interface\IDraw.cpp" />
     <ClCompile Include="src\Render\IRenderer.cpp" />
     <ClCompile Include="src\Interface\IConstBuffer.cpp" />

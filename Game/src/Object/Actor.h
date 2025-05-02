@@ -3,6 +3,10 @@
 #include <Engine/src/Input/Input.h>
 #include <Engine/src/Time/Time.h>
 
+namespace Graphics
+{
+	class IDRGenerator;
+}
 namespace Game
 {
     class Actor : public Object
@@ -22,7 +26,7 @@ namespace Game
 		virtual void Destory() override;
 
 	protected:
-		UINT DrawIndexCount;
+		
 
     };
 }

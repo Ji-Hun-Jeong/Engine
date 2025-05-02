@@ -35,7 +35,7 @@ namespace Game
 		Vector3 Position;
 		Vector3 Rotation;
 		Vector3 Scale;
-		
+
 	};
 }
 

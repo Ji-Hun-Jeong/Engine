@@ -1,5 +1,5 @@
 #pragma once
-#include "Renderer/src/Platform/DirectX/DXRGenerator.h"
+#include "Renderer/src/Render/IDRGenerator.h"
 #include "Renderer/src/Geometry/Geometry.h"
 
 namespace Graphics
@@ -7,7 +7,9 @@ namespace Graphics
 	class IGraphicProcess
 	{
 	public:
-		IGraphicProcess() = default;
+		IGraphicProcess(Graphics::IDRGenerator& _Generator)
+			: Generator(_Generator)
+		{}
 		virtual ~IGraphicProcess()
 		{
 
@@ -16,31 +18,36 @@ namespace Graphics
 	public:
 		void UpdateGPUBuffer()
 		{
+			auto& ConstBuffers = Generator.GetRegistry().GetConstBuffers();
 			for (auto& ConstBuffer : ConstBuffers)
 				ConstBuffer->UpdateBuffer();
 		}
-		void AddModel(RefCounterPtr<IModel>& _Model)
+		void RenderModel()
 		{
-			Models.push_back(_Model);
-		}
-		void AddConstBuffer(RefCounterPtr<IConstBuffer>& _Buffer)
-		{
-			ConstBuffers.push_back(_Buffer);
+			auto& Models = Generator.GetRegistry().GetModels();
+			auto& ConstBuffers = Generator.GetRegistry().GetConstBuffers();
+			for (auto ConstBuffer : ConstBuffers)
+				ConstBuffer->VSSetConstBuffers(0);
+			for (auto Model : Models)
+			{
+				Model->IASetBuffer(0);
+				Model->DrawIndexed();
+			}
 		}
 		virtual void RenderProcess() = 0;
 
 	protected:
 		// Interface객체 참조카운트 관리할 수 있는 부모 클래스 만들기
-		std::vector<RefCounterPtr<IModel>> Models;
-		std::vector<RefCounterPtr<IConstBuffer>> ConstBuffers;
+		Graphics::IDRGenerator& Generator;
 
 	};
 
 	class BasicRenderProcess : public IGraphicProcess
 	{
+		using Super = IGraphicProcess;
 	public:
 		BasicRenderProcess(Graphics::IDRGenerator& _Generator)
-			: Generator(_Generator)
+			: Super(_Generator)
 		{
 			RenderTargetView = Generator.GenerateMainRenderTargetView();
 			DepthStencilState = Generator.GenerateBasicDepthStencilState();
@@ -55,20 +62,6 @@ namespace Graphics
 			PixelShader = Generator.GeneratePixelShader("./Renderer/resource/Shader/ColorPS.hlsl");
 			Topology = Generator.GenerateTopology(eTopology::Triangle);
 			ViewPort = Generator.GenerateMainViewPort();
-			auto MeshData = Geometry::GenerateColorTriangle();
-			auto Model = Generator.GenerateModel(MeshData.Vertices.data(), sizeof(ColorVertex), MeshData.Vertices.size()
-				, MeshData.Indices.data(), sizeof(uint32_t), MeshData.Indices.size());
-			AddModel(Model);
-
-			using namespace DirectX::SimpleMath;
-			Matrix* Matrix = new DirectX::SimpleMath::Matrix;
-			*Matrix = Matrix::CreateScale(1.0f).Transpose();
-			CpuConstData* Data = new CpuConstData;
-			Data->Data = Matrix;
-			Data->Size = sizeof(*Matrix);
-			const std::vector<CpuConstData*> ConstDatas{ Data };
-			auto Const = Generator.GenerateConstBuffer(ConstDatas);
-			AddConstBuffer(Const);
 
 			Drawer = Generator.GenerateDrawer();
 
@@ -86,27 +79,21 @@ namespace Graphics
 			RenderTargetView->ClearDepthStencilView(D3D11_CLEAR_DEPTH, 1.0f, 0);
 			RenderTargetView->OMSetRenderTargets();
 			DepthStencilState->OMSetDepthStencilState(0);
+
 			Topology->IASetPrimitiveTopology();
 			VertexShader->IASetInputLayout();
-			
+
 			VertexShader->VSSetShader();
 			RasterizerState->RSSetState();
 			ViewPort->RSSetViewPort();
 			PixelShader->PSSetShader();
 
-			for (size_t i = 0; i < Models.size(); ++i)
-			{
-				Models[i]->IASetBuffer(0);
-				ConstBuffers[i]->VSSetConstBuffers(0);
-				Models[i]->DrawIndexed();
-			}
+			Super::RenderModel();
 
 			Drawer->Present();
-
 		}
 
 	private:
-		Graphics::IDRGenerator& Generator;
 		RefCounterPtr<IRenderTargetView> RenderTargetView;
 		RefCounterPtr<IDepthStencilState> DepthStencilState;
 		RefCounterPtr<IRasterizerState> RasterizerState;

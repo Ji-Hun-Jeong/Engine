@@ -2,12 +2,13 @@
 #include "MyLevel.h"
 #include "Player/Player.h"
 
+#include <Renderer/src/Render/IRenderer.h>
 namespace Game
 {
-	MyLevel::MyLevel()
-		: Level()
+	MyLevel::MyLevel(Graphics::IDRGenerator& _Generator)
+		: Level(_Generator)
 	{
-
+		GraphicProcess = new Graphics::BasicRenderProcess(Generator);
 	}
 
 	MyLevel::~MyLevel()
@@ -17,7 +18,7 @@ namespace Game
 	void MyLevel::InitLevel()
 	{
 		Super::InitLevel();
-		AddActor(new Player("Test"));
+		AddActor(new Player("Test", Generator));
 	}
 
 	void MyLevel::EnterLevel()

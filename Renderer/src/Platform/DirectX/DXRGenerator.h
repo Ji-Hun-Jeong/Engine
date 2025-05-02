@@ -119,7 +119,34 @@ namespace Graphics
 				}
 
 				std::vector<ComPtr<ID3D11Buffer>> VertexBuffers{ VertexBuffer };
-				return MakeRefCounter<DXModel>(Context, VertexBuffers, IndexBuffer, Format, _VertexSize, 0, _NumOfIndex);
+				auto Model = MakeRefCounter<DXModel>(Context, VertexBuffers, IndexBuffer, Format, _VertexSize, 0, _NumOfIndex);
+				ModelRegistry.AddModel(Model.Get());
+				return Model;
+			}
+
+			RefCounterPtr<IConstBuffer> GenerateConstBuffer(const std::vector<CpuConstData>& _CpuData) override
+			{
+				std::vector<ComPtr<ID3D11Buffer>> Buffers;
+
+				Buffers.reserve(_CpuData.size());
+				for (size_t i = 0; i < _CpuData.size(); ++i)
+				{
+					D3D11_BUFFER_DESC BufferDesc;
+					ZeroMemory(&BufferDesc, sizeof(BufferDesc));
+					BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+					BufferDesc.ByteWidth = _CpuData[i].Size;
+					BufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+					BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+					BufferDesc.StructureByteStride = 0;
+
+					ComPtr<ID3D11Buffer> Buffer;
+					HRESULT hr = Device->CreateBuffer(&BufferDesc, nullptr, Buffer.GetAddressOf());
+					if (FAILED(hr)) assert(0);
+					Buffers.push_back(Buffer);
+				}
+				auto ConstBuffer = MakeRefCounter<DXConstBuffer>(Context, Buffers, _CpuData);
+				ModelRegistry.AddConstBuffer(ConstBuffer.Get());
+				return ConstBuffer;
 			}
 
 			RefCounterPtr<IVertexShader> GenerateVertexShaderAndInputLayout(const Str::FString& _Path
@@ -266,29 +293,6 @@ namespace Graphics
 				if (FAILED(hr)) assert(0);
 
 				return MakeRefCounter<DXDepthStencilState>(Context, DepthStencilState);
-			}
-
-			RefCounterPtr<IConstBuffer> GenerateConstBuffer(const std::vector<CpuConstData*>& _CpuData) override
-			{
-				std::vector<ComPtr<ID3D11Buffer>> Buffers;
-				
-				Buffers.reserve(_CpuData.size());
-				for (size_t i = 0; i < _CpuData.size(); ++i)
-				{
-					D3D11_BUFFER_DESC BufferDesc;
-					ZeroMemory(&BufferDesc, sizeof(BufferDesc));
-					BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-					BufferDesc.ByteWidth = _CpuData[i]->Size;
-					BufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-					BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-					BufferDesc.StructureByteStride = 0;
-
-					ComPtr<ID3D11Buffer> Buffer;
-					HRESULT hr = Device->CreateBuffer(&BufferDesc, nullptr, Buffer.GetAddressOf());
-					if (FAILED(hr)) assert(0);
-					Buffers.push_back(Buffer);
-				}
-				return MakeRefCounter<DXConstBuffer>(Context, Buffers, _CpuData);
 			}
 
 			RefCounterPtr<ITopology> GenerateTopology(eTopology _Topology) override

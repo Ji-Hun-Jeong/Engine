@@ -7,7 +7,7 @@ namespace Game
 	{
 		using Super = Level;
 	public:
-		explicit MyLevel();
+		explicit MyLevel(Graphics::IDRGenerator& _Generator);
 		~MyLevel();
 
 	public:

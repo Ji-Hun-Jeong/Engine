@@ -3,15 +3,15 @@
 
 namespace Graphics
 {
-	class RenderDevice;
-	class RenderContext;
+	class IDRGenerator;
+	class IGraphicProcess;
 }
 namespace Game
 {
 	class Level
 	{
 	public:
-		explicit Level();
+		explicit Level(Graphics::IDRGenerator& _Generator);
 		virtual ~Level() = 0;
 
 	public:
@@ -19,7 +19,7 @@ namespace Game
 		virtual void EnterLevel();
 		virtual void Update();
 		virtual void ExitLevel();
-		virtual void Render();
+		virtual void Render() final;
 		
 		void AddObject(Object* _Object);
 		void AddActor(Actor* _Actor);
@@ -27,5 +27,8 @@ namespace Game
 	protected:
 		std::map<Str::FString, Object*> Objects;
 		std::map<Str::FString, Actor*> Actors;
+
+		Graphics::IDRGenerator& Generator;
+		Graphics::IGraphicProcess* GraphicProcess;
 	};
 }
