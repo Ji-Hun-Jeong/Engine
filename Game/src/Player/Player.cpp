@@ -8,13 +8,13 @@
 
 namespace Game
 {
-	Player::Player(const Str::FString& _Name, UINT _ModelId)
+	Player::Player(const Str::FString& _Name, PlayerConst* _ActorCpuConstant, UINT _ModelId)
 		: Super(_Name)
+		, ActorCpuConstant(_ActorCpuConstant)
 		, KeyInput(new Game::KeyInput)
 		, ActionController(new PlayerActionController)
 		, SkillManager(new Game::SkillManager)
 		, SkillBundle(new PlayerSkillBundle(this))
-
 	{
 		Transform = new Game::Transform;
 
@@ -44,6 +44,8 @@ namespace Game
 
 	Player::~Player()
 	{
+		if (ActorCpuConstant)
+			delete ActorCpuConstant;
 		if (KeyInput)
 			delete KeyInput;
 		if (ActionController)
@@ -70,7 +72,7 @@ namespace Game
 
 		ActionController->Update();
 
-		ActorCpuConstant.MVP = Transform->GetModel().Transpose();
+		(*ActorCpuConstant).MVP = Transform->GetModel().Transpose();
 	}
 
 	void Player::Destory()

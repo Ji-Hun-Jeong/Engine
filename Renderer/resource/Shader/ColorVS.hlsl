@@ -1,6 +1,6 @@
 #include "Common.hlsli"
 
-cbuffer MeshConst : register(b0)
+cbuffer MeshConst : register(b2)
 {
     matrix MVP;
 }

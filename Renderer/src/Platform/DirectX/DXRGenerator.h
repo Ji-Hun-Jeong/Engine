@@ -65,7 +65,7 @@ namespace Graphics
 				return MakeRefCounter<DXViewPort>(Context, ViewPorts);
 			}
 
-			RefCounterPtr<IModel> GenerateModel(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
+			RefCounterPtr<IMesh> GenerateModel(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
 				, void* _IndexData, size_t _IndexSize, size_t _NumOfIndex) override
 			{
 				D3D11_BUFFER_DESC BufferDesc;

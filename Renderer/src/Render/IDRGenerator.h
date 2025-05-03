@@ -1,6 +1,6 @@
 #pragma once
 #include "Renderer/src/Platform/DirectX/DX.h"
-#include "Renderer/src/Interface/IModel.h"
+#include "Renderer/src/Interface/IMesh.h"
 #include "Renderer/src/Interface/IConstBuffer.h"
 #include "Renderer/src/Interface/IRenderTargetView.h"
 #include "Renderer/src/Interface/IViewPort.h"
@@ -45,7 +45,7 @@ namespace Graphics
 	public:
 		virtual RefCounterPtr<IRenderTargetView> GenerateMainRenderTargetView() = 0;
 		virtual RefCounterPtr<IViewPort> GenerateMainViewPort() = 0;
-		virtual RefCounterPtr<IModel> GenerateModel(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
+		virtual RefCounterPtr<IMesh> GenerateModel(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
 			, void* _IndexData, size_t _IndexSize, size_t _NumOfIndex) = 0;
 		virtual RefCounterPtr<IVertexShader> GenerateVertexShaderAndInputLayout(const Str::FString& _Path
 			, const std::vector<InputElementDesc>& _InputElements) = 0;

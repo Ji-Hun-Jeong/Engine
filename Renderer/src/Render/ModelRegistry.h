@@ -1,7 +1,6 @@
 #pragma once
 #include <list>
-#include "Renderer/src/Interface/IModel.h"
-#include "Renderer/src/Interface/IConstBuffer.h"
+#include "Model.h"
 
 namespace Graphics
 {
@@ -17,32 +16,32 @@ namespace Graphics
 		{
 			for (auto Model : Models)
 				if (Model)
-					Model->Release();
-			for (auto ConstBuffer : ConstBuffers)
+					delete Model;
+			for (auto ConstBuffer : GlobalConstBuffers)
 				if (ConstBuffer)
 					ConstBuffer->Release();
 		}
 
 	public:
-		UINT AddModel(IModel* _Model)
+		UINT AddModel(Model* _Model)
 		{
-			_Model->AddRef();
 			Models.push_back(_Model);
 			return Models.size();
 		}
-		UINT AddConstBuffer(IConstBuffer* _ConstBuffer)
+
+		UINT AddGlobalConstBuffer(IConstBuffer* _GlobalConstBuffer)
 		{
-			_ConstBuffer->AddRef();
-			ConstBuffers.push_back(_ConstBuffer);
-			return ConstBuffers.size();
+			_GlobalConstBuffer->AddRef();
+			GlobalConstBuffers.push_back(_GlobalConstBuffer);
+			return GlobalConstBuffers.size();
 		}
 
-		std::list<IModel*>& GetModels() { return Models; }
-		std::list<IConstBuffer*>& GetConstBuffers() { return ConstBuffers; }
+		std::list<Model*>& GetModels() { return Models; }
+		std::list<IConstBuffer*>& GetGlobalConstBuffers() { return GlobalConstBuffers; }
 
 	private:
-		std::list<IModel*> Models;
-		std::list<IConstBuffer*> ConstBuffers;
+		std::list<Model*> Models;
+		std::list<IConstBuffer*> GlobalConstBuffers;
 
 	};
 }

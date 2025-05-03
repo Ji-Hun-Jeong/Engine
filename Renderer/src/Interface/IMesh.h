@@ -3,15 +3,16 @@
 
 namespace Graphics
 {
-	class IModel : public RefCounter
+	class IMesh : public RefCounter
 	{
 	public:
-		IModel() = default;
-		virtual ~IModel() = default;
+		IMesh() = default;
+		virtual ~IMesh() = default;
 
 	public:
 		virtual void IASetBuffer(UINT _StartSlot) = 0;
 		virtual void DrawIndexed() = 0;
+
 	protected:
 
 	};
@@ -19,7 +20,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class RENDERER_API DXModel : public IModel
+		class RENDERER_API DXModel : public IMesh
 		{
 		public:
 			DXModel(ComPtr<ID3D11DeviceContext>& _Context, const std::vector<ComPtr<ID3D11Buffer>>& _VB

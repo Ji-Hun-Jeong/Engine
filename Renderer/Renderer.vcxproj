@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\RefCounter.h" />
+    <ClInclude Include="src\Render\Model.h" />
     <ClInclude Include="src\Render\ModelRegistry.h" />
     <ClInclude Include="src\Interface\IDraw.h" />
     <ClInclude Include="src\Render\IRenderer.h" />
@@ -147,7 +148,7 @@
     <ClInclude Include="src\Interface\IRasterizerState.h" />
     <ClInclude Include="src\Interface\ISampler.h" />
     <ClInclude Include="src\Interface\IPixelShader.h" />
-    <ClInclude Include="src\Interface\IModel.h" />
+    <ClInclude Include="src\Interface\IMesh.h" />
     <ClInclude Include="include\RefPtr.h" />
     <ClInclude Include="src\Interface\IViewPort.h" />
     <ClInclude Include="src\Interface\ITopology.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Render\Model.cpp" />
     <ClCompile Include="src\Render\ModelRegistry.cpp" />
     <ClCompile Include="src\Interface\IDraw.cpp" />
     <ClCompile Include="src\Render\IRenderer.cpp" />
@@ -170,7 +172,7 @@
     <ClCompile Include="src\Interface\IRasterizerState.cpp" />
     <ClCompile Include="src\Interface\ISampler.cpp" />
     <ClCompile Include="src\Interface\IPixelShader.cpp" />
-    <ClCompile Include="src\Interface\IModel.cpp" />
+    <ClCompile Include="src\Interface\IMesh.cpp" />
     <ClCompile Include="src\Interface\IViewPort.cpp" />
     <ClCompile Include="src\Interface\ITopology.cpp" />
     <ClCompile Include="src\Interface\IVertexShaderInputLayout.cpp" />

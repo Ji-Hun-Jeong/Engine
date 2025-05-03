@@ -16,29 +16,57 @@ namespace Graphics
 	public:
 		void UpdateGPUBuffer(IModelRegistry& _ModelRegistry)
 		{
-			std::list<IConstBuffer*>& ConstBuffers = _ModelRegistry.GetConstBuffers();
-			for (auto ConstBuffer : ConstBuffers)
-				ConstBuffer->UpdateBuffer();
+			std::list<IConstBuffer*>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
+			std::list<Model*>& Models = _ModelRegistry.GetModels();
+
+			for (auto GlobalConstBuffer : GlobalConstBuffers)
+				GlobalConstBuffer->UpdateBuffer();
+
+			for (auto Model : Models)
+			{
+				IMesh& Mesh = Model->GetMesh();
+				std::list<ObjectData*>& ObjectDatas = Model->GetObjectDatas();
+				for (auto ObjectData : ObjectDatas)
+				{
+					std::vector<IConstBuffer*>& ConstBuffers = ObjectData->GetConstBuffers();
+					for (auto ConstBuffer : ConstBuffers)
+						ConstBuffer->UpdateBuffer();
+				}
+			}
 		}
 
 		virtual void RenderProcess(IModelRegistry& _ModelRegistry) = 0;
+		virtual void Present() = 0;
 
 	protected:
 		void RenderModel(IModelRegistry& _ModelRegistry)
 		{
-			std::list<IConstBuffer*>& ConstBuffers = _ModelRegistry.GetConstBuffers();
-			std::list<IModel*>& Models = _ModelRegistry.GetModels();
+			std::list<IConstBuffer*>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
+			std::list<Model*>& Models = _ModelRegistry.GetModels();
 
-			for (auto ConstBuffer : ConstBuffers)
-				ConstBuffer->VSSetConstBuffers(0);
+			for (auto GlobalConstBuffer : GlobalConstBuffers)
+			{
+				GlobalConstBuffer->VSSetConstBuffers(0);
+				GlobalConstBuffer->PSSetConstBuffers(0);
+			}
 
 			for (auto Model : Models)
 			{
-				Model->IASetBuffer(0);
-				Model->DrawIndexed();
+				IMesh& Mesh = Model->GetMesh();
+				Mesh.IASetBuffer(0);
+				std::list<ObjectData*>& ObjectDatas = Model->GetObjectDatas();
+				for (auto ObjectData : ObjectDatas)
+				{
+					std::vector<IConstBuffer*>& ConstBuffers = ObjectData->GetConstBuffers();
+					for (auto ConstBuffer : ConstBuffers)
+					{
+						ConstBuffer->VSSetConstBuffers(2);
+						ConstBuffer->PSSetConstBuffers(2);
+					}
+					Mesh.DrawIndexed();
+				}
 			}
 		}
-
 	};
 
 	class RENDERER_API BasicRenderProcess : public IGraphicProcess
@@ -88,7 +116,9 @@ namespace Graphics
 			PixelShader->PSSetShader();
 
 			Super::RenderModel(_ModelRegistry);
-
+		}
+		void Present() override
+		{
 			Drawer->Present();
 		}
 

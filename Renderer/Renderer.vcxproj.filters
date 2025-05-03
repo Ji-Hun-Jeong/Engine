@@ -54,7 +54,7 @@
     <ClInclude Include="src\Interface\IViewPort.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interface\IModel.h">
+    <ClInclude Include="src\Interface\IMesh.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Interface\IPixelShader.h">
@@ -79,6 +79,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Render\ModelRegistry.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\Model.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -110,7 +113,7 @@
     <ClCompile Include="src\Interface\IViewPort.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interface\IModel.cpp">
+    <ClCompile Include="src\Interface\IMesh.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Interface\IPixelShader.cpp">
@@ -132,6 +135,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Render\ModelRegistry.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render\Model.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

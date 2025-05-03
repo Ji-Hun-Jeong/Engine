@@ -42,6 +42,7 @@ namespace Game
 	{
 		Renderer.UpdateGPUBuffer(ModelRegistry);
 		Renderer.RenderProcess(ModelRegistry);
+		Renderer.Present();
 	}
 
 
