@@ -5,7 +5,7 @@
 
 namespace Graphics
 {
-	class IDRGenerator;
+	class IModelRegistry;
 }
 namespace Game
 {

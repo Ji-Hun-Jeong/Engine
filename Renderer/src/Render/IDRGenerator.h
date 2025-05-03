@@ -1,6 +1,7 @@
 #pragma once
-#include "Renderer/src/Render/ModelRegistry.h"
 #include "Renderer/src/Platform/DirectX/DX.h"
+#include "Renderer/src/Interface/IModel.h"
+#include "Renderer/src/Interface/IConstBuffer.h"
 #include "Renderer/src/Interface/IRenderTargetView.h"
 #include "Renderer/src/Interface/IViewPort.h"
 #include "Renderer/src/Interface/IVertexShaderInputLayout.h"
@@ -28,7 +29,7 @@ namespace Graphics
 	// 즉, 생명주기를 쌩포인터로도 가리킬 수 있는 Com객체 같은 경우는 자신있으면 쌩포인터로 들고있어도 됌
 	// 하지만 생명주기를 스마트포인터에 의존해야하는 일반객체 같은 경우는 만약 멤버로 들고있을 예정이라면 스마트포인터를 사용하는게 좋음
 	// 만약 멤버에 대입하지 않을꺼고 함수 내부에서만 사용할 예정이면 쌩포인터로 받아도됌
-	class IDRGenerator
+	class RENDERER_API IDRGenerator
 	{
 	public:
 		IDRGenerator(HWND _WindowHandle)
@@ -56,7 +57,6 @@ namespace Graphics
 		virtual RefCounterPtr<ITopology> GenerateTopology(eTopology _Topology) = 0;
 		virtual RefCounterPtr<IDraw> GenerateDrawer() = 0;
 		
-		ModelRegistry& GetRegistry() { return ModelRegistry; }
 		/*void LoadSRV(const Str::FString& _Path, const Str::FString& _ImageName) override
 		{
 			if (Resource.Images.find(_ImageName) != Resource.Images.end())
@@ -77,7 +77,6 @@ namespace Graphics
 		UINT ScreenWidth;
 		UINT ScreenHeight;
 
-		ModelRegistry ModelRegistry;
 	};
 
 }

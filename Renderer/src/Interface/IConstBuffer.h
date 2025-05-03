@@ -26,7 +26,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXConstBuffer : public IConstBuffer
+		class RENDERER_API DXConstBuffer : public IConstBuffer
 		{
 		public:
 			DXConstBuffer(ComPtr<ID3D11DeviceContext>& _Context, const std::vector<ComPtr<ID3D11Buffer>>& _Buffers

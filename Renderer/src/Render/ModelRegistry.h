@@ -5,11 +5,15 @@
 
 namespace Graphics
 {
-	class ModelRegistry
+	// 이것도 선형을 쓸건지 트리구조를 쓸건지 인터페이스로 제공?
+	class RENDERER_API IModelRegistry
 	{
 	public:
-		ModelRegistry() = default;
-		~ModelRegistry()
+		IModelRegistry()
+		{
+
+		}
+		~IModelRegistry()
 		{
 			for (auto Model : Models)
 				if (Model)
@@ -20,16 +24,19 @@ namespace Graphics
 		}
 
 	public:
-		void AddModel(IModel* _Model)
+		UINT AddModel(IModel* _Model)
 		{
 			_Model->AddRef();
 			Models.push_back(_Model);
+			return Models.size();
 		}
-		void AddConstBuffer(IConstBuffer* _ConstBuffer)
+		UINT AddConstBuffer(IConstBuffer* _ConstBuffer)
 		{
 			_ConstBuffer->AddRef();
 			ConstBuffers.push_back(_ConstBuffer);
+			return ConstBuffers.size();
 		}
+
 		std::list<IModel*>& GetModels() { return Models; }
 		std::list<IConstBuffer*>& GetConstBuffers() { return ConstBuffers; }
 

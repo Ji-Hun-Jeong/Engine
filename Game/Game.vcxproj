@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Geometry\Geometry.cpp" />
     <ClCompile Include="src\Player\PlayerComponent\PlayerSkillBundle.cpp" />
     <ClCompile Include="src\Player\PlayerComponent\PlayerActionController.cpp" />
     <ClCompile Include="src\Component\Skill\Skill.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="src\Component\State\State.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Geometry\Geometry.h" />
     <ClInclude Include="src\Player\PlayerComponent\PlayerSkillBundle.h" />
     <ClInclude Include="src\Player\PlayerComponent\PlayerActionController.h" />
     <ClInclude Include="src\Component\Skill\Skill.h" />

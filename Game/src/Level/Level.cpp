@@ -1,12 +1,12 @@
 #include "pch.h"
 #include "Level.h"
 
-#include <Renderer/src/Render/IRenderer.h>
 namespace Game
 {
 	Level::Level(Graphics::IDRGenerator& _Generator)
 		: Generator(_Generator)
-		, GraphicProcess(nullptr)
+		, Renderer(*new Graphics::BasicRenderProcess(Generator))
+		, ModelRegistry()
 	{
 	}
 
@@ -14,16 +14,19 @@ namespace Game
 	{
 		Utility::ClearMap(Objects);
 		Utility::ClearMap(Actors);
-		if (GraphicProcess)
-			delete GraphicProcess;
+		if (&Renderer)
+			delete &Renderer;
 	}
 
 	void Level::InitLevel()
 	{
-		
 	}
 
 	void Level::EnterLevel()
+	{
+	}
+
+	void Level::ExitLevel()
 	{
 	}
 
@@ -37,16 +40,10 @@ namespace Game
 
 	void Level::Render()
 	{
-		if (GraphicProcess == nullptr)
-			return;
-
-		GraphicProcess->UpdateGPUBuffer();
-		GraphicProcess->RenderProcess();
+		Renderer.UpdateGPUBuffer(ModelRegistry);
+		Renderer.RenderProcess(ModelRegistry);
 	}
 
-	void Level::ExitLevel()
-	{
-	}
 
 	void Level::AddObject(Object* _Object)
 	{

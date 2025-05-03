@@ -19,7 +19,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXModel : public IModel
+		class RENDERER_API DXModel : public IModel
 		{
 		public:
 			DXModel(ComPtr<ID3D11DeviceContext>& _Context, const std::vector<ComPtr<ID3D11Buffer>>& _VB

@@ -27,7 +27,7 @@ namespace Game
 		std::map<Str::FString, class Level*> Levels;
 		class Level* CurrentLevel;
 
-		Graphics::IDRGenerator* RenderResourceGenerator;
+		Graphics::IDRGenerator& Generator;
 	};
 }
 

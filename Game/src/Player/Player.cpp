@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "Player.h"
-#include <Renderer/src/Render/IRenderer.h>
-#include <Renderer/src/Geometry/Geometry.h>
 
 #include "Component/KeyInput/KeyInput.h"
 #include "Component/Skill/Skill.h"
@@ -10,7 +8,7 @@
 
 namespace Game
 {
-	Player::Player(const Str::FString& _Name, Graphics::IDRGenerator& _Generator)
+	Player::Player(const Str::FString& _Name, UINT _ModelId)
 		: Super(_Name)
 		, KeyInput(new Game::KeyInput)
 		, ActionController(new PlayerActionController)
@@ -18,24 +16,7 @@ namespace Game
 		, SkillBundle(new PlayerSkillBundle(this))
 
 	{
-		Graphics::Geometry::ColorMeshData Md = Graphics::Geometry::GenerateColorTriangle();
-
-		auto& Vertices = Md.Vertices;
-		auto& Indices = Md.Indices;
-
 		Transform = new Game::Transform;
-
-
-		// Renderer모듈쪽에 추가
-		_Generator.GenerateModel(Vertices.data(), sizeof(ColorVertex), Vertices.size()
-			, Indices.data(), sizeof(uint32_t), Indices.size());
-
-		// Renderer모듈쪽에 추가
-		Graphics::CpuConstData ConstData{ &ActorCpuConstant, sizeof(ActorCpuConstant) };
-		std::vector<Graphics::CpuConstData> CpuData{ ConstData };
-		std::cout << ConstData.Data << "\n";
-		std::cout << CpuData[0].Data << "\n";
-		_Generator.GenerateConstBuffer(CpuData);
 
 		// Skill을 미리 정의해두고 Skill을 Action에 넣어서 바인딩한다.
 		// Action과 Key를 정의해두고 두개를 바인딩한다.

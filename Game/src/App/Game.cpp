@@ -2,7 +2,6 @@
 #include "Game.h"
 #include "Level/MyLevel.h"
 
-#include <Renderer/src/Platform/DirectX/DXRGenerator.h>
 #include <Engine/src/Time/Time.h>
 #include <Engine/src/Input/Input.h>
 #include <Engine/src/Path/Path.h>
@@ -13,7 +12,7 @@ namespace Game
 	GameWorld::GameWorld(UINT _ScreenWidth, UINT _ScreenHeight)
 		: Super(_ScreenWidth, _ScreenHeight)
 		, CurrentLevel(nullptr)
-		, RenderResourceGenerator(new Graphics::DX::DXRGenerator(AppWindow->GetWindowHandle()))
+		, Generator(*new Graphics::DX::DXRGenerator(AppWindow->GetWindowHandle()))
 	{
 		
 	}
@@ -21,8 +20,8 @@ namespace Game
 	GameWorld::~GameWorld()
 	{
 		Utility::ClearMap(Levels);
-		if (RenderResourceGenerator)
-			delete RenderResourceGenerator;
+		if (&Generator)
+			delete &Generator;
 	}
 
 	void GameWorld::Init()
@@ -30,7 +29,7 @@ namespace Game
 		Time::Init();
 		Path::Init("Game");
 
-		AddLevel("Test", new MyLevel(*RenderResourceGenerator));
+		AddLevel("Test", new MyLevel(Generator));
 		SetCurrentLevel("Test");
 
 		for (auto iter : Levels)

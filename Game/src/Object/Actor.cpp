@@ -9,22 +9,27 @@ namespace Game
 	{
 		
 	}
+
 	Actor::Actor(const Actor& _Other)
 		: Object(_Other)
 	{
 	}
+
 	Actor::~Actor()
 	{
 		
 	}
+
 	void Actor::InitObject()
 	{
 		Super::InitObject();
 	}
+
 	void Actor::Update()
 	{
 		Super::Update();
 	}
+
 	void Actor::Destory()
 	{
 		Super::Destory();

@@ -1,69 +1,68 @@
 #pragma once
-#include "Renderer/src/Render/IDRGenerator.h"
-#include "Renderer/src/Geometry/Geometry.h"
+#include "Renderer/src/Platform/DirectX/DXRGenerator.h"
+#include "Renderer/src/Render/ModelRegistry.h"
 
 namespace Graphics
 {
-	class IGraphicProcess
+	class RENDERER_API IGraphicProcess
 	{
 	public:
-		IGraphicProcess(Graphics::IDRGenerator& _Generator)
-			: Generator(_Generator)
-		{}
+		IGraphicProcess() = default;
 		virtual ~IGraphicProcess()
 		{
 
 		}
 
 	public:
-		void UpdateGPUBuffer()
+		void UpdateGPUBuffer(IModelRegistry& _ModelRegistry)
 		{
-			auto& ConstBuffers = Generator.GetRegistry().GetConstBuffers();
-			for (auto& ConstBuffer : ConstBuffers)
+			std::list<IConstBuffer*>& ConstBuffers = _ModelRegistry.GetConstBuffers();
+			for (auto ConstBuffer : ConstBuffers)
 				ConstBuffer->UpdateBuffer();
 		}
-		void RenderModel()
+
+		virtual void RenderProcess(IModelRegistry& _ModelRegistry) = 0;
+
+	protected:
+		void RenderModel(IModelRegistry& _ModelRegistry)
 		{
-			auto& Models = Generator.GetRegistry().GetModels();
-			auto& ConstBuffers = Generator.GetRegistry().GetConstBuffers();
+			std::list<IConstBuffer*>& ConstBuffers = _ModelRegistry.GetConstBuffers();
+			std::list<IModel*>& Models = _ModelRegistry.GetModels();
+
 			for (auto ConstBuffer : ConstBuffers)
 				ConstBuffer->VSSetConstBuffers(0);
+
 			for (auto Model : Models)
 			{
 				Model->IASetBuffer(0);
 				Model->DrawIndexed();
 			}
 		}
-		virtual void RenderProcess() = 0;
-
-	protected:
-		// Interface객체 참조카운트 관리할 수 있는 부모 클래스 만들기
-		Graphics::IDRGenerator& Generator;
 
 	};
 
-	class BasicRenderProcess : public IGraphicProcess
+	class RENDERER_API BasicRenderProcess : public IGraphicProcess
 	{
 		using Super = IGraphicProcess;
 	public:
 		BasicRenderProcess(Graphics::IDRGenerator& _Generator)
-			: Super(_Generator)
+			: Super()
 		{
-			RenderTargetView = Generator.GenerateMainRenderTargetView();
-			DepthStencilState = Generator.GenerateBasicDepthStencilState();
-			RasterizerState = Generator.GenerateSolidCWState();
+			RenderTargetView = _Generator.GenerateMainRenderTargetView();
+			DepthStencilState = _Generator.GenerateBasicDepthStencilState();
+			RasterizerState = _Generator.GenerateSolidCWState();
 			const std::vector<InputElementDesc> InputElement =
 			{
 				{eSementicName::Position, eFormat::Vector3, 0, eInputClass::VertexData},
 				{eSementicName::Color, eFormat::Vector3, 12, eInputClass::VertexData}
 			};
-			VertexShader = Generator.GenerateVertexShaderAndInputLayout("./Renderer/resource/Shader/ColorVS.hlsl"
+			VertexShader = _Generator.GenerateVertexShaderAndInputLayout("./Renderer/resource/Shader/ColorVS.hlsl"
 				, InputElement);
-			PixelShader = Generator.GeneratePixelShader("./Renderer/resource/Shader/ColorPS.hlsl");
-			Topology = Generator.GenerateTopology(eTopology::Triangle);
-			ViewPort = Generator.GenerateMainViewPort();
+			PixelShader = _Generator.GeneratePixelShader("./Renderer/resource/Shader/ColorPS.hlsl");
+			Topology = _Generator.GenerateTopology(eTopology::Triangle);
+			ViewPort = _Generator.GenerateMainViewPort();
 
-			Drawer = Generator.GenerateDrawer();
+			Drawer = _Generator.GenerateDrawer();
 
 		}
 		~BasicRenderProcess()
@@ -72,13 +71,13 @@ namespace Graphics
 		}
 
 	public:
-		void RenderProcess() override
+		void RenderProcess(IModelRegistry& _ModelRegistry) override
 		{
 			const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
 			RenderTargetView->ClearRenderTargetView(0, ClearColor);
 			RenderTargetView->ClearDepthStencilView(D3D11_CLEAR_DEPTH, 1.0f, 0);
-			RenderTargetView->OMSetRenderTargets();
 			DepthStencilState->OMSetDepthStencilState(0);
+			RenderTargetView->OMSetRenderTargets();
 
 			Topology->IASetPrimitiveTopology();
 			VertexShader->IASetInputLayout();
@@ -88,7 +87,7 @@ namespace Graphics
 			ViewPort->RSSetViewPort();
 			PixelShader->PSSetShader();
 
-			Super::RenderModel();
+			Super::RenderModel(_ModelRegistry);
 
 			Drawer->Present();
 		}
@@ -102,6 +101,7 @@ namespace Graphics
 		RefCounterPtr<ITopology> Topology;
 		RefCounterPtr<IViewPort> ViewPort;
 		RefCounterPtr<IDraw> Drawer;
+
 	};
 }
 

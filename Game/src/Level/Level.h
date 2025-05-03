@@ -1,11 +1,8 @@
 #pragma once
 #include "Object/Actor.h"
+#include <Renderer/src/Render/IRenderer.h>
+#include "Game/Geometry/Geometry.h"
 
-namespace Graphics
-{
-	class IDRGenerator;
-	class IGraphicProcess;
-}
 namespace Game
 {
 	class Level
@@ -29,6 +26,8 @@ namespace Game
 		std::map<Str::FString, Actor*> Actors;
 
 		Graphics::IDRGenerator& Generator;
-		Graphics::IGraphicProcess* GraphicProcess;
+		Graphics::IGraphicProcess& Renderer;
+		Graphics::IModelRegistry ModelRegistry;
+		
 	};
 }

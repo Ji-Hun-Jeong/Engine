@@ -119,9 +119,7 @@ namespace Graphics
 				}
 
 				std::vector<ComPtr<ID3D11Buffer>> VertexBuffers{ VertexBuffer };
-				auto Model = MakeRefCounter<DXModel>(Context, VertexBuffers, IndexBuffer, Format, _VertexSize, 0, _NumOfIndex);
-				ModelRegistry.AddModel(Model.Get());
-				return Model;
+				return MakeRefCounter<DXModel>(Context, VertexBuffers, IndexBuffer, Format, _VertexSize, 0, _NumOfIndex);
 			}
 
 			RefCounterPtr<IConstBuffer> GenerateConstBuffer(const std::vector<CpuConstData>& _CpuData) override
@@ -144,9 +142,7 @@ namespace Graphics
 					if (FAILED(hr)) assert(0);
 					Buffers.push_back(Buffer);
 				}
-				auto ConstBuffer = MakeRefCounter<DXConstBuffer>(Context, Buffers, _CpuData);
-				ModelRegistry.AddConstBuffer(ConstBuffer.Get());
-				return ConstBuffer;
+				return MakeRefCounter<DXConstBuffer>(Context, Buffers, _CpuData);
 			}
 
 			RefCounterPtr<IVertexShader> GenerateVertexShaderAndInputLayout(const Str::FString& _Path
