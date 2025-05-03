@@ -10,8 +10,8 @@ namespace Graphics
 		virtual ~IMesh() = default;
 
 	public:
-		virtual void IASetBuffer(UINT _StartSlot) = 0;
-		virtual void DrawIndexed() = 0;
+		virtual void IASetBuffer(UINT _StartSlot) const = 0;
+		virtual void DrawIndexed() const = 0;
 
 	protected:
 
@@ -50,12 +50,12 @@ namespace Graphics
 			}
 
 		public:
-			void IASetBuffer(UINT _StartSlot) override
+			void IASetBuffer(UINT _StartSlot) const override
 			{
 				Context->IASetVertexBuffers(_StartSlot, VertexBuffers.size(), VertexBuffers.data(), &Stride, &Offset);
 				Context->IASetIndexBuffer(IndexBuffer, Format, 0);
 			}
-			void DrawIndexed() override
+			void DrawIndexed() const override
 			{
 				Context->DrawIndexed(IndexCount, 0, 0);
 			}

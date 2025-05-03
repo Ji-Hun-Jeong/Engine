@@ -14,7 +14,7 @@ namespace Graphics
 		virtual ~ITopology() = default;
 
 	public:
-		virtual void IASetPrimitiveTopology() = 0;
+		virtual void IASetPrimitiveTopology() const = 0;
 
 	protected:
 
@@ -34,7 +34,7 @@ namespace Graphics
 			{}
 
 		public:
-			void IASetPrimitiveTopology() override
+			void IASetPrimitiveTopology() const override
 			{
 				Context->IASetPrimitiveTopology(Topology);
 			}

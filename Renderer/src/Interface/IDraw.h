@@ -10,8 +10,8 @@ namespace Graphics
 		virtual ~IDraw() {}
 
 	public:
-		virtual void DrawIndexed(UINT _IndexCount) = 0;
-		virtual void Present() = 0;
+		virtual void DrawIndexed(UINT _IndexCount) const = 0;
+		virtual void Present() const = 0;
 
 	protected:
 
@@ -31,12 +31,12 @@ namespace Graphics
 			{}
 
 		public:
-			void DrawIndexed(UINT _IndexCount) override
+			void DrawIndexed(UINT _IndexCount) const override
 			{
 				Context->DrawIndexed(_IndexCount, 0, 0);
 			}
 
-			void Present() override
+			void Present() const override
 			{
 				SwapChain->Present(1, 0);
 			}

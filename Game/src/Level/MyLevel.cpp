@@ -24,25 +24,18 @@ namespace Game
 		auto& Indices = Md.Indices;
 
 		// Renderer모듈쪽에 추가
-		auto Mesh = Generator.GenerateModel(Vertices.data(), sizeof(ColorVertex), Vertices.size()
+		Graphics::Model* Model = new Graphics::Model(Generator, Vertices.data(), sizeof(ColorVertex), Vertices.size()
 			, Indices.data(), sizeof(uint32_t), Indices.size());
-
-		Graphics::Model* Model = new Graphics::Model(*Mesh.Get());
 
 		// Renderer모듈쪽에 추가
 		PlayerConst* PConst = new PlayerConst;
 		std::vector<Graphics::CpuConstData> Consts{ {&PConst->MVP, sizeof(*PConst)} };
-		auto Const = Generator.GenerateConstBuffer(Consts);
-		
-		auto ObjData = new Graphics::ObjectData;
-		ObjData->AddConstBuffer(Const.Get());
-		
-		Model->AddObjectData(ObjData);
+		Graphics::ObjectData* ObjData = new Graphics::ObjectData(Generator, Consts);
+		UINT ObjectDataId = Model->AddObjectData(ObjData);
 
 		UINT ModelId = ModelRegistry.AddModel(Model);
 
-		Player* P = new Player("Test", PConst, ModelId);
-
+		Player* P = new Player("Test", *PConst, ModelId);
 
 		AddActor(P);
 	}

@@ -10,10 +10,10 @@ namespace Graphics
 		virtual ~IRenderTargetView() = default;
 
 	public:
-		virtual void ClearRenderTargetView(UINT _RTVNumber, const float* _ClearColor) = 0;
-		virtual void ClearDepthStencilView(UINT _Flag, float _Depth, UINT _Stencil) = 0;
+		virtual void ClearRenderTargetView(UINT _RTVNumber, const float* _ClearColor) const = 0;
+		virtual void ClearDepthStencilView(UINT _Flag, float _Depth, UINT _Stencil) const = 0;
 
-		virtual void OMSetRenderTargets() = 0;
+		virtual void OMSetRenderTargets() const = 0;
 
 	protected:
 
@@ -46,15 +46,15 @@ namespace Graphics
 			}
 
 		public:
-			void ClearRenderTargetView(UINT _RTVNumber, const float* _ClearColor) override
+			void ClearRenderTargetView(UINT _RTVNumber, const float* _ClearColor) const override
 			{
 				Context->ClearRenderTargetView(RenderTargetViews[_RTVNumber], _ClearColor);
 			}
-			void OMSetRenderTargets() override
+			void OMSetRenderTargets() const override
 			{
 				Context->OMSetRenderTargets(RenderTargetViews.size(), RenderTargetViews.data(), DepthStencilView);
 			}
-			void ClearDepthStencilView(UINT _Flag, float _Depth, UINT _Stencil) override
+			void ClearDepthStencilView(UINT _Flag, float _Depth, UINT _Stencil) const override
 			{
 				Context->ClearDepthStencilView(DepthStencilView, _Flag, _Depth, _Stencil);
 			}

@@ -17,9 +17,6 @@ namespace Graphics
 			for (auto Model : Models)
 				if (Model)
 					delete Model;
-			for (auto ConstBuffer : GlobalConstBuffers)
-				if (ConstBuffer)
-					ConstBuffer->Release();
 		}
 
 	public:
@@ -29,19 +26,18 @@ namespace Graphics
 			return Models.size();
 		}
 
-		UINT AddGlobalConstBuffer(IConstBuffer* _GlobalConstBuffer)
+		UINT AddGlobalConstBuffer(RefCounterPtr<IConstBuffer>& _GlobalConstBuffer)
 		{
-			_GlobalConstBuffer->AddRef();
 			GlobalConstBuffers.push_back(_GlobalConstBuffer);
 			return GlobalConstBuffers.size();
 		}
 
 		std::list<Model*>& GetModels() { return Models; }
-		std::list<IConstBuffer*>& GetGlobalConstBuffers() { return GlobalConstBuffers; }
+		std::list<RefCounterPtr<IConstBuffer>>& GetGlobalConstBuffers() { return GlobalConstBuffers; }
 
 	private:
 		std::list<Model*> Models;
-		std::list<IConstBuffer*> GlobalConstBuffers;
+		std::list<RefCounterPtr<IConstBuffer>> GlobalConstBuffers;
 
 	};
 }

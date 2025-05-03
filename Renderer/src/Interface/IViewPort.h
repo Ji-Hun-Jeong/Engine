@@ -10,7 +10,7 @@ namespace Graphics
 		virtual ~IViewPort() = default;
 
 	public:
-		virtual void RSSetViewPort() = 0;
+		virtual void RSSetViewPort() const = 0;
 
 	protected:
 
@@ -33,7 +33,7 @@ namespace Graphics
 			{}
 
 		public:
-			void RSSetViewPort() override
+			void RSSetViewPort() const override
 			{
 				Context->RSSetViewports(ViewPorts.size(), ViewPorts.data());
 			}

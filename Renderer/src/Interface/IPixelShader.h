@@ -10,7 +10,7 @@ namespace Graphics
 		virtual ~IPixelShader() = default;
 
 	public:
-		virtual void PSSetShader() = 0;
+		virtual void PSSetShader() const = 0;
 
 	protected:
 
@@ -34,7 +34,7 @@ namespace Graphics
 			}
 
 		public:
-			void PSSetShader() override
+			void PSSetShader() const override
 			{
 				Context->PSSetShader(PixelShader, nullptr, 0);
 			}

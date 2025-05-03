@@ -30,8 +30,8 @@ namespace Graphics
 		virtual ~IVertexShader() = default;
 
 	public:
-		virtual void VSSetShader() = 0;
-		virtual void IASetInputLayout() = 0;
+		virtual void VSSetShader() const = 0;
+		virtual void IASetInputLayout() const = 0;
 
 	protected:
 
@@ -58,11 +58,11 @@ namespace Graphics
 			}
 
 		public:
-			void VSSetShader() override
+			void VSSetShader() const override
 			{
 				Context->VSSetShader(VertexShader, nullptr, 0);
 			}
-			void IASetInputLayout() override
+			void IASetInputLayout() const override
 			{
 				Context->IASetInputLayout(InputLayout);
 			}

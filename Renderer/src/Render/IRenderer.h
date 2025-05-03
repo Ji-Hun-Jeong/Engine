@@ -14,59 +14,40 @@ namespace Graphics
 		}
 
 	public:
-		void UpdateGPUBuffer(IModelRegistry& _ModelRegistry)
+		void UpdateGPUBuffer(IModelRegistry& _ModelRegistry) const
 		{
-			std::list<IConstBuffer*>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
-			std::list<Model*>& Models = _ModelRegistry.GetModels();
+			const std::list<RefCounterPtr<IConstBuffer>>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
+			const std::list<Model*>& Models = _ModelRegistry.GetModels();
 
-			for (auto GlobalConstBuffer : GlobalConstBuffers)
+			for (const auto GlobalConstBuffer : GlobalConstBuffers)
 				GlobalConstBuffer->UpdateBuffer();
 
-			for (auto Model : Models)
-			{
-				IMesh& Mesh = Model->GetMesh();
-				std::list<ObjectData*>& ObjectDatas = Model->GetObjectDatas();
-				for (auto ObjectData : ObjectDatas)
-				{
-					std::vector<IConstBuffer*>& ConstBuffers = ObjectData->GetConstBuffers();
-					for (auto ConstBuffer : ConstBuffers)
-						ConstBuffer->UpdateBuffer();
-				}
-			}
+			for (const auto Model : Models)
+				Model->UpdateObjectDatas();
+			
 		}
 
-		virtual void RenderProcess(IModelRegistry& _ModelRegistry) = 0;
-		virtual void Present() = 0;
+		virtual void RenderProcess(IModelRegistry& _ModelRegistry) const = 0;
+		virtual void Present() const = 0;
 
 	protected:
-		void RenderModel(IModelRegistry& _ModelRegistry)
+		void RenderModel(IModelRegistry& _ModelRegistry) const
 		{
-			std::list<IConstBuffer*>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
+			std::list<RefCounterPtr<IConstBuffer>>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
 			std::list<Model*>& Models = _ModelRegistry.GetModels();
 
-			for (auto GlobalConstBuffer : GlobalConstBuffers)
+			for (const auto GlobalConstBuffer : GlobalConstBuffers)
 			{
 				GlobalConstBuffer->VSSetConstBuffers(0);
 				GlobalConstBuffer->PSSetConstBuffers(0);
 			}
 
-			for (auto Model : Models)
+			for (const auto Model : Models)
 			{
-				IMesh& Mesh = Model->GetMesh();
-				Mesh.IASetBuffer(0);
-				std::list<ObjectData*>& ObjectDatas = Model->GetObjectDatas();
-				for (auto ObjectData : ObjectDatas)
-				{
-					std::vector<IConstBuffer*>& ConstBuffers = ObjectData->GetConstBuffers();
-					for (auto ConstBuffer : ConstBuffers)
-					{
-						ConstBuffer->VSSetConstBuffers(2);
-						ConstBuffer->PSSetConstBuffers(2);
-					}
-					Mesh.DrawIndexed();
-				}
+				Model->RenderModel(0, 2);
 			}
 		}
+
 	};
 
 	class RENDERER_API BasicRenderProcess : public IGraphicProcess
@@ -99,7 +80,7 @@ namespace Graphics
 		}
 
 	public:
-		void RenderProcess(IModelRegistry& _ModelRegistry) override
+		void RenderProcess(IModelRegistry& _ModelRegistry) const override
 		{
 			const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
 			RenderTargetView->ClearRenderTargetView(0, ClearColor);
@@ -117,7 +98,7 @@ namespace Graphics
 
 			Super::RenderModel(_ModelRegistry);
 		}
-		void Present() override
+		void Present() const override
 		{
 			Drawer->Present();
 		}

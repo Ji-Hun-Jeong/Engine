@@ -10,7 +10,8 @@ namespace Graphics
 		virtual ~ISampler() = default;
 
 	public:
-		
+		virtual void VSSetSampler(UINT _StartSlot, UINT _NumSamplers) const = 0;
+		virtual void PSSetSampler(UINT _StartSlot, UINT _NumSamplers) const = 0;
 
 	protected:
 
@@ -39,11 +40,11 @@ namespace Graphics
 			}
 
 		public:
-			void VSSetSampler(UINT _StartSlot, UINT _NumSamplers)
+			void VSSetSampler(UINT _StartSlot, UINT _NumSamplers) const override
 			{
 				Context->VSSetSamplers(_StartSlot, _NumSamplers, Samplers.data());
 			}
-			void PSSetSampler(UINT _StartSlot, UINT _NumSamplers)
+			void PSSetSampler(UINT _StartSlot, UINT _NumSamplers) const override
 			{
 				Context->PSSetSamplers(_StartSlot, _NumSamplers, Samplers.data());
 			}

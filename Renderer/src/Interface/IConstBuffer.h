@@ -15,9 +15,9 @@ namespace Graphics
 		virtual ~IConstBuffer() = default;
 
 	public:
-		virtual void VSSetConstBuffers(UINT _StartSlot) = 0;
-		virtual void PSSetConstBuffers(UINT _StartSlot) = 0;
-		virtual void UpdateBuffer() = 0;
+		virtual void VSSetConstBuffers(UINT _StartSlot) const = 0;
+		virtual void PSSetConstBuffers(UINT _StartSlot) const = 0;
+		virtual void UpdateBuffer() const = 0;
 
 	protected:
 
@@ -48,21 +48,21 @@ namespace Graphics
 			}
 
 		public:
-			void VSSetConstBuffers(UINT _StartSlot) override
+			void VSSetConstBuffers(UINT _StartSlot) const override
 			{
 				Context->VSSetConstantBuffers(_StartSlot, Buffers.size(), Buffers.data());
 			}
-			void PSSetConstBuffers(UINT _StartSlot) override
+			void PSSetConstBuffers(UINT _StartSlot) const override
 			{
 				Context->PSSetConstantBuffers(_StartSlot, Buffers.size(), Buffers.data());
 			}
-			void UpdateBuffer() override
+			void UpdateBuffer() const override
 			{
 				D3D11_MAPPED_SUBRESOURCE Ms;
 				ZeroMemory(&Ms, sizeof(Ms));
 				for (size_t i = 0; i < Buffers.size(); ++i)
 				{
-					Matrix* m = (Matrix*)CpuData[i].Data;
+					const Matrix* m = (Matrix*)CpuData[i].Data;
 					Context->Map(Buffers[i], 0, D3D11_MAP_WRITE_DISCARD, 0, &Ms);
 					memcpy(Ms.pData, CpuData[i].Data, CpuData[i].Size);
 					Context->Unmap(Buffers[i], 0);

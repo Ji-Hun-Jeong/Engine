@@ -10,7 +10,7 @@ namespace Graphics
 		virtual ~IDepthStencilState() {}
 
 	public:
-		virtual void OMSetDepthStencilState(UINT _StencilRef) = 0;
+		virtual void OMSetDepthStencilState(UINT _StencilRef) const = 0;
 
 	protected:
 
@@ -34,7 +34,7 @@ namespace Graphics
 			}
 
 		public:
-			void OMSetDepthStencilState(UINT _StencilRef) override
+			void OMSetDepthStencilState(UINT _StencilRef) const override
 			{
 				Context->OMSetDepthStencilState(DepthStencilState, _StencilRef);
 			}

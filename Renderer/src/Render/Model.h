@@ -1,33 +1,37 @@
 #pragma once
-#include "Renderer/src/Interface/IMesh.h"
-#include "Renderer/src/Interface/IConstBuffer.h"
+#include "Renderer/src/Render/IDRGenerator.h"
 
 namespace Graphics
 {
 	class ObjectData
 	{
 	public:
-		ObjectData()
-			: IsRender(true)
-		{}
-		~ObjectData() 
+		ObjectData(IDRGenerator& _Generator, const std::vector<Graphics::CpuConstData>& _CpuConstData)
+			: BeRender(true)
+			, ConstBuffer(_Generator.GenerateConstBuffer(_CpuConstData))
 		{
-			for (auto ConstBuffer : ConstBuffers)
-				ConstBuffer->Release();
+		}
+		~ObjectData()
+		{
 		}
 
 	public:
-		std::vector<IConstBuffer*>& GetConstBuffers() { return ConstBuffers; }
-		void AddConstBuffer(IConstBuffer* _ConstBuffer) 
+		void BindConstBuffer(UINT _StartSlot) const
 		{
-			_ConstBuffer->AddRef();
-			ConstBuffers.push_back(_ConstBuffer); 
+			ConstBuffer->VSSetConstBuffers(_StartSlot);
+			ConstBuffer->PSSetConstBuffers(_StartSlot);
 		}
-		void SetRender(bool _IsRender) { IsRender = _IsRender; }
+		void UpdateConstBuffer() const
+		{
+			ConstBuffer->UpdateBuffer();
+		}
+
+		void SetRender(bool _BeRender) { BeRender = _BeRender; }
+		bool IsRender() const { return BeRender; }
 
 	private:
-		std::vector<IConstBuffer*> ConstBuffers;
-		bool IsRender;
+		RefCounterPtr<IConstBuffer> ConstBuffer;
+		bool BeRender;
 		// ∑ª¥ı∏µ ≈∏¿‘
 
 	};
@@ -35,16 +39,13 @@ namespace Graphics
 	class Model
 	{
 	public:
-		Model(IMesh& _Mesh)
-			: Mesh(_Mesh)
+		Model(IDRGenerator& _Generator, void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
+			, void* _IndexData, size_t _IndexSize, size_t _NumOfIndex)
+			: Mesh(_Generator.GenerateModel(_VertexData, _VertexSize, _NumOfVertex, _IndexData, _IndexSize, _NumOfIndex))
 		{
-			Mesh.AddRef();
 		}
 		~Model()
 		{
-			if (&Mesh)
-				Mesh.Release();
-
 			for (auto Iter = ObjectDatas.begin(); Iter != ObjectDatas.end(); ++Iter)
 				if (*Iter)
 					delete* Iter;
@@ -57,11 +58,27 @@ namespace Graphics
 			return ObjectDatas.size() - 1;
 		}
 
-		IMesh& GetMesh() { return Mesh; }
-		std::list<ObjectData*>& GetObjectDatas() { return ObjectDatas; }
+		void UpdateObjectDatas() const
+		{
+			for (const auto ObjectData : ObjectDatas)
+				ObjectData->UpdateConstBuffer();
+		}
+
+		void RenderModel(UINT _MeshDataStartSlot, UINT _ConstBufferStartSlot) const
+		{
+			Mesh->IASetBuffer(_MeshDataStartSlot);
+			for (auto ObjectData : ObjectDatas)
+			{
+				if (!ObjectData->IsRender())
+					continue;
+
+				ObjectData->BindConstBuffer(_ConstBufferStartSlot);
+				Mesh->DrawIndexed();
+			}
+		}
 
 	private:
-		IMesh& Mesh;
+		RefCounterPtr<IMesh> Mesh;
 		std::list<ObjectData*> ObjectDatas;
 
 	};

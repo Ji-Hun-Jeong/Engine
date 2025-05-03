@@ -10,7 +10,7 @@ namespace Graphics
 		virtual ~IRasterizerState() = default;
 
 	public:
-		virtual void RSSetState() = 0;
+		virtual void RSSetState() const = 0;
 
 	protected:
 
@@ -34,7 +34,7 @@ namespace Graphics
 			}
 
 		public:
-			void RSSetState() override
+			void RSSetState() const override
 			{
 				Context->RSSetState(RasterizerState);
 			}
