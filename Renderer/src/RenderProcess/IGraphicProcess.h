@@ -1,23 +1,30 @@
 #pragma once
 #include "Renderer/src/Platform/DirectX/DXRGenerator.h"
-#include "Renderer/src/Render/ModelRegistry.h"
+#include "Renderer/src/Render/IModelRegistry.h"
 
 namespace Graphics
 {
 	class RENDERER_API IGraphicProcess
 	{
 	public:
-		IGraphicProcess() = default;
+		IGraphicProcess(Graphics::IDRGenerator& _Generator)
+			: Presenter(_Generator.GeneratePresenter())
+		{}
 		virtual ~IGraphicProcess()
-		{
-
-		}
+		{}
 
 	public:
+		virtual void BindRenderProcess(IModelRegistry& _ModelRegistry) const = 0;
+
+		void Present() const
+		{
+			Presenter->Present();
+		}
+
 		void UpdateGPUBuffer(IModelRegistry& _ModelRegistry) const
 		{
-			const std::list<RefCounterPtr<IConstBuffer>>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
-			const std::list<Model*>& Models = _ModelRegistry.GetModels();
+			const std::list<IConstBuffer*>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
+			const std::list<std::shared_ptr<Model>>& Models = _ModelRegistry.GetModels();
 
 			for (const auto GlobalConstBuffer : GlobalConstBuffers)
 				GlobalConstBuffer->UpdateBuffer();
@@ -27,14 +34,11 @@ namespace Graphics
 			
 		}
 
-		virtual void RenderProcess(IModelRegistry& _ModelRegistry) const = 0;
-		virtual void Present() const = 0;
-
 	protected:
-		void RenderModel(IModelRegistry& _ModelRegistry) const
+		void renderModel(IModelRegistry& _ModelRegistry) const
 		{
-			std::list<RefCounterPtr<IConstBuffer>>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
-			std::list<Model*>& Models = _ModelRegistry.GetModels();
+			std::list<IConstBuffer*>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
+			std::list<std::shared_ptr<Model>>& Models = _ModelRegistry.GetModels();
 
 			for (const auto GlobalConstBuffer : GlobalConstBuffers)
 			{
@@ -43,10 +47,12 @@ namespace Graphics
 			}
 
 			for (const auto Model : Models)
-			{
-				Model->RenderModel(0, 2);
-			}
+				Model->RenderModel(0, 2, 0);
+			
 		}
+
+	protected:
+		RefCounterPtr<IPresenter> Presenter;
 
 	};
 
@@ -55,7 +61,7 @@ namespace Graphics
 		using Super = IGraphicProcess;
 	public:
 		BasicRenderProcess(Graphics::IDRGenerator& _Generator)
-			: Super()
+			: Super(_Generator)
 		{
 			RenderTargetView = _Generator.GenerateMainRenderTargetView();
 			DepthStencilState = _Generator.GenerateBasicDepthStencilState();
@@ -70,9 +76,6 @@ namespace Graphics
 			PixelShader = _Generator.GeneratePixelShader("./Renderer/resource/Shader/ColorPS.hlsl");
 			Topology = _Generator.GenerateTopology(eTopology::Triangle);
 			ViewPort = _Generator.GenerateMainViewPort();
-
-			Drawer = _Generator.GenerateDrawer();
-
 		}
 		~BasicRenderProcess()
 		{
@@ -80,7 +83,7 @@ namespace Graphics
 		}
 
 	public:
-		void RenderProcess(IModelRegistry& _ModelRegistry) const override
+		void BindRenderProcess(IModelRegistry& _ModelRegistry) const override
 		{
 			const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
 			RenderTargetView->ClearRenderTargetView(0, ClearColor);
@@ -96,11 +99,7 @@ namespace Graphics
 			ViewPort->RSSetViewPort();
 			PixelShader->PSSetShader();
 
-			Super::RenderModel(_ModelRegistry);
-		}
-		void Present() const override
-		{
-			Drawer->Present();
+			Super::renderModel(_ModelRegistry);
 		}
 
 	private:
@@ -111,7 +110,6 @@ namespace Graphics
 		RefCounterPtr<IPixelShader> PixelShader;
 		RefCounterPtr<ITopology> Topology;
 		RefCounterPtr<IViewPort> ViewPort;
-		RefCounterPtr<IDraw> Drawer;
 
 	};
 }

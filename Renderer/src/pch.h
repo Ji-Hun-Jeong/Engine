@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <unordered_map>
+#include <memory>
 #include "Renderer/include/SimpleMath.h"
 #include "Renderer/include/RefPtr.h"
 #include "Renderer/include/RefCounter.h"
@@ -17,4 +18,5 @@
 #endif
 
 using DirectX::SimpleMath::Vector3;
+using DirectX::SimpleMath::Vector2;
 using DirectX::SimpleMath::Matrix;

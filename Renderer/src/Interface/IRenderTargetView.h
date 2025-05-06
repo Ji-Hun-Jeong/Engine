@@ -31,6 +31,7 @@ namespace Graphics
 				, RenderTargetViews{}
 				, DepthStencilView(_DSV.Get())
 			{
+				RenderTargetViews.reserve(_RTV.size());
 				for (auto& RTV : _RTV)
 				{
 					RTV->AddRef();

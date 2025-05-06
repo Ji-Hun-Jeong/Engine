@@ -21,9 +21,6 @@
     <ClInclude Include="src\Platform\DirectX\DX.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\RenderType.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="include\SimpleMath.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -69,7 +66,7 @@
     <ClInclude Include="src\Interface\IConstBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Render\IRenderer.h">
+    <ClInclude Include="src\RenderProcess\IGraphicProcess.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Interface\IDraw.h">
@@ -78,10 +75,16 @@
     <ClInclude Include="include\RefCounter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Render\ModelRegistry.h">
+    <ClInclude Include="src\Interface\IShaderResource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderProcess\ImageRenderProcess.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Render\Model.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Render\IModelRegistry.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -128,16 +131,22 @@
     <ClCompile Include="src\Interface\IConstBuffer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Render\IRenderer.cpp">
+    <ClCompile Include="src\RenderProcess\IGraphicProcess.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Interface\IDraw.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Render\ModelRegistry.cpp">
+    <ClCompile Include="src\Interface\IShaderResource.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderProcess\ImageRenderProcess.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Render\Model.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render\IModelRegistry.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,6 +159,8 @@
   <ItemGroup>
     <FxCompile Include="resource\Shader\ColorVS.hlsl" />
     <FxCompile Include="resource\Shader\ColorPS.hlsl" />
+    <FxCompile Include="resource\Shader\ImageVS.hlsl" />
+    <FxCompile Include="resource\Shader\ImagePS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\Debug\DirectXTK.lib" />

@@ -5,14 +5,24 @@ struct ColorVertex
 	Vector3 Pos;
 	Vector3 Color;
 };
+struct UVVertex
+{
+	Vector3 Pos;
+	Vector2 UV;
+};
 namespace Geometry
 {
 	struct ColorMeshData
 	{
 		std::vector<ColorVertex> Vertices;
+		std::vector<uint8_t> Indices;
+	};
+	struct UVMeshData
+	{
+		std::vector<UVVertex> Vertices;
 		std::vector<uint32_t> Indices;
 	};
-
 	extern ColorMeshData GenerateColorTriangle();
+	extern UVMeshData GenerateUVRect();
 }
 

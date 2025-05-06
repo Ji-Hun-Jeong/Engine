@@ -1,5 +1,4 @@
 #pragma once
-#include "Renderer/src/Platform/DirectX/DX.h"
 #include "Renderer/src/Interface/IMesh.h"
 #include "Renderer/src/Interface/IConstBuffer.h"
 #include "Renderer/src/Interface/IRenderTargetView.h"
@@ -9,6 +8,7 @@
 #include "Renderer/src/Interface/ISampler.h"
 #include "Renderer/src/Interface/IRasterizerState.h"
 #include "Renderer/src/Interface/IDepthStencilState.h"
+#include "Renderer/src/Interface/IShaderResource.h"
 #include "Renderer/src/Interface/ITopology.h"
 #include "Renderer/src/Interface/IDraw.h"
 
@@ -55,22 +55,9 @@ namespace Graphics
 		virtual RefCounterPtr<IDepthStencilState> GenerateBasicDepthStencilState() = 0;
 		virtual RefCounterPtr<IConstBuffer> GenerateConstBuffer(const std::vector<CpuConstData>& _CpuData) = 0;
 		virtual RefCounterPtr<ITopology> GenerateTopology(eTopology _Topology) = 0;
-		virtual RefCounterPtr<IDraw> GenerateDrawer() = 0;
-		
-		/*void LoadSRV(const Str::FString& _Path, const Str::FString& _ImageName) override
-		{
-			if (Resource.Images.find(_ImageName) != Resource.Images.end())
-				return;
+		virtual RefCounterPtr<IPresenter> GeneratePresenter() = 0;
+		virtual RefCounterPtr<IShaderResource> GenerateShaderResource(const std::vector<Str::FString>& _Paths) = 0;
 
-			std::wstring WPath = _Path.GetWString();
-			ID3D11ShaderResourceView* Image = nullptr;
-			HRESULT HR = DirectX::CreateWICTextureFromFile(Resource.Device.Get(), WPath.c_str(), nullptr, &Image);
-			if (FAILED(HR))
-				assert(0);
-
-			Resource.Images.insert(std::make_pair(_ImageName, Image));
-			Image->Release();
-		}*/
 
 	protected:
 		HWND WindowHandle;

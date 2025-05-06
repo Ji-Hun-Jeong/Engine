@@ -9,18 +9,12 @@ namespace Graphics
 	{
 	public:
 		IModelRegistry()
-		{
-
-		}
+		{}
 		~IModelRegistry()
-		{
-			for (auto Model : Models)
-				if (Model)
-					delete Model;
-		}
+		{}
 
 	public:
-		UINT AddModel(Model* _Model)
+		UINT AddModel(std::shared_ptr<Model>& _Model)
 		{
 			Models.push_back(_Model);
 			return Models.size();
@@ -28,17 +22,16 @@ namespace Graphics
 
 		UINT AddGlobalConstBuffer(RefCounterPtr<IConstBuffer>& _GlobalConstBuffer)
 		{
-			GlobalConstBuffers.push_back(_GlobalConstBuffer);
+			GlobalConstBuffers.push_back(_GlobalConstBuffer.Get());
 			return GlobalConstBuffers.size();
 		}
 
-		std::list<Model*>& GetModels() { return Models; }
-		std::list<RefCounterPtr<IConstBuffer>>& GetGlobalConstBuffers() { return GlobalConstBuffers; }
+		std::list<std::shared_ptr<Model>>& GetModels() { return Models; }
+		std::list<IConstBuffer*>& GetGlobalConstBuffers() { return GlobalConstBuffers; }
 
 	private:
-		std::list<Model*> Models;
-		std::list<RefCounterPtr<IConstBuffer>> GlobalConstBuffers;
+		std::list<std::shared_ptr<Model>> Models;
+		std::list<IConstBuffer*> GlobalConstBuffers;
 
 	};
 }
-

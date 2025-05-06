@@ -3,14 +3,13 @@
 
 namespace Graphics
 {
-	class IDraw : public RefCounter
+	class IPresenter : public RefCounter
 	{
 	public:
-		IDraw() {}
-		virtual ~IDraw() {}
+		IPresenter() {}
+		virtual ~IPresenter() {}
 
 	public:
-		virtual void DrawIndexed(UINT _IndexCount) const = 0;
 		virtual void Present() const = 0;
 
 	protected:
@@ -20,30 +19,26 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXDraw : public IDraw
+		class DXPresenter : public IPresenter
 		{
 		public:
-			DXDraw(ComPtr<ID3D11DeviceContext>& _Context, ComPtr<IDXGISwapChain>& _SwapChain)
+			DXPresenter(ComPtr<ID3D11DeviceContext>& _Context, ComPtr<IDXGISwapChain>& _SwapChain)
 				: Context(_Context)
 				, SwapChain(_SwapChain)
 			{}
-			~DXDraw()
+			~DXPresenter()
 			{}
 
 		public:
-			void DrawIndexed(UINT _IndexCount) const override
-			{
-				Context->DrawIndexed(_IndexCount, 0, 0);
-			}
-
 			void Present() const override
 			{
 				SwapChain->Present(1, 0);
 			}
+
 		private:
-			
 			ComPtr<ID3D11DeviceContext>& Context;
 			ComPtr<IDXGISwapChain>& SwapChain;
+
 		};
 	}
 }

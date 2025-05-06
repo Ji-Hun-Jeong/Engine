@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\RefCounter.h" />
+    <ClInclude Include="src\Render\IModelRegistry.h" />
     <ClInclude Include="src\Render\Model.h" />
-    <ClInclude Include="src\Render\ModelRegistry.h" />
+    <ClInclude Include="src\RenderProcess\ImageRenderProcess.h" />
+    <ClInclude Include="include\RefCounter.h" />
+    <ClInclude Include="src\Interface\IShaderResource.h" />
     <ClInclude Include="src\Interface\IDraw.h" />
-    <ClInclude Include="src\Render\IRenderer.h" />
+    <ClInclude Include="src\RenderProcess\IGraphicProcess.h" />
     <ClInclude Include="src\Interface\IConstBuffer.h" />
     <ClInclude Include="src\Interface\IRasterizerState.h" />
     <ClInclude Include="src\Interface\ISampler.h" />
@@ -159,15 +161,16 @@
     <ClInclude Include="src\Render\IDRGenerator.h" />
     <ClInclude Include="include\WICTextureLoader.h" />
     <ClInclude Include="include\SimpleMath.h" />
-    <ClInclude Include="src\RenderType.h" />
     <ClInclude Include="src\Platform\DirectX\DX.h" />
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Render\IModelRegistry.cpp" />
     <ClCompile Include="src\Render\Model.cpp" />
-    <ClCompile Include="src\Render\ModelRegistry.cpp" />
+    <ClCompile Include="src\RenderProcess\ImageRenderProcess.cpp" />
+    <ClCompile Include="src\Interface\IShaderResource.cpp" />
     <ClCompile Include="src\Interface\IDraw.cpp" />
-    <ClCompile Include="src\Render\IRenderer.cpp" />
+    <ClCompile Include="src\RenderProcess\IGraphicProcess.cpp" />
     <ClCompile Include="src\Interface\IConstBuffer.cpp" />
     <ClCompile Include="src\Interface\IRasterizerState.cpp" />
     <ClCompile Include="src\Interface\ISampler.cpp" />
@@ -200,6 +203,22 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="resource\Shader\ColorVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="resource\Shader\ImagePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="resource\Shader\ImageVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

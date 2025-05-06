@@ -5,11 +5,11 @@ namespace Graphics
 {
 	enum class eSementicName
 	{
-		Position, Color,
+		Position, Color, UV,
 	};
 	enum class eFormat
 	{
-		Vector3,
+		Vector3, Vector2,
 	};
 	enum class eInputClass
 	{

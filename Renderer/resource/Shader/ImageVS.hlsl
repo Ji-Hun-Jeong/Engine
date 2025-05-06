@@ -3,12 +3,12 @@
 struct VSInput
 {
     float3 position : POSITION;
-    float3 color : COLOR;
+    float2 uv : TEXCOORD;
 };
 struct PSInput
 {
     float4 position : SV_Position;
-    float3 color : COLOR;
+    float2 uv : TEXCOORD;
 };
 
 cbuffer MeshConst : register(b2)
@@ -20,7 +20,6 @@ PSInput main(VSInput input)
 {
     PSInput output;
     output.position = float4(input.position, 1.0f);
-    output.position = mul(output.position, MVP);
-    output.color = input.color;
+    output.uv = input.uv;
     return output;
 };

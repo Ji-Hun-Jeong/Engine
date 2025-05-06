@@ -175,6 +175,12 @@
     <ClInclude Include="src\Component\Transform\Transform.h" />
     <ClInclude Include="src\Component\State\State.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\image\Player\Alert\0.png" />
+    <Image Include="resource\image\Player\Alert\1.png" />
+    <Image Include="resource\image\Player\Alert\2.png" />
+    <Image Include="resource\image\Player\Alert\3.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
