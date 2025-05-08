@@ -7,8 +7,9 @@ namespace Graphics
 	class RENDERER_API IGraphicProcess
 	{
 	public:
-		IGraphicProcess(Graphics::IDRGenerator& _Generator)
+		IGraphicProcess(Graphics::IDRGenerator& _Generator, UINT _ModelsConstBufferStartSlot)
 			: Presenter(_Generator.GeneratePresenter())
+			, ModelsConstBufferStartSlot(_ModelsConstBufferStartSlot)
 		{}
 		virtual ~IGraphicProcess()
 		{}
@@ -16,52 +17,39 @@ namespace Graphics
 	public:
 		virtual void BindRenderProcess(IModelRegistry& _ModelRegistry) const = 0;
 
+		void BindGlobalConst(std::shared_ptr<Model>& _GlobalModel, UINT _StartSlot)
+		{
+			
+		}
+
 		void Present() const
 		{
 			Presenter->Present();
-		}
-
-		void UpdateGPUBuffer(IModelRegistry& _ModelRegistry) const
-		{
-			const std::list<IConstBuffer*>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
-			const std::list<std::shared_ptr<Model>>& Models = _ModelRegistry.GetModels();
-
-			for (const auto GlobalConstBuffer : GlobalConstBuffers)
-				GlobalConstBuffer->UpdateBuffer();
-
-			for (const auto Model : Models)
-				Model->UpdateObjectDatas();
-			
 		}
 
 	protected:
 		void renderModel(IModelRegistry& _ModelRegistry) const
 		{
 			std::list<std::shared_ptr<Model>>& Models = _ModelRegistry.GetModels();
-			std::list<IConstBuffer*>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
-
-			for (const auto GlobalConstBuffer : GlobalConstBuffers)
-			{
-				GlobalConstBuffer->VSSetConstBuffers(0);
-				GlobalConstBuffer->PSSetConstBuffers(0);
-			}
 
 			for (const auto Model : Models)
-				Model->RenderModel(0, 2, 0);
+				Model->RenderModel(0, ModelsConstBufferStartSlot, 0);
 			
 		}
 
 	protected:
 		RefCounterPtr<IPresenter> Presenter;
 
+		std::shared_ptr<Model> GlobalModel;
+		UINT ModelsConstBufferStartSlot;
 	};
 
 	class RENDERER_API BasicRenderProcess : public IGraphicProcess
 	{
 		using Super = IGraphicProcess;
 	public:
-		BasicRenderProcess(Graphics::IDRGenerator& _Generator)
-			: Super(_Generator)
+		BasicRenderProcess(Graphics::IDRGenerator& _Generator, UINT _ModelsConstBufferStartSlot)
+			: Super(_Generator, _ModelsConstBufferStartSlot)
 		{
 			RenderTargetView = _Generator.GenerateMainRenderTargetView();
 			DepthStencilState = _Generator.GenerateBasicDepthStencilState();

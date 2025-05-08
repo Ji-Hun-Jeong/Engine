@@ -5,7 +5,7 @@ namespace Game
 {
 	Level::Level(Graphics::IDRGenerator& _Generator)
 		: Generator(_Generator)
-		, Renderer(*new Graphics::BasicRenderProcess(Generator))
+		, Renderer(*new Graphics::BasicRenderProcess(Generator, 2))
 	{
 	}
 
@@ -39,7 +39,6 @@ namespace Game
 
 	void Level::Render()
 	{
-		Renderer.UpdateGPUBuffer(ModelRegistry);
 		Renderer.BindRenderProcess(ModelRegistry);
 		Renderer.Present();
 	}

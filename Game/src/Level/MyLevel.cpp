@@ -24,24 +24,14 @@ namespace Game
 		auto& Indices = Md.Indices;
 
 		// Renderer모듈쪽에 추가
-		auto Model = std::make_shared<Graphics::Model>(Generator, Vertices.data(), sizeof(ColorVertex), Vertices.size()
+		auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(ColorVertex), Vertices.size()
 			, Indices.data(), sizeof(Indices[0]), Indices.size());
+		auto Model = std::make_shared<Graphics::Model>(Mesh);
 
-		// Renderer모듈쪽에 추가
-		PlayerConst* PConst = new PlayerConst;
-		std::vector<Graphics::CpuConstData> Consts{ {PConst, sizeof(*PConst)} };
+		Player* P = new Player("Test");
+		P->BindRendererInterface(Generator, Model);
 
-		std::vector<Str::FString> Str{ "Game/resource/image/Player/Alert/0.png" };
-		auto Context = std::make_shared<Graphics::StateContext>(Generator, Consts, Str);
-		auto ObjData = std::make_shared<Graphics::ObjectData>();
-
-		UINT ContextId = ObjData->AddStateContext(Context);
-
-		UINT ObjectDataId = Model->AddObjectData(ObjData);
-
-		UINT ModelId = ModelRegistry.AddModel(Model);
-
-		Player* P = new Player("Test", *PConst, ModelId);
+		ModelRegistry.AddModel(Model);
 
 		AddActor(P);
 	}

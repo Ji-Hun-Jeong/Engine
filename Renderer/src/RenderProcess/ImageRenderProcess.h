@@ -7,8 +7,8 @@ namespace Graphics
 	{
 		using Super = IGraphicProcess;
 	public:
-		ImageRenderProcess(Graphics::IDRGenerator& _Generator)
-			: Super(_Generator)
+		ImageRenderProcess(Graphics::IDRGenerator& _Generator, UINT _ModelsConstBufferStartSlot)
+			: Super(_Generator, _ModelsConstBufferStartSlot)
 		{
 			RenderTargetView = _Generator.GenerateMainRenderTargetView();
 			DepthStencilState = _Generator.GenerateBasicDepthStencilState();

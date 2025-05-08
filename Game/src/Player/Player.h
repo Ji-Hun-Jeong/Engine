@@ -14,7 +14,7 @@ namespace Game
 		using Super = Actor;
 		CLONE(Player, Actor)
 	public:
-		Player(const Str::FString& _Name, PlayerConst& _ActorCpuConstant, UINT _ModelId);
+		Player(const Str::FString& _Name);
 		Player(const Player& _Other);
 		Player(Player&& _Other) = delete;
 		Player& operator = (const Player& _Other) = delete;
@@ -26,7 +26,7 @@ namespace Game
 		virtual void Update() override;
 		virtual void Destory() override;
 
-		std::pair<void*, UINT> GetConstData() { return std::make_pair(&ActorCpuConstant, sizeof(ActorCpuConstant)); }
+		void BindRendererInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model);
 
 		void BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState
 			, const Str::FString& _ActionClass, const Str::FString& _ActionName);
@@ -44,7 +44,8 @@ namespace Game
 		void addSkill();
 
 	private:
-		PlayerConst& ActorCpuConstant;
+		PlayerConst ConstData;
+		std::shared_ptr<Graphics::ObjectInterface> PlayerInterface;
 
 		class KeyInput* KeyInput;
 		class ActionController* ActionController;

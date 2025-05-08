@@ -8,9 +8,8 @@
 
 namespace Game
 {
-	Player::Player(const Str::FString& _Name, PlayerConst& _ActorCpuConstant, UINT _ModelId)
+	Player::Player(const Str::FString& _Name)
 		: Super(_Name)
-		, ActorCpuConstant(_ActorCpuConstant)
 		, KeyInput(new Game::KeyInput)
 		, ActionController(new PlayerActionController)
 		, SkillManager(new Game::SkillManager)
@@ -35,7 +34,6 @@ namespace Game
 
 	Player::Player(const Player& _Other)
 		: Super(_Other)
-		, ActorCpuConstant(*new PlayerConst(_Other.ActorCpuConstant))
 		, KeyInput(nullptr)
 		, ActionController(nullptr)
 		, SkillManager(nullptr)
@@ -45,8 +43,6 @@ namespace Game
 
 	Player::~Player()
 	{
-		if (&ActorCpuConstant)
-			delete &ActorCpuConstant;
 		if (KeyInput)
 			delete KeyInput;
 		if (ActionController)
@@ -73,12 +69,24 @@ namespace Game
 
 		ActionController->Update();
 
-		ActorCpuConstant.MVP = Transform->GetModel().Transpose();
+		ConstData.MVP = Transform->GetModel().Transpose();
+
+		PlayerInterface->UpdateConstBuffer();
 	}
 
 	void Player::Destory()
 	{
 		Super::Destory();
+	}
+
+	void Player::BindRendererInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model)
+	{
+		std::vector<Graphics::CpuConstData> CpuConstDatas{ {&ConstData, sizeof(ConstData)} };
+		auto ConstBuffer = _Generator.GenerateConstBuffer(CpuConstDatas);
+
+		PlayerInterface = std::make_shared<Graphics::ObjectInterface>(ConstBuffer);
+		
+		_Model->AddObjectData(PlayerInterface);
 	}
 
 	void Player::BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState
