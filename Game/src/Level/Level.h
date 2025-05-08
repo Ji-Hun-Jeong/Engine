@@ -26,7 +26,6 @@ namespace Game
 
 		Graphics::IDRGenerator& Generator;
 		Graphics::IGraphicProcess& Renderer;
-		Graphics::IModelRegistry ModelRegistry;
 		
 	};
 }

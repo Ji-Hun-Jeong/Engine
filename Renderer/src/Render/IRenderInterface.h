@@ -16,13 +16,13 @@ namespace Graphics
 		}
 
 	public:
-
 		virtual void BindResourceToPipeline(UINT _ConstBufferStartSlot, UINT _ShaderResourceStartSlot) const = 0;
 
 		void UpdateConstBuffer() const
 		{
 			ConstBuffer->UpdateBuffer();
 		}
+
 		void SetRender(bool _BeRender) { BeRender = _BeRender; }
 		bool IsRender() const { return BeRender; }
 

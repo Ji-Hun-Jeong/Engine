@@ -166,6 +166,7 @@ namespace Graphics
 			Buffers.reserve(_CpuData.size());
 			for (size_t i = 0; i < _CpuData.size(); ++i)
 			{
+				assert(_CpuData[i].Size % 16 == 0);
 				D3D11_BUFFER_DESC BufferDesc;
 				ZeroMemory(&BufferDesc, sizeof(BufferDesc));
 				BufferDesc.Usage = D3D11_USAGE_DYNAMIC;

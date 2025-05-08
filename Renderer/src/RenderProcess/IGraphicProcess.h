@@ -1,6 +1,6 @@
 #pragma once
 #include "Platform/DirectX/DXRGenerator.h"
-#include "Render/IModelRegistry.h"
+#include "Render/Model.h"
 
 namespace Graphics
 {
@@ -15,7 +15,12 @@ namespace Graphics
 		{}
 
 	public:
-		virtual void BindRenderProcess(IModelRegistry& _ModelRegistry) const = 0;
+		virtual void BindRenderProcess() const = 0;
+
+		void AddModel(std::shared_ptr<Model>& _Model)
+		{
+			Models.push_back(_Model);
+		}
 
 		void Present() const
 		{
@@ -23,16 +28,15 @@ namespace Graphics
 		}
 
 	protected:
-		void renderModel(IModelRegistry& _ModelRegistry) const
+		void renderModel() const
 		{
-			std::list<std::shared_ptr<Model>>& Models = _ModelRegistry.GetModels();
-
 			for (const auto Model : Models)
 				Model->RenderModel(0, ModelsConstBufferStartSlot, 0);
 			
 		}
 
 	protected:
+		std::list<std::shared_ptr<Model>> Models;
 		RefCounterPtr<IPresenter> Presenter;
 
 		UINT ModelsConstBufferStartSlot;
@@ -66,7 +70,7 @@ namespace Graphics
 		}
 
 	public:
-		void BindRenderProcess(IModelRegistry& _ModelRegistry) const override
+		void BindRenderProcess() const override
 		{
 			const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
 			RenderTargetView->ClearRenderTargetView(0, ClearColor);
@@ -82,7 +86,7 @@ namespace Graphics
 			ViewPort->RSSetViewPort();
 			PixelShader->PSSetShader();
 
-			Super::renderModel(_ModelRegistry);
+			Super::renderModel();
 		}
 
 	private:

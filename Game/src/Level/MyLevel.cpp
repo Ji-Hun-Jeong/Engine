@@ -38,7 +38,7 @@ namespace Game
 		Player* P = new Player("Test");
 		P->BindRendererInterface(Generator, Model);
 
-		ModelRegistry.AddModel(Model);
+		Renderer.AddModel(Model);
 
 		AddActor(P);
 	}

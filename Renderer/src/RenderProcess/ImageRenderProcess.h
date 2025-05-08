@@ -31,7 +31,7 @@ namespace Graphics
 		}
 
 	public:
-		void BindRenderProcess(IModelRegistry& _ModelRegistry) const override
+		void BindRenderProcess() const override
 		{
 			const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
 			RenderTargetView->ClearRenderTargetView(0, ClearColor);
@@ -49,7 +49,7 @@ namespace Graphics
 			PixelShader->PSSetShader();
 			Sampler->PSSetSampler(0, 1);
 
-			Super::renderModel(_ModelRegistry);
+			Super::renderModel();
 		}
 
 	private:

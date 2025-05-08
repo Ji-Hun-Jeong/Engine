@@ -40,7 +40,7 @@ namespace Game
 
 	void Level::Render()
 	{
-		Renderer.BindRenderProcess(ModelRegistry);
+		Renderer.BindRenderProcess();
 		Renderer.Present();
 	}
 
