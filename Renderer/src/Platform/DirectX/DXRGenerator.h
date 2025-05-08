@@ -20,7 +20,7 @@ namespace Graphics
 
 			RefCounterPtr<IViewPort> GenerateMainViewPort() override;
 
-			RefCounterPtr<IMesh> GenerateModel(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
+			RefCounterPtr<IMesh> GenerateMesh(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
 				, void* _IndexData, size_t _IndexSize, size_t _NumOfIndex) override;
 
 			RefCounterPtr<IConstBuffer> GenerateConstBuffer(const std::vector<CpuConstData>& _CpuData) override;

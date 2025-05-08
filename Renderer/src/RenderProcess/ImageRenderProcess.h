@@ -18,9 +18,9 @@ namespace Graphics
 				{eSementicName::Position, eFormat::Vector3, 0, eInputClass::VertexData},
 				{eSementicName::UV, eFormat::Vector2, 12, eInputClass::VertexData}
 			};
-			VertexShader = _Generator.GenerateVertexShaderAndInputLayout("./Renderer/resource/Shader/ColorVS.hlsl"
+			VertexShader = _Generator.GenerateVertexShaderAndInputLayout("./Renderer/resource/Shader/ImageVS.hlsl"
 				, InputElement);
-			PixelShader = _Generator.GeneratePixelShader("./Renderer/resource/Shader/ColorPS.hlsl");
+			PixelShader = _Generator.GeneratePixelShader("./Renderer/resource/Shader/ImagePS.hlsl");
 			Topology = _Generator.GenerateTopology(eTopology::Triangle);
 			ViewPort = _Generator.GenerateMainViewPort();
 		}

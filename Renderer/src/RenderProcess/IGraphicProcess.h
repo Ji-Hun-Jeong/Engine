@@ -37,8 +37,8 @@ namespace Graphics
 	protected:
 		void renderModel(IModelRegistry& _ModelRegistry) const
 		{
-			std::list<IConstBuffer*>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
 			std::list<std::shared_ptr<Model>>& Models = _ModelRegistry.GetModels();
+			std::list<IConstBuffer*>& GlobalConstBuffers = _ModelRegistry.GetGlobalConstBuffers();
 
 			for (const auto GlobalConstBuffer : GlobalConstBuffers)
 			{

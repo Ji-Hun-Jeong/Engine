@@ -104,7 +104,7 @@ namespace Graphics
 			std::vector<D3D11_VIEWPORT> ViewPorts{ ViewPort };
 			return MakeRefCounter<DXViewPort>(Context, ViewPorts);
 		}
-		RefCounterPtr<IMesh> DXRGenerator::GenerateModel(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex, void* _IndexData, size_t _IndexSize, size_t _NumOfIndex)
+		RefCounterPtr<IMesh> DXRGenerator::GenerateMesh(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex, void* _IndexData, size_t _IndexSize, size_t _NumOfIndex)
 		{
 			D3D11_BUFFER_DESC BufferDesc;
 			ZeroMemory(&BufferDesc, sizeof(BufferDesc));

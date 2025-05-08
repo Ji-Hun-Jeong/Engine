@@ -21,6 +21,7 @@ namespace Graphics
 		{
 			ConstBuffer->UpdateBuffer();
 		}
+
 		void BindContext(UINT _ConstBufferStartSlot, UINT _ShaderResourceStartSlot) const
 		{
 			ConstBuffer->VSSetConstBuffers(_ConstBufferStartSlot);
@@ -63,6 +64,7 @@ namespace Graphics
 			if (!BeRender)
 				return;
 
+			// 현재 상태를 세팅해야죠
 			for (auto StateContext : StateContexts)
 				StateContext->BindContext(_ConstBufferStartSlot, _ShaderResourceStartSlot);
 		}
@@ -82,7 +84,7 @@ namespace Graphics
 	public:
 		Model(IDRGenerator& _Generator, void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
 			, void* _IndexData, size_t _IndexSize, size_t _NumOfIndex)
-			: Mesh(_Generator.GenerateModel(_VertexData, _VertexSize, _NumOfVertex, _IndexData, _IndexSize, _NumOfIndex))
+			: Mesh(_Generator.GenerateMesh(_VertexData, _VertexSize, _NumOfVertex, _IndexData, _IndexSize, _NumOfIndex))
 		{}
 		~Model()
 		{}

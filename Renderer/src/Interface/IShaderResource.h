@@ -43,11 +43,11 @@ namespace Graphics
 		public:
 			void VSSetShaderResources(UINT _StartSlot) const override
 			{
-				Context->VSSetShaderResources(_StartSlot, 1, ShaderResourceViews.data());
+				Context->VSSetShaderResources(_StartSlot, ShaderResourceViews.size(), ShaderResourceViews.data());
 			}
 			void PSSetShaderResources(UINT _StartSlot) const override
 			{
-				Context->PSSetShaderResources(_StartSlot, 1, ShaderResourceViews.data());
+				Context->PSSetShaderResources(_StartSlot, ShaderResourceViews.size(), ShaderResourceViews.data());
 			}
 
 		private:

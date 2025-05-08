@@ -2,11 +2,8 @@
 #include "Object.h"
 #include <Engine/src/Input/Input.h>
 #include <Engine/src/Time/Time.h>
+#include <Renderer/src/RenderProcess/IGraphicProcess.h>
 
-namespace Graphics
-{
-	class IModelRegistry;
-}
 namespace Game
 {
     class Actor : public Object

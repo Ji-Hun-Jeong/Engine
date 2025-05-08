@@ -45,7 +45,7 @@ namespace Graphics
 	public:
 		virtual RefCounterPtr<IRenderTargetView> GenerateMainRenderTargetView() = 0;
 		virtual RefCounterPtr<IViewPort> GenerateMainViewPort() = 0;
-		virtual RefCounterPtr<IMesh> GenerateModel(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
+		virtual RefCounterPtr<IMesh> GenerateMesh(void* _VertexData, size_t _VertexSize, size_t _NumOfVertex
 			, void* _IndexData, size_t _IndexSize, size_t _NumOfIndex) = 0;
 		virtual RefCounterPtr<IVertexShader> GenerateVertexShaderAndInputLayout(const Str::FString& _Path
 			, const std::vector<InputElementDesc>& _InputElements) = 0;

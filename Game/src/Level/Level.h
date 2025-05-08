@@ -1,7 +1,6 @@
 #pragma once
 #include "Object/Actor.h"
-#include <Renderer/src/RenderProcess/IGraphicProcess.h>
-#include "Game/Geometry/Geometry.h"
+#include "Game/src/Geometry/Geometry.h"
 
 namespace Game
 {
