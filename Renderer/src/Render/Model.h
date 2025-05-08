@@ -1,75 +1,50 @@
 #pragma once
-#include "Renderer/src/Render/IDRGenerator.h"
+#include "IRenderInterface.h"
 
 namespace Graphics
 {
-	class ObjectInterface
-	{
-	public:
-		ObjectInterface(RefCounterPtr<IConstBuffer>& _ConstBuffer)
-			: ConstBuffer(_ConstBuffer)
-			, BeRender(true)
-		{
-		}
-		~ObjectInterface()
-		{
-		}
-
-	public:
-		void UpdateConstBuffer() const
-		{
-			ConstBuffer->UpdateBuffer();
-		}
-
-		void SetData(UINT _StartSlot) const
-		{
-			if (!BeRender)
-				return;
-
-			ConstBuffer->VSSetConstBuffers(_StartSlot);
-			ConstBuffer->PSSetConstBuffers(_StartSlot);
-		}
-
-		void SetRender(bool _BeRender) { BeRender = _BeRender; }
-		bool IsRender() const { return BeRender; }
-
-	private:
-		RefCounterPtr<IConstBuffer> ConstBuffer;
-
-		bool BeRender;
-		// 렌더링 타입
-
-	};
-
 	class Model
 	{
 	public:
 		Model(RefCounterPtr<IMesh>& _Mesh)
 			: Mesh(_Mesh)
-		{}
-		~Model()
-		{}
-
-	public:
-		UINT AddObjectData(std::shared_ptr<ObjectInterface>& _ObjectData)
 		{
-			ObjectDatas.push_back(_ObjectData);
-			return ObjectDatas.size() - 1;
+		}
+		~Model()
+		{
 		}
 
-		void RenderModel(UINT _MeshDataStartSlot, UINT _ConstBufferStartSlot, UINT _ShaderResourceStartSlot) const
+	public:
+		void AddRenderInterface(std::shared_ptr<IRenderInterface>& _RenderInterface)
+		{
+			RenderInterfaces.push_back(_RenderInterface);
+		}
+
+		void RenderModel(UINT _MeshDataStartSlot, UINT _ConstBufferStartSlot, UINT _ShaderResourceStartSlot)
 		{
 			Mesh->IASetBuffer(_MeshDataStartSlot);
-			for (auto& ObjectData : ObjectDatas)
+			for (auto Iter = RenderInterfaces.begin(); Iter != RenderInterfaces.end();)
 			{
-				ObjectData->SetData(_ConstBufferStartSlot);
-				Mesh->DrawIndexed();
+				auto& RenderInterface = *Iter;
+				// 항상 Render인터페이스는 오브젝트도 가지고있기 때문에 RefCount가 1이라는것은 그 오브젝트가 소유권을 버렸다는 뜻.
+				if (Iter->use_count() == 1)
+				{
+					RenderInterface.reset();
+					Iter = RenderInterfaces.erase(Iter);
+				}
+				else
+				{
+					RenderInterface->BindResourceToPipeline(_ConstBufferStartSlot, _ShaderResourceStartSlot);
+					Mesh->DrawIndexed();
+					++Iter;
+				}
 			}
 		}
 
 	private:
 		RefCounterPtr<IMesh> Mesh;
-		std::list<std::shared_ptr<ObjectInterface>> ObjectDatas;
+
+		std::list<std::shared_ptr<IRenderInterface>> RenderInterfaces;
 
 	};
 }

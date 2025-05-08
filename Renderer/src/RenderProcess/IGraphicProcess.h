@@ -1,6 +1,6 @@
 #pragma once
-#include "Renderer/src/Platform/DirectX/DXRGenerator.h"
-#include "Renderer/src/Render/IModelRegistry.h"
+#include "Platform/DirectX/DXRGenerator.h"
+#include "Render/IModelRegistry.h"
 
 namespace Graphics
 {
@@ -16,11 +16,6 @@ namespace Graphics
 
 	public:
 		virtual void BindRenderProcess(IModelRegistry& _ModelRegistry) const = 0;
-
-		void BindGlobalConst(std::shared_ptr<Model>& _GlobalModel, UINT _StartSlot)
-		{
-			
-		}
 
 		void Present() const
 		{
@@ -40,7 +35,6 @@ namespace Graphics
 	protected:
 		RefCounterPtr<IPresenter> Presenter;
 
-		std::shared_ptr<Model> GlobalModel;
 		UINT ModelsConstBufferStartSlot;
 	};
 
@@ -65,6 +59,7 @@ namespace Graphics
 			Topology = _Generator.GenerateTopology(eTopology::Triangle);
 			ViewPort = _Generator.GenerateMainViewPort();
 		}
+
 		~BasicRenderProcess()
 		{
 

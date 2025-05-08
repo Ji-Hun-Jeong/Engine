@@ -5,6 +5,7 @@ struct VSInput
     float3 position : POSITION;
     float2 uv : TEXCOORD;
 };
+
 struct PSInput
 {
     float4 position : SV_Position;
@@ -20,6 +21,7 @@ PSInput main(VSInput input)
 {
     PSInput output;
     output.position = float4(input.position, 1.0f);
+    output.position = mul(output.position, MVP);
     output.uv = input.uv;
     return output;
 };

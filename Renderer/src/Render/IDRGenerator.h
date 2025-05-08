@@ -1,16 +1,16 @@
 #pragma once
-#include "Renderer/src/Interface/IMesh.h"
-#include "Renderer/src/Interface/IConstBuffer.h"
-#include "Renderer/src/Interface/IRenderTargetView.h"
-#include "Renderer/src/Interface/IViewPort.h"
-#include "Renderer/src/Interface/IVertexShaderInputLayout.h"
-#include "Renderer/src/Interface/IPixelShader.h"
-#include "Renderer/src/Interface/ISampler.h"
-#include "Renderer/src/Interface/IRasterizerState.h"
-#include "Renderer/src/Interface/IDepthStencilState.h"
-#include "Renderer/src/Interface/IShaderResource.h"
-#include "Renderer/src/Interface/ITopology.h"
-#include "Renderer/src/Interface/IDraw.h"
+#include "Interface/IMesh.h"
+#include "Interface/IConstBuffer.h"
+#include "Interface/IRenderTargetView.h"
+#include "Interface/IViewPort.h"
+#include "Interface/IVertexShaderInputLayout.h"
+#include "Interface/IPixelShader.h"
+#include "Interface/ISampler.h"
+#include "Interface/IRasterizerState.h"
+#include "Interface/IDepthStencilState.h"
+#include "Interface/IShaderResource.h"
+#include "Interface/ITopology.h"
+#include "Interface/IDraw.h"
 
 namespace Graphics
 {

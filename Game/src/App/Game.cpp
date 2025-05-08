@@ -14,7 +14,7 @@ namespace Game
 		, CurrentLevel(nullptr)
 		, Generator(*new Graphics::DX::DXRGenerator(AppWindow->GetWindowHandle()))
 	{
-		
+		// rendering리소스 정의
 	}
 
 	GameWorld::~GameWorld()

@@ -18,13 +18,20 @@ namespace Game
 	{
 		Super::InitLevel();
 
-		Geometry::ColorMeshData Md = Geometry::GenerateColorTriangle();
+		//Geometry::ColorMeshData Md = Geometry::GenerateColorTriangle();
 
-		auto& Vertices = Md.Vertices;
-		auto& Indices = Md.Indices;
+		//auto& Vertices = Md.Vertices;
+		//auto& Indices = Md.Indices;
 
-		// Renderer모듈쪽에 추가
-		auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(ColorVertex), Vertices.size()
+		//// Renderer모듈쪽에 추가
+		//auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(ColorVertex), Vertices.size()
+		//	, Indices.data(), sizeof(Indices[0]), Indices.size());
+		auto MeshData = Geometry::GenerateUVRect();
+
+		auto& Vertices = MeshData.Vertices;
+		auto& Indices = MeshData.Indices;
+
+		auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
 			, Indices.data(), sizeof(Indices[0]), Indices.size());
 		auto Model = std::make_shared<Graphics::Model>(Mesh);
 

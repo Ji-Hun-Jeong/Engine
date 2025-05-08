@@ -84,9 +84,12 @@ namespace Game
 		std::vector<Graphics::CpuConstData> CpuConstDatas{ {&ConstData, sizeof(ConstData)} };
 		auto ConstBuffer = _Generator.GenerateConstBuffer(CpuConstDatas);
 
-		PlayerInterface = std::make_shared<Graphics::ObjectInterface>(ConstBuffer);
+		std::vector<Str::FString> ImagePaths{ "Game/resource/image/Player/Alert/0.png" };
+		auto SRV = _Generator.GenerateShaderResource(ImagePaths);
+
+		PlayerInterface = std::make_shared<Graphics::SpriteInterface>(ConstBuffer, SRV);
 		
-		_Model->AddObjectData(PlayerInterface);
+		_Model->AddRenderInterface(PlayerInterface);
 	}
 
 	void Player::BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState

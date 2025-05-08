@@ -21,6 +21,7 @@ namespace Graphics
 			VertexShader = _Generator.GenerateVertexShaderAndInputLayout("./Renderer/resource/Shader/ImageVS.hlsl"
 				, InputElement);
 			PixelShader = _Generator.GeneratePixelShader("./Renderer/resource/Shader/ImagePS.hlsl");
+			Sampler = _Generator.GenerateLinearSampler();
 			Topology = _Generator.GenerateTopology(eTopology::Triangle);
 			ViewPort = _Generator.GenerateMainViewPort();
 		}
@@ -42,9 +43,11 @@ namespace Graphics
 			VertexShader->IASetInputLayout();
 
 			VertexShader->VSSetShader();
+			Sampler->VSSetSampler(0, 1);
 			RasterizerState->RSSetState();
 			ViewPort->RSSetViewPort();
 			PixelShader->PSSetShader();
+			Sampler->PSSetSampler(0, 1);
 
 			Super::renderModel(_ModelRegistry);
 		}
@@ -55,6 +58,7 @@ namespace Graphics
 		RefCounterPtr<IRasterizerState> RasterizerState;
 		RefCounterPtr<IVertexShader> VertexShader;
 		RefCounterPtr<IPixelShader> PixelShader;
+		RefCounterPtr<ISampler> Sampler;
 		RefCounterPtr<ITopology> Topology;
 		RefCounterPtr<IViewPort> ViewPort;
 

@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Render\IRenderInterface.h" />
     <ClInclude Include="src\Render\IModelRegistry.h" />
     <ClInclude Include="src\Render\Model.h" />
     <ClInclude Include="src\RenderProcess\ImageRenderProcess.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Render\IRenderInterface.cpp" />
     <ClCompile Include="src\Render\IModelRegistry.cpp" />
     <ClCompile Include="src\Render\Model.cpp" />
     <ClCompile Include="src\RenderProcess\ImageRenderProcess.cpp" />

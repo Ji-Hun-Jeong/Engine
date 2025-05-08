@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "Level.h"
+#include <Renderer/src/RenderProcess/ImageRenderProcess.h>
 
 namespace Game
 {
 	Level::Level(Graphics::IDRGenerator& _Generator)
 		: Generator(_Generator)
-		, Renderer(*new Graphics::BasicRenderProcess(Generator, 2))
+		, Renderer(*new Graphics::ImageRenderProcess(Generator, 2))
 	{
 	}
 
