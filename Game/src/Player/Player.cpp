@@ -87,7 +87,13 @@ namespace Game
 		std::vector<Str::FString> ImagePaths{ "Game/resource/image/Player/Alert/0.png" };
 		auto SRV = _Generator.GenerateShaderResource(ImagePaths);
 
-		PlayerInterface = std::make_shared<Graphics::SpriteInterface>(ConstBuffer, SRV);
+		ImagePaths[0] = "Game/resource/image/Player/Alert/0.png";
+
+
+		auto Anim = std::make_shared<Graphics::Animation>(0.5f);
+		Anim->AddImage(SRV);		
+
+		PlayerInterface = std::make_shared<Graphics::AnimationInterface>(ConstBuffer);
 		
 		_Model->AddRenderInterface(PlayerInterface);
 	}

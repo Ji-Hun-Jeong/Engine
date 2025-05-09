@@ -45,7 +45,7 @@ namespace Game
 
 	private:
 		PlayerConst ConstData;
-		std::shared_ptr<Graphics::IRenderInterface> PlayerInterface;
+		std::shared_ptr<Graphics::AnimationInterface> PlayerInterface;
 
 		class KeyInput* KeyInput;
 		class ActionController* ActionController;

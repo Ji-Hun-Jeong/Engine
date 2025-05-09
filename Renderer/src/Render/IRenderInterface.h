@@ -1,6 +1,8 @@
 #pragma once
 #include "IDRGenerator.h"
 
+#include <Engine/src/Time/Time.h>
+
 namespace Graphics
 {
 	class IRenderInterface
@@ -58,6 +60,100 @@ namespace Graphics
 
 	private:
 		RefCounterPtr<IShaderResource> Image;
+
+	};
+
+	class Animation
+	{
+	public:
+		Animation(float _FrameTime)
+			: FrameTime(_FrameTime)
+			, ProgressTime(0.0f)
+			, CurrentFrame(0)
+		{}
+		~Animation() {}
+
+	public:
+		void ExitAnimation()
+		{
+			ProgressTime = 0.0f;
+			CurrentFrame = 0;
+		}
+
+		void Update(UINT _StartSlot)
+		{
+			ProgressTime += Time::GetDT();
+			if (FrameTime <= ProgressTime)
+			{
+				CurrentFrame += 1;
+				ProgressTime = 0.0f;
+			}
+			
+			if (Images.size() <= CurrentFrame)
+				CurrentFrame = 0;
+
+			Images[CurrentFrame]->VSSetShaderResources(_StartSlot);
+			Images[CurrentFrame]->PSSetShaderResources(_StartSlot);
+		}
+
+		void AddImage(RefCounterPtr<IShaderResource>& Image)
+		{
+			Images.push_back(Image);
+		}
+
+	private:
+		std::vector<RefCounterPtr<IShaderResource>> Images;
+
+		float FrameTime;
+		float ProgressTime;
+
+		UINT CurrentFrame;
+
+	};
+
+	class AnimationInterface : public IRenderInterface
+	{
+		using Super = IRenderInterface;
+	public:
+		AnimationInterface(RefCounterPtr<IConstBuffer>& _ConstBuffer)
+			: Super(_ConstBuffer)
+			, CurrentAnimation(nullptr)
+		{
+		}
+		~AnimationInterface() 
+		{
+			for (auto& Animation : Animations)
+				delete Animation.second;
+		}
+		
+	public:
+		void BindResourceToPipeline(UINT _ConstBufferStartSlot, UINT _ShaderResourceStartSlot) const override
+		{
+			if (!BeRender)
+				return;
+
+			ConstBuffer->VSSetConstBuffers(_ConstBufferStartSlot);
+			ConstBuffer->PSSetConstBuffers(_ConstBufferStartSlot);
+
+			CurrentAnimation->Update(_ShaderResourceStartSlot);
+		}
+
+		void AddAnimation(const Str::FString& _AnimationName, std::shared_ptr<Animation>& _Animation)
+		{
+			Animations.insert(std::make_pair(_AnimationName, _Animation.get()));
+		}
+
+		void SetCurrentAnimation(const Str::FString& _AnimationName)
+		{
+			if (CurrentAnimation)
+				CurrentAnimation->ExitAnimation();
+			
+			CurrentAnimation = Animations.find(_AnimationName)->second;
+		}
+
+	private:
+		std::map<Str::FString, Animation*> Animations;
+		Animation* CurrentAnimation;
 
 	};
 }

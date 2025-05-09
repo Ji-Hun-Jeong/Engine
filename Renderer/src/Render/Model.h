@@ -15,7 +15,7 @@ namespace Graphics
 		}
 
 	public:
-		void AddRenderInterface(std::shared_ptr<IRenderInterface>& _RenderInterface)
+		void AddRenderInterface(std::shared_ptr<IRenderInterface> _RenderInterface)
 		{
 			RenderInterfaces.push_back(_RenderInterface);
 		}
