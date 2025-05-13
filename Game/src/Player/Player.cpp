@@ -79,22 +79,27 @@ namespace Game
 		Super::Destory();
 	}
 
+	void AddImageToAnimation(Graphics::IDRGenerator& _Generator, Graphics::Animation* _Anim, const std::vector<Str::FString>& _ImagePath)
+	{
+		auto SRV = _Generator.GenerateShaderResource(_ImagePath);
+		_Anim->AddImage(SRV);
+	}
+
 	void Player::BindRendererInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model)
 	{
 		std::vector<Graphics::CpuConstData> CpuConstDatas{ {&ConstData, sizeof(ConstData)} };
 		auto ConstBuffer = _Generator.GenerateConstBuffer(CpuConstDatas);
 
-		std::vector<Str::FString> ImagePaths{ "Game/resource/image/Player/Alert/0.png" };
-		auto SRV = _Generator.GenerateShaderResource(ImagePaths);
-
-		ImagePaths[0] = "Game/resource/image/Player/Alert/0.png";
-
-
-		auto Anim = std::make_shared<Graphics::Animation>(0.5f);
-		Anim->AddImage(SRV);		
+		Graphics::Animation* Anim = new Graphics::Animation(0.5f);
+		AddImageToAnimation(_Generator, Anim, { "Game/resource/image/Player/Alert/0.png" });
+		AddImageToAnimation(_Generator, Anim, { "Game/resource/image/Player/Alert/1.png" });
+		AddImageToAnimation(_Generator, Anim, { "Game/resource/image/Player/Alert/2.png" });
+		AddImageToAnimation(_Generator, Anim, { "Game/resource/image/Player/Alert/3.png" });
 
 		PlayerInterface = std::make_shared<Graphics::AnimationInterface>(ConstBuffer);
-		
+		PlayerInterface->AddAnimation("Alert", Anim);
+		PlayerInterface->SetCurrentAnimation("Alert");
+
 		_Model->AddRenderInterface(PlayerInterface);
 	}
 

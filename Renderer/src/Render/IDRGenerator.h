@@ -57,7 +57,6 @@ namespace Graphics
 		virtual RefCounterPtr<ITopology> GenerateTopology(eTopology _Topology) = 0;
 		virtual RefCounterPtr<IPresenter> GeneratePresenter() = 0;
 		virtual RefCounterPtr<IShaderResource> GenerateShaderResource(const std::vector<Str::FString>& _Paths) = 0;
-		virtual std::vector<RefCounterPtr<IShaderResource>> GenerateShaderResources(const std::vector<Str::FString>& _Paths) = 0;
 
 	protected:
 		HWND WindowHandle;

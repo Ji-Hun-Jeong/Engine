@@ -356,21 +356,5 @@ namespace Graphics
 			}
 			return MakeRefCounter<DXShaderResource>(Context, ShaderResourceViews);
 		}
-		std::vector<RefCounterPtr<IShaderResource>> DXRGenerator::GenerateShaderResources(const std::vector<Str::FString>& _Paths)
-		{
-			// std::vector<RefCounterPtr<IShaderResource>> (_Paths.size(), nullptr);
-			std::vector<ComPtr<ID3D11ShaderResourceView>> ShaderResourceViews(_Paths.size(), nullptr);
-			for (size_t i = 0; i < _Paths.size(); ++i)
-			{
-				std::wstring WPath = _Paths[i].GetWString();
-				ComPtr<ID3D11ShaderResourceView> Image;
-
-				HRESULT HR = DirectX::CreateWICTextureFromFile(Device.Get(), WPath.c_str(), nullptr, &Image);
-				if (FAILED(HR))
-					assert(0);
-				ShaderResourceViews[i] = Image;
-			}
-			return ;
-		}
 	}
 }

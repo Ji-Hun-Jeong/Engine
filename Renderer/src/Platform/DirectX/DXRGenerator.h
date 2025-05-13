@@ -45,8 +45,6 @@ namespace Graphics
 
 			RefCounterPtr<IShaderResource> GenerateShaderResource(const std::vector<Str::FString>& _Paths) override;
 
-			std::vector<RefCounterPtr<IShaderResource>> GenerateShaderResources(const std::vector<Str::FString>& _Paths) override;
-
 		private:
 			ComPtr<ID3D11Device> Device;
 			ComPtr<ID3D11DeviceContext> Context;

@@ -111,6 +111,24 @@ namespace Graphics
 
 	};
 
+	class AnimationTransition
+	{
+	public:
+		AnimationTransition(Animation* _Tail, Animation* _Head, std::function<bool()> _Condition)
+			: Tail(_Tail), Head(_Head), Condition(_Condition)
+		{}
+		~AnimationTransition() = default;
+
+	public:
+
+
+	private:
+		Animation* Tail;
+		Animation* Head;
+
+		std::function<bool()> Condition;
+	};
+
 	class AnimationInterface : public IRenderInterface
 	{
 		using Super = IRenderInterface;
@@ -138,9 +156,9 @@ namespace Graphics
 			CurrentAnimation->Update(_ShaderResourceStartSlot);
 		}
 
-		void AddAnimation(const Str::FString& _AnimationName, std::shared_ptr<Animation>& _Animation)
+		void AddAnimation(const Str::FString& _AnimationName, Animation* _Animation)
 		{
-			Animations.insert(std::make_pair(_AnimationName, _Animation.get()));
+			Animations.insert(std::make_pair(_AnimationName, _Animation));
 		}
 
 		void SetCurrentAnimation(const Str::FString& _AnimationName)
