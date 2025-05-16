@@ -5,7 +5,7 @@ namespace Graphics
 {
 	void Animation::Update(UINT _StartSlot)
 	{
-		ProgressTime += Time::GetDT();
+		ProgressTime += GraphicsTime::GetDT();
 
 		if (FrameTime <= ProgressTime)
 		{

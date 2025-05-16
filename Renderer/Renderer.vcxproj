@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\FString.h" />
+    <ClInclude Include="src\MyTime.h" />
     <ClInclude Include="src\Render\IRenderInterface.h" />
     <ClInclude Include="src\Render\Model.h" />
     <ClInclude Include="src\RenderProcess\ImageRenderProcess.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\MyTime.cpp" />
     <ClCompile Include="src\Render\IRenderInterface.cpp" />
     <ClCompile Include="src\Render\Model.cpp" />
     <ClCompile Include="src\RenderProcess\ImageRenderProcess.cpp" />

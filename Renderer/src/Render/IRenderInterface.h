@@ -1,7 +1,6 @@
 #pragma once
 #include "IDRGenerator.h"
-
-#include <Engine/src/Time/Time.h>
+#include "MyTime.h"
 
 namespace Graphics
 {

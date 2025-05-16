@@ -6,6 +6,7 @@
 #include <Engine/src/Input/Input.h>
 #include <Engine/src/Path/Path.h>
 #include <Game/src/Core/Window.h>
+#include <Renderer/src/MyTime.h>
 
 namespace Game
 {
@@ -39,7 +40,7 @@ namespace Game
 	bool GameWorld::Process()
 	{
 		Time::Update();
-
+		GraphicsTime::SetDT(Time::GetDT());
 		Input::Update();
 
 		this->Update();
