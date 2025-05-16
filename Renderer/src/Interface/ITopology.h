@@ -3,11 +3,11 @@
 
 namespace Graphics
 {
-	enum class eTopology
+	enum class RENDERER_API eTopology
 	{
 		Triangle, End,
 	};
-	class ITopology : public RefCounter
+	class RENDERER_API ITopology : public RefCounter
 	{
 	public:
 		ITopology() = default;
@@ -23,7 +23,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXTopology : public ITopology
+		class RENDERER_API DXTopology : public ITopology
 		{
 		public:
 			DXTopology(ComPtr<ID3D11DeviceContext>& _Context, D3D11_PRIMITIVE_TOPOLOGY _TL)

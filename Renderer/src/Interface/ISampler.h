@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class ISampler : public RefCounter
+	class RENDERER_API ISampler : public RefCounter
 	{
 	public:
 		ISampler() = default;
@@ -20,7 +20,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXSampler : public ISampler
+		class RENDERER_API DXSampler : public ISampler
 		{
 		public:
 			DXSampler(ComPtr<ID3D11DeviceContext>& _Context, const std::vector<ComPtr<ID3D11SamplerState>>& _SS)

@@ -1,10 +1,11 @@
 #pragma once
 #include "IDRGenerator.h"
-#include "MyTime.h"
+#include "GraphicsTime.h"
+#include "Base/Notify.h"
 
 namespace Graphics
 {
-	class IRenderInterface
+	class RENDERER_API IRenderInterface
 	{
 	public:
 		IRenderInterface(RefCounterPtr<IConstBuffer>& _ConstBuffer)
@@ -34,16 +35,16 @@ namespace Graphics
 
 	};
 
-	class RENDERER_API SpriteInterface : public IRenderInterface
+	class RENDERER_API SpriteRenderer : public IRenderInterface
 	{
 		using Super = IRenderInterface;
 	public:
-		SpriteInterface(RefCounterPtr<IConstBuffer>& _ConstBuffer, RefCounterPtr<IShaderResource>& _Image)
+		SpriteRenderer(RefCounterPtr<IConstBuffer>& _ConstBuffer, RefCounterPtr<IShaderResource>& _Image)
 			: Super(_ConstBuffer)
 			, Image(_Image)
 		{
 		}
-		~SpriteInterface() {}
+		~SpriteRenderer() {}
 
 	public:
 		void BindResourceToPipeline(UINT _ConstBufferStartSlot, UINT _ShaderResourceStartSlot) const override
@@ -62,7 +63,7 @@ namespace Graphics
 
 	};
 
-	class RENDERER_API Animation
+	class RENDERER_API Animation : public IEventNotifier
 	{
 	public:
 		Animation(float _FrameTime)
@@ -94,36 +95,49 @@ namespace Graphics
 
 		UINT CurrentFrame;
 
+		bool IsFinish;
 	};
 
-	class RENDERER_API AnimationTransition
+	class RENDERER_API AnimationTransition : public IEventListener
 	{
 	public:
-		AnimationTransition(Animation* _Tail, Animation* _Head, std::function<bool()> _Condition)
-			: Tail(_Tail), Head(_Head), Condition(_Condition)
+		AnimationTransition(Animation* _Tail, Animation* _Head, std::function<bool()> _Condition, std::function<void(Animation*)> _ChangeAnimationFunc)
+			: Tail(_Tail), Head(_Head)
+			, Condition(_Condition)
+			, ChangeAnimationFunc(_ChangeAnimationFunc)
+			, ForceExit(false)
 		{}
 		~AnimationTransition() = default;
 
 	public:
-
+		void DispatchEvent() override
+		{
+			if(ForceExit == false)
+				Tail->
+			if (Condition())
+				ChangeAnimationFunc(Head);
+		}
 
 	private:
 		Animation* Tail;
 		Animation* Head;
 
 		std::function<bool()> Condition;
+		std::function<void(Animation*)> ChangeAnimationFunc;
+
+		bool ForceExit;
 	};
 
-	class RENDERER_API AnimationInterface : public IRenderInterface
+	class RENDERER_API Animator : public IRenderInterface
 	{
 		using Super = IRenderInterface;
 	public:
-		AnimationInterface(RefCounterPtr<IConstBuffer>& _ConstBuffer)
+		Animator(RefCounterPtr<IConstBuffer>& _ConstBuffer)
 			: Super(_ConstBuffer)
 			, CurrentAnimation(nullptr)
 		{
 		}
-		~AnimationInterface() 
+		~Animator() 
 		{
 			for (auto& Animation : Animations)
 				delete Animation.second;
@@ -152,6 +166,14 @@ namespace Graphics
 				CurrentAnimation->ExitAnimation();
 			
 			CurrentAnimation = Animations.find(_AnimationName)->second;
+		}
+
+		void SetCurrentAnimation(Animation* _Animation)
+		{
+			if (CurrentAnimation)
+				CurrentAnimation->ExitAnimation();
+
+			CurrentAnimation = _Animation;
 		}
 
 	private:

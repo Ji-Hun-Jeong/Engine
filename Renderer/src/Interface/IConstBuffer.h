@@ -3,12 +3,12 @@
 
 namespace Graphics
 {
-	struct CpuConstData
+	struct RENDERER_API CpuConstData
 	{
 		void* Data;
 		UINT Size;
 	};
-	class IConstBuffer : public RefCounter
+	class RENDERER_API IConstBuffer : public RefCounter
 	{
 	public:
 		IConstBuffer() = default;

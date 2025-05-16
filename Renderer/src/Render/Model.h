@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class Model
+	class RENDERER_API Model
 	{
 	public:
 		Model(RefCounterPtr<IMesh>& _Mesh)

@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IPresenter : public RefCounter
+	class RENDERER_API IPresenter : public RefCounter
 	{
 	public:
 		IPresenter() {}
@@ -19,7 +19,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXPresenter : public IPresenter
+		class RENDERER_API DXPresenter : public IPresenter
 		{
 		public:
 			DXPresenter(ComPtr<ID3D11DeviceContext>& _Context, ComPtr<IDXGISwapChain>& _SwapChain)

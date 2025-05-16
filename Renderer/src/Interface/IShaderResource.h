@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IShaderResource : public RefCounter
+	class RENDERER_API IShaderResource : public RefCounter
 	{
 	public:
 		IShaderResource() = default;
@@ -20,7 +20,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXShaderResource : public IShaderResource
+		class RENDERER_API DXShaderResource : public IShaderResource
 		{
 		public:
 			DXShaderResource(ComPtr<ID3D11DeviceContext>& _Context, std::vector<ComPtr<ID3D11ShaderResourceView>>& _ShaderResourceViews)

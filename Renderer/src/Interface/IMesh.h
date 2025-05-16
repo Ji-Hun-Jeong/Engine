@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IMesh : public RefCounter
+	class RENDERER_API IMesh : public RefCounter
 	{
 	public:
 		IMesh() = default;

@@ -6,7 +6,7 @@
 #include <Engine/src/Input/Input.h>
 #include <Engine/src/Path/Path.h>
 #include <Game/src/Core/Window.h>
-#include <Renderer/src/MyTime.h>
+#include <Renderer/src/GraphicsTime.h>
 
 namespace Game
 {

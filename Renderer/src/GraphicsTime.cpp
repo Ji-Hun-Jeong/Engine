@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "MyTime.h"
+#include "GraphicsTime.h"
 
 namespace GraphicsTime
 {

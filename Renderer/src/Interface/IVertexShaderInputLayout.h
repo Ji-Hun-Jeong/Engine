@@ -3,19 +3,19 @@
 
 namespace Graphics
 {
-	enum class eSementicName
+	enum class RENDERER_API eSementicName
 	{
 		Position, Color, UV,
 	};
-	enum class eFormat
+	enum class RENDERER_API eFormat
 	{
 		Vector3, Vector2,
 	};
-	enum class eInputClass
+	enum class RENDERER_API eInputClass
 	{
 		VertexData,
 	};
-	struct InputElementDesc
+	struct RENDERER_API InputElementDesc
 	{
 		eSementicName SementicName;
 		eFormat Format;
@@ -23,7 +23,7 @@ namespace Graphics
 		eInputClass InputClass;
 	};
 
-	class IVertexShader : public RefCounter
+	class RENDERER_API IVertexShader : public RefCounter
 	{
 	public:
 		IVertexShader() = default;
@@ -40,7 +40,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXVertexShader : public IVertexShader
+		class RENDERER_API DXVertexShader : public IVertexShader
 		{
 		public:
 			DXVertexShader(ComPtr<ID3D11DeviceContext>& _Context, ComPtr<ID3D11VertexShader>& _VS, ComPtr<ID3D11InputLayout>& _IL)

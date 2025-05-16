@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IPixelShader : public RefCounter
+	class RENDERER_API IPixelShader : public RefCounter
 	{
 	public:
 		IPixelShader() = default;
@@ -19,7 +19,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXPixelShader : public IPixelShader
+		class RENDERER_API DXPixelShader : public IPixelShader
 		{
 		public:
 			DXPixelShader(ComPtr<ID3D11DeviceContext>& _Context, ComPtr<ID3D11PixelShader>& _PS)

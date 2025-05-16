@@ -96,7 +96,7 @@ namespace Game
 		AddImageToAnimation(_Generator, Anim, { "Game/resource/image/Player/Alert/2.png" });
 		AddImageToAnimation(_Generator, Anim, { "Game/resource/image/Player/Alert/3.png" });
 
-		PlayerInterface = std::make_shared<Graphics::AnimationInterface>(ConstBuffer);
+		PlayerInterface = std::make_shared<Graphics::Animator>(ConstBuffer);
 		PlayerInterface->AddAnimation("Alert", Anim);
 		PlayerInterface->SetCurrentAnimation("Alert");
 

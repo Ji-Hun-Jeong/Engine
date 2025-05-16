@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IViewPort : public RefCounter
+	class RENDERER_API IViewPort : public RefCounter
 	{
 	public:
 		IViewPort() = default;
@@ -19,7 +19,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXViewPort : public IViewPort
+		class RENDERER_API DXViewPort : public IViewPort
 		{
 		public:
 			DXViewPort(ComPtr<ID3D11DeviceContext>& _Context, const std::vector<D3D11_VIEWPORT>& _VP)

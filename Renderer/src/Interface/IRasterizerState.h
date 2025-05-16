@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IRasterizerState : public RefCounter
+	class RENDERER_API IRasterizerState : public RefCounter
 	{
 	public:
 		IRasterizerState() = default;
@@ -19,7 +19,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXRasterizerState : public IRasterizerState
+		class RENDERER_API DXRasterizerState : public IRasterizerState
 		{
 		public:
 			DXRasterizerState(ComPtr<ID3D11DeviceContext>& _Context, ComPtr<ID3D11RasterizerState>& _RS)

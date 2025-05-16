@@ -90,7 +90,10 @@
     <ClInclude Include="include\FString.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\MyTime.h">
+    <ClInclude Include="src\GraphicsTime.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Base\Notify.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,7 +158,13 @@
     <ClCompile Include="src\Render\IRenderInterface.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\MyTime.cpp">
+    <ClCompile Include="src\GraphicsTime.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="include\RefCounter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Base\Notify.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

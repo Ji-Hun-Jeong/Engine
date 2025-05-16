@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IDepthStencilState : public RefCounter
+	class RENDERER_API IDepthStencilState : public RefCounter
 	{
 	public:
 		IDepthStencilState() {}

@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	class IRenderTargetView : public RefCounter
+	class RENDERER_API IRenderTargetView : public RefCounter
 	{
 	public:
 		IRenderTargetView() = default;
@@ -22,7 +22,7 @@ namespace Graphics
 	namespace DX
 	{
 		using Microsoft::WRL::ComPtr;
-		class DXRenderTargetView : public IRenderTargetView
+		class RENDERER_API DXRenderTargetView : public IRenderTargetView
 		{
 		public:
 			DXRenderTargetView(ComPtr<ID3D11DeviceContext>& _Context, const std::vector<ComPtr<ID3D11RenderTargetView>>& _RTV

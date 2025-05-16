@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>FString.lib;d3dcompiler.lib;d3d11.lib;dxgi.lib;Engine.lib;DirectXTK.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FString.lib;d3dcompiler.lib;d3d11.lib;dxgi.lib;DirectXTK.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Renderer\lib\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -134,13 +134,14 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>FString.lib;d3dcompiler.lib;d3d11.lib;dxgi.lib;Engine.lib;DirectXTK.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FString.lib;d3dcompiler.lib;d3d11.lib;dxgi.lib;DirectXTK.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Renderer\lib\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\FString.h" />
-    <ClInclude Include="src\MyTime.h" />
+    <ClInclude Include="src\Base\Notify.h" />
+    <ClInclude Include="src\GraphicsTime.h" />
     <ClInclude Include="src\Render\IRenderInterface.h" />
     <ClInclude Include="src\Render\Model.h" />
     <ClInclude Include="src\RenderProcess\ImageRenderProcess.h" />
@@ -167,7 +168,9 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\MyTime.cpp" />
+    <ClCompile Include="include\RefCounter.cpp" />
+    <ClCompile Include="src\Base\Notify.cpp" />
+    <ClCompile Include="src\GraphicsTime.cpp" />
     <ClCompile Include="src\Render\IRenderInterface.cpp" />
     <ClCompile Include="src\Render\Model.cpp" />
     <ClCompile Include="src\RenderProcess\ImageRenderProcess.cpp" />
