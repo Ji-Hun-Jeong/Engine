@@ -5,7 +5,7 @@
 #include <Engine/src/Time/Time.h>
 #include <Engine/src/Input/Input.h>
 #include <Engine/src/Path/Path.h>
-#include <System/src/Core/Window.h>
+#include <Game/src/Core/Window.h>
 
 namespace Game
 {
@@ -39,6 +39,7 @@ namespace Game
 	bool GameWorld::Process()
 	{
 		Time::Update();
+
 		Input::Update();
 
 		this->Update();

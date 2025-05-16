@@ -2,7 +2,7 @@
 #include "Core.h"
 #include "Application.h"
 
-namespace System
+namespace Game
 {
 	Core::Core(Application* _App)
 		: App(_App)

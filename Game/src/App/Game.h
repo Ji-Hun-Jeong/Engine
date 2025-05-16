@@ -1,5 +1,5 @@
 #pragma once
-#include <System/src/Core/Application.h>
+#include <Game/src/Core/Application.h>
 
 namespace Graphics
 {
@@ -7,9 +7,9 @@ namespace Graphics
 }
 namespace Game
 {
-	class GameWorld : public System::Application
+	class GameWorld : public Game::Application
 	{
-		using Super = System::Application;
+		using Super = Game::Application;
 	public:
 		GameWorld(UINT _ScreenWidth, UINT _ScreenHeight);
 		~GameWorld();

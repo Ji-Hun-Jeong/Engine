@@ -35,7 +35,7 @@ namespace Graphics
 
 	};
 
-	class SpriteInterface : public IRenderInterface
+	class RENDERER_API SpriteInterface : public IRenderInterface
 	{
 		using Super = IRenderInterface;
 	public:
@@ -63,7 +63,7 @@ namespace Graphics
 
 	};
 
-	class Animation
+	class RENDERER_API Animation
 	{
 	public:
 		Animation(float _FrameTime)
@@ -80,21 +80,7 @@ namespace Graphics
 			CurrentFrame = 0;
 		}
 
-		void Update(UINT _StartSlot)
-		{
-			ProgressTime += Time::GetDT();
-			if (FrameTime <= ProgressTime)
-			{
-				CurrentFrame += 1;
-				ProgressTime = 0.0f;
-			}
-			
-			if (Images.size() <= CurrentFrame)
-				CurrentFrame = 0;
-
-			Images[CurrentFrame]->VSSetShaderResources(_StartSlot);
-			Images[CurrentFrame]->PSSetShaderResources(_StartSlot);
-		}
+		void Update(UINT _StartSlot);
 
 		void AddImage(RefCounterPtr<IShaderResource>& Image)
 		{
@@ -111,7 +97,7 @@ namespace Graphics
 
 	};
 
-	class AnimationTransition
+	class RENDERER_API AnimationTransition
 	{
 	public:
 		AnimationTransition(Animation* _Tail, Animation* _Head, std::function<bool()> _Condition)
@@ -129,7 +115,7 @@ namespace Graphics
 		std::function<bool()> Condition;
 	};
 
-	class AnimationInterface : public IRenderInterface
+	class RENDERER_API AnimationInterface : public IRenderInterface
 	{
 		using Super = IRenderInterface;
 	public:

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace System
+namespace Game
 {
 	class Application
 	{

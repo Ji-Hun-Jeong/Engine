@@ -14,7 +14,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     }
 }
 
-namespace System
+namespace Game
 {
     Window::Window(UINT _ScreenWidth, UINT _ScreenHeight)
         : WindowHandle(nullptr)

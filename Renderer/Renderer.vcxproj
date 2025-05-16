@@ -112,8 +112,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>FString.lib;d3dcompiler.lib;d3d11.lib;dxgi.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\;$(SolutionDir)\System\lib\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>FString.lib;d3dcompiler.lib;d3d11.lib;dxgi.lib;Engine.lib;DirectXTK.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Renderer\lib\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,11 +134,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>FString.lib;d3dcompiler.lib;d3d11.lib;dxgi.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\;$(SolutionDir)\System\lib\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>FString.lib;d3dcompiler.lib;d3d11.lib;dxgi.lib;Engine.lib;DirectXTK.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\;$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Renderer\lib\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\FString.h" />
     <ClInclude Include="src\Render\IRenderInterface.h" />
     <ClInclude Include="src\Render\Model.h" />
     <ClInclude Include="src\RenderProcess\ImageRenderProcess.h" />
@@ -230,6 +231,11 @@
   <ItemGroup>
     <Library Include="lib\Debug\DirectXTK.lib" />
     <Library Include="lib\Release\DirectXTK.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{01e50ca2-dc91-4039-b792-b16b3f90c6f3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

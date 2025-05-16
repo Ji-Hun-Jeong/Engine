@@ -36,9 +36,9 @@ int main(int argc, char** argv)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	new int;
 	
-	System::Application* MyGame = new Game::GameWorld(1280, 720);
+	Game::Application* MyGame = new Game::GameWorld(1280, 720);
 	
-	System::Core Core(MyGame);
+	Game::Core Core(MyGame);
 
 	Core.Init();
 
