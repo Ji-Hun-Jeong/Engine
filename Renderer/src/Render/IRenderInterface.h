@@ -66,10 +66,12 @@ namespace Graphics
 	class RENDERER_API Animation : public IEventNotifier
 	{
 	public:
-		Animation(float _FrameTime)
+		Animation(float _FrameTime, bool _Repeat)
 			: FrameTime(_FrameTime)
 			, ProgressTime(0.0f)
 			, CurrentFrame(0)
+			, Repeat(_Repeat)
+			, Finish(false)
 		{}
 		~Animation() {}
 
@@ -87,6 +89,10 @@ namespace Graphics
 			Images.push_back(Image);
 		}
 
+		bool IsFinish() const { return Finish; }
+
+		bool IsRepeat() const { return Repeat; }
+
 	private:
 		std::vector<RefCounterPtr<IShaderResource>> Images;
 
@@ -95,32 +101,63 @@ namespace Graphics
 
 		UINT CurrentFrame;
 
-		bool IsFinish;
+		bool Repeat;
+		bool Finish;
 	};
 
 	class RENDERER_API AnimationTransition : public IEventListener
 	{
 	public:
 		AnimationTransition(Animation* _Tail, Animation* _Head, std::function<bool()> _Condition, std::function<void(Animation*)> _ChangeAnimationFunc)
-			: Tail(_Tail), Head(_Head)
+			: Tail(_Tail), Head(_Head), SatisfyCondition(false)
 			, Condition(_Condition)
 			, ChangeAnimationFunc(_ChangeAnimationFunc)
 			, ForceExit(false)
-		{}
-		~AnimationTransition() = default;
+			, Timer(2.0f)
+		{
+			
+		}
+		~AnimationTransition()
+		{
+			
+		}
 
 	public:
-		void DispatchEvent() override
+		void ExecuteEvent() override
 		{
-			if(ForceExit == false)
-				Tail->
+			Timer.GoOn();
+
 			if (Condition())
+			{
+				SatisfyCondition = true;
+				Timer.SetRun(true);
+			}
+
+			if (Timer.IsTimeOver())
+			{
+				SatisfyCondition = false;
+				Timer.Reset();
+				Timer.SetRun(false);
+			}
+
+			if (ForceExit == false && Tail->IsFinish() == false)
+				return;
+
+			if (SatisfyCondition)
 				ChangeAnimationFunc(Head);
+
+			SatisfyCondition = false;
 		}
+
+		void SetForceExit(bool _ForceExit) { ForceExit = _ForceExit; }
 
 	private:
 		Animation* Tail;
 		Animation* Head;
+
+		bool SatisfyCondition;
+
+		GraphicsTime::Timer Timer;
 
 		std::function<bool()> Condition;
 		std::function<void(Animation*)> ChangeAnimationFunc;
@@ -174,6 +211,14 @@ namespace Graphics
 				CurrentAnimation->ExitAnimation();
 
 			CurrentAnimation = _Animation;
+		}
+
+		Animation* FindAnimation(const Str::FString& _AnimationName)
+		{
+			auto Iter = Animations.find(_AnimationName);
+			if (Iter == Animations.end())
+				return nullptr;
+			return Iter->second;
 		}
 
 	private:

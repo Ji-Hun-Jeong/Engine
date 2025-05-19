@@ -5,14 +5,14 @@ namespace GraphicsTime
 {
     float DT = 0.0f;
 
+    void GraphicsTime::Update(float _DT)
+    {
+        DT = _DT;
+    }
+
     float GraphicsTime::GetDT()
     {
         return DT;
-    }
-
-    void GraphicsTime::SetDT(float _DT)
-    {
-        DT = _DT;
     }
 }
 

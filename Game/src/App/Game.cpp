@@ -40,7 +40,7 @@ namespace Game
 	bool GameWorld::Process()
 	{
 		Time::Update();
-		GraphicsTime::SetDT(Time::GetDT());
+		GraphicsTime::Update(Time::GetDT());
 		Input::Update();
 
 		this->Update();

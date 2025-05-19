@@ -3,6 +3,8 @@
 
 namespace Time 
 {
+    std::vector<Timer*> Timers;
+
     LARGE_INTEGER Frequency;     
     LARGE_INTEGER PrevTime;      
     LARGE_INTEGER CurrentTime;   
@@ -23,17 +25,29 @@ namespace Time
         QueryPerformanceCounter(&CurrentTime); 
 
         DeltaTime = static_cast<float>(CurrentTime.QuadPart - PrevTime.QuadPart) / static_cast<float>(Frequency.QuadPart);
-        /*static int frame = 0;
-        static float sum = 0.0f;
-        sum += DeltaTime;
-        frame += 1;
-        if (sum >= 1.0f)
-        {
-            std::cout << frame << '\n';
-            sum = 0.0f;
-            frame = 0;
-        }*/
         PrevTime = CurrentTime;
+
+        for (auto& Timer : Timers)
+            Timer->GoOn();
+    }
+
+
+    void RegistTimer(Timer* _Timer)
+    {
+        Timers.push_back(_Timer);
+    }
+    void DetachTimer(Timer* _Timer)
+    {
+        for (auto Iter = Timers.begin(); Iter != Timers.end(); )
+        {
+            if (_Timer == *Iter)
+            {
+                delete* Iter;
+                Iter = Timers.erase(Iter);
+            }
+            else
+                ++Iter;
+        }
     }
 }
 

@@ -16,6 +16,7 @@ namespace Game
 		, SkillBundle(new PlayerSkillBundle(this))
 	{
 		Transform = new Game::Transform;
+		Transform->SetScale(Vector3(0.2f,0.2f,1.0f));
 
 		// Skill을 미리 정의해두고 Skill을 Action에 넣어서 바인딩한다.
 		// Action과 Key를 정의해두고 두개를 바인딩한다.
@@ -89,15 +90,37 @@ namespace Game
 	{
 		std::vector<Graphics::CpuConstData> CpuConstDatas{ {&ConstData, sizeof(ConstData)} };
 		auto ConstBuffer = _Generator.GenerateConstBuffer(CpuConstDatas);
-
-		Graphics::Animation* Anim = new Graphics::Animation(0.5f);
-		AddImageToAnimation(_Generator, Anim, { "Game/resource/image/Player/Alert/0.png" });
-		AddImageToAnimation(_Generator, Anim, { "Game/resource/image/Player/Alert/1.png" });
-		AddImageToAnimation(_Generator, Anim, { "Game/resource/image/Player/Alert/2.png" });
-		AddImageToAnimation(_Generator, Anim, { "Game/resource/image/Player/Alert/3.png" });
-
 		PlayerInterface = std::make_shared<Graphics::Animator>(ConstBuffer);
-		PlayerInterface->AddAnimation("Alert", Anim);
+
+		Graphics::Animation* Alert = new Graphics::Animation(0.5f, true);
+		AddImageToAnimation(_Generator, Alert, { "Game/resource/image/Player/Alert/0.png" });
+		AddImageToAnimation(_Generator, Alert, { "Game/resource/image/Player/Alert/1.png" });
+		AddImageToAnimation(_Generator, Alert, { "Game/resource/image/Player/Alert/2.png" });
+		AddImageToAnimation(_Generator, Alert, { "Game/resource/image/Player/Alert/3.png" });
+		PlayerInterface->AddAnimation("Alert", Alert);
+
+		Graphics::Animation* Attack = new Graphics::Animation(0.5f, false);
+		AddImageToAnimation(_Generator, Attack, { "Game/resource/image/Player/Attack/0/0.png" });
+		AddImageToAnimation(_Generator, Attack, { "Game/resource/image/Player/Attack/0/1.png" });
+		AddImageToAnimation(_Generator, Attack, { "Game/resource/image/Player/Attack/0/2.png" });
+		
+		PlayerInterface->AddAnimation("Attack", Attack);
+
+		auto Test = []()->bool
+			{
+				if (Input::GetKey(Input::eKeyType::B, Input::eButtonState::Tap))
+					return true;
+				return false;
+			};
+		auto ChangeFunc = [this](Graphics::Animation* _HeadAnimation)->void
+			{
+				PlayerInterface->SetCurrentAnimation(_HeadAnimation);
+			};
+		Graphics::AnimationTransition* Transition = new Graphics::AnimationTransition(Alert, Attack, Test, ChangeFunc);
+		Alert->AddListener(Transition);
+		Transition = new Graphics::AnimationTransition(Attack, Alert, []()->bool {return true; }, ChangeFunc);
+		Attack->AddListener(Transition);
+
 		PlayerInterface->SetCurrentAnimation("Alert");
 
 		_Model->AddRenderInterface(PlayerInterface);

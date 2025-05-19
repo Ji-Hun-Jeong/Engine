@@ -10,7 +10,7 @@ namespace Graphics
 		virtual ~IEventListener() = default;
 	
 	private:
-		virtual void DispatchEvent() = 0;
+		virtual void ExecuteEvent() = 0;
 
 	};
 
@@ -33,7 +33,7 @@ namespace Graphics
 		void Notify()
 		{
 			for (auto& EventListener : EventListeners)
-				EventListener->DispatchEvent();
+				EventListener->ExecuteEvent();
 		}
 
 	private:
