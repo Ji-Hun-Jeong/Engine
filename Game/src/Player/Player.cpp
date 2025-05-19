@@ -65,8 +65,8 @@ namespace Game
 
 		KeyInput->UpdateKeyState();
 
-		KeyActioner* KeyActioner = KeyInput->GetKeyActioner();
-		KeyActioner->PerformKeyAction();
+		KeyActioner& KeyActioner = KeyInput->GetKeyActioner();
+		KeyActioner.PerformKeyAction();
 
 		ActionController->Update();
 
@@ -116,6 +116,7 @@ namespace Game
 			{
 				PlayerInterface->SetCurrentAnimation(_HeadAnimation);
 			};
+	
 		Graphics::AnimationTransition* Transition = new Graphics::AnimationTransition(Alert, Attack, Test, ChangeFunc);
 		Alert->AddListener(Transition);
 		Transition = new Graphics::AnimationTransition(Attack, Alert, []()->bool {return true; }, ChangeFunc);

@@ -25,7 +25,6 @@ namespace Game
 	public:
 		void SetKeyEvent(std::function<void(const Str::FString&)> _KeyEvent) { KeyEvent = _KeyEvent; }
 
-
 	private:
 		Str::FString KeyName;
 		std::function<void(const Str::FString&)> KeyEvent;
@@ -60,7 +59,7 @@ namespace Game
 	public:
 		void UpdateKeyState();
 
-		KeyActioner* GetKeyActioner() { return &Actioner; }
+		KeyActioner& GetKeyActioner() { return Actioner; }
 
 		void AddKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState, const Str::FString& _KeyName);
 
