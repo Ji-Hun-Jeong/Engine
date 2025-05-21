@@ -27,6 +27,7 @@ namespace Game
 		virtual void Destory() override;
 
 		void BindRendererInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model);
+		void BindAnimationAndAction();
 
 		void BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState
 			, const Str::FString& _ActionClass, const Str::FString& _ActionName);
@@ -45,7 +46,7 @@ namespace Game
 
 	private:
 		PlayerConst ConstData;
-		std::shared_ptr<Graphics::Animator> PlayerInterface;
+		std::shared_ptr<Graphics::RenderInterface> PlayerInterface;
 
 		class KeyInput* KeyInput;
 		class ActionController* ActionController;

@@ -16,7 +16,8 @@ namespace Game
 	{
 		if (AlreadyAct == false)
 		{
-			ActFunction();
+			if (ActFunction)
+				ActFunction();
 			AlreadyAct = true;
 		}
 		ActionDegree += Time::GetDT();
@@ -61,7 +62,8 @@ namespace Game
 	}
 	void ActionController::Update()
 	{
-		insertToPerformer(); // 실행 대기 중인 액션을 퍼포머에 추가
+		// insertToPerformer(); // 실행 대기 중인 액션을 퍼포머에 추가
+
 		controlAction(); // 사용자 정의 액션 컨트롤
 		for (auto& Performer : ActionPerformers)
 			Performer.second->PerformActions(); // 실제 액션 수행

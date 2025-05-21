@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\State\State.h" />
+    <ClInclude Include="src\Animation\Animation.h" />
     <ClInclude Include="include\FString.h" />
     <ClInclude Include="src\Base\Notify.h" />
     <ClInclude Include="src\GraphicsTime.h" />
@@ -166,8 +168,11 @@
     <ClInclude Include="include\SimpleMath.h" />
     <ClInclude Include="src\Platform\DirectX\DX.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\State\StateCondition.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\State\State.cpp" />
+    <ClCompile Include="src\Animation\Animation.cpp" />
     <ClCompile Include="include\RefCounter.cpp" />
     <ClCompile Include="src\Base\Notify.cpp" />
     <ClCompile Include="src\GraphicsTime.cpp" />
@@ -194,6 +199,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\State\StateCondition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\SimpleMath.inl" />

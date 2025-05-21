@@ -5,7 +5,7 @@
 
 namespace Graphics
 {
-	class RENDERER_API IRenderInterface
+	/*class RENDERER_API IRenderInterface
 	{
 	public:
 		IRenderInterface(RefCounterPtr<IConstBuffer>& _ConstBuffer)
@@ -33,9 +33,50 @@ namespace Graphics
 
 		bool BeRender;
 
+	};*/
+
+	class RENDERER_API RenderInterface
+	{
+	public:
+		RenderInterface(RefCounterPtr<IConstBuffer>& _ConstBuffer)
+			: ConstBuffer(_ConstBuffer)
+			, BeRender(true)
+		{
+		}
+		~RenderInterface()
+		{
+		}
+
+	public:
+		void BindResourceToPipeline(UINT _ConstBufferStartSlot, UINT _ShaderResourceStartSlot) const
+		{
+			if (!BeRender)
+				return;
+
+			ConstBuffer->VSSetConstBuffers(_ConstBufferStartSlot);
+			ConstBuffer->PSSetConstBuffers(_ConstBufferStartSlot);
+			Image->VSSetShaderResources(_ShaderResourceStartSlot);
+			Image->PSSetShaderResources(_ShaderResourceStartSlot);
+		}
+
+		void UpdateConstBuffer() const
+		{
+			ConstBuffer->UpdateBuffer();
+		}
+
+		void SetImage(RefCounterPtr<IShaderResource>& _Image) { Image = _Image; }
+
+		void SetRender(bool _BeRender) { BeRender = _BeRender; }
+		bool IsRender() const { return BeRender; }
+
+	protected:
+		RefCounterPtr<IConstBuffer> ConstBuffer;
+		RefCounterPtr<IShaderResource> Image;
+
+		bool BeRender;
 	};
 
-	class RENDERER_API SpriteRenderer : public IRenderInterface
+	/*class RENDERER_API SpriteRenderer : public IRenderInterface
 	{
 		using Super = IRenderInterface;
 	public:
@@ -68,25 +109,31 @@ namespace Graphics
 	public:
 		Animation(float _FrameTime, bool _Repeat)
 			: FrameTime(_FrameTime)
-			, ProgressTime(0.0f)
-			, CurrentFrame(0)
+			, ProgressTime(FrameTime)
+			, CurrentFrame(-1)
 			, Repeat(_Repeat)
 			, Finish(false)
 		{}
 		~Animation() {}
 
 	public:
-		void ExitAnimation()
+		struct FrameInfo
 		{
-			ProgressTime = 0.0f;
-			CurrentFrame = 0;
+			RefCounterPtr<IShaderResource> FrameImage;
+			std::function<void()> FrameEvent;
+		};
+
+		void ResetAnimation()
+		{
+			ProgressTime = FrameTime;
+			CurrentFrame = -1;
 		}
 
 		void Update(UINT _StartSlot);
 
-		void AddImage(RefCounterPtr<IShaderResource>& Image)
+		void AddFrameInfo(RefCounterPtr<IShaderResource>& _Image, std::function<void()> _FrameEvent = nullptr)
 		{
-			Images.push_back(Image);
+			FrameInfos.push_back({ _Image, _FrameEvent });
 		}
 
 		bool IsFinish() const { return Finish; }
@@ -94,7 +141,7 @@ namespace Graphics
 		bool IsRepeat() const { return Repeat; }
 
 	private:
-		std::vector<RefCounterPtr<IShaderResource>> Images;
+		std::vector<FrameInfo> FrameInfos;
 
 		float FrameTime;
 		float ProgressTime;
@@ -200,7 +247,7 @@ namespace Graphics
 		void SetCurrentAnimation(const Str::FString& _AnimationName)
 		{
 			if (CurrentAnimation)
-				CurrentAnimation->ExitAnimation();
+				CurrentAnimation->ResetAnimation();
 			
 			CurrentAnimation = Animations.find(_AnimationName)->second;
 		}
@@ -208,7 +255,7 @@ namespace Graphics
 		void SetCurrentAnimation(Animation* _Animation)
 		{
 			if (CurrentAnimation)
-				CurrentAnimation->ExitAnimation();
+				CurrentAnimation->ResetAnimation();
 
 			CurrentAnimation = _Animation;
 		}
@@ -225,5 +272,6 @@ namespace Graphics
 		std::map<Str::FString, Animation*> Animations;
 		Animation* CurrentAnimation;
 
-	};
+	};*/
+
 }

@@ -6,7 +6,7 @@ namespace Game
 	class Action
 	{
 	public:
-		Action(const Str::FString& _ActionName, std::function<void()> _ActFunction);
+		Action(const Str::FString& _ActionName, std::function<void()> _ActFunction = nullptr);
 		~Action() = default;
 
 	public:
@@ -101,14 +101,15 @@ namespace Game
 
 		void PrepareAction(const Str::FString& _ClassName, const Str::FString& _ActionName)
 		{
-			Action* Action = getAction(_ActionName);
-			if (Action == nullptr)
-				return;
 			ActionPerformer* ActionPerformer = getActionPerformer(_ClassName);
 			if (ActionPerformer == nullptr)
 				return;
 
-			ReadyActionQueue.push(std::make_pair(Action, _ClassName));
+			Action* Action = getAction(_ActionName);
+			if (Action == nullptr)
+				return;
+			
+			ActionPerformer->AddPerformedAction(Action);
 
 		}
 
@@ -143,8 +144,8 @@ namespace Game
 			return nullptr;
 		}
 
-		void insertToPerformer()
-		{
+		/*void insertToPerformer()
+		{	
 			std::pair<const Action*, Str::FString> Pair = { nullptr, "" };
 			auto Iter = ActionPerformers.begin();
 			ActionPerformer* ActionPerformer = nullptr;
@@ -157,14 +158,14 @@ namespace Game
 				ActionPerformer = Iter->second;
 				ActionPerformer->AddPerformedAction((Action*)Pair.first);
 			}
-		}
+		}*/
 
 	protected:
 		std::unordered_map<Str::FString, Action*> Actions;
 		
 		std::map<Str::FString, ActionPerformer*> ActionPerformers;
 
-		std::queue<std::pair<const Action*, Str::FString>> ReadyActionQueue;
+		/*std::queue<std::pair<const Action*, Str::FString>> ReadyActionQueue;*/
 	};
 }
 

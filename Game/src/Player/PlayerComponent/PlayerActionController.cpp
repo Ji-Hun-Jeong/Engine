@@ -13,8 +13,6 @@ namespace Game
 
 	void PlayerActionController::controlAction()
 	{
-		// ReadyQueue에서 이미 Performer들에게 넣어준 상황
-
 		ActionPerformer* BasicActionPerformer = getActionPerformer("BasicAction");
 		ActionPerformer* MoveActionPerformer = getActionPerformer("MoveAction");
 		ActionPerformer* CantMoveActionPerformer = getActionPerformer("CantMoveAction");
