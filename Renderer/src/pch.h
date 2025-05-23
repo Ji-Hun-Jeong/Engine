@@ -11,7 +11,7 @@
 #include "Renderer/include/SimpleMath.h"
 #include "Renderer/include/RefPtr.h"
 #include "Renderer/include/RefCounter.h"
-#include "Renderer/include/FString.h"
+#include "FString.h"
 
 #ifdef RENDERER_DEFINE
 	#define RENDERER_API __declspec(dllexport)
