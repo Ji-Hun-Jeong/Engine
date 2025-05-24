@@ -114,8 +114,8 @@ namespace Graphics
 	class RENDERER_API StateTransition
 	{
 	public:
-		StateTransition(StateCondition* _Condition, State& _Tail, State& _Head, std::function<void(State*)> _ChangeStateFunc)
-			: Condition(_Condition), Tail(_Tail), Head(_Head)
+		StateTransition(StateCondition* _Condition, State& _Head, std::function<void(State*)> _ChangeStateFunc)
+			: Condition(_Condition), Head(_Head)
 			, ChangeStateFunc(_ChangeStateFunc)
 		{}
 		~StateTransition()
@@ -124,7 +124,7 @@ namespace Graphics
 		}
 
 	public:
-		void TryTransition()
+		void TryTransition(State& _CurrentState)
 		{
 			if (Condition->Satisfy() == false)
 				return;
@@ -133,7 +133,6 @@ namespace Graphics
 		}
 
 	private:
-		State& Tail;
 		State& Head;
 
 		StateCondition* Condition;
@@ -149,6 +148,7 @@ namespace Graphics
 		StateMachine(StateVariableTable& _VariableTable)
 			: VariableTable(_VariableTable)
 			, CurrentState(nullptr)
+			, CurrentTransitions(nullptr)
 		{}
 		~StateMachine() 
 		{
@@ -156,9 +156,10 @@ namespace Graphics
 				delete Iter.second;
 			for (auto Iter : Transitions)
 			{
-				auto& Vector = Iter.second;
-				for (auto Transition : Vector)
+				std::vector<StateTransition*>* Vector = Iter.second;
+				for (auto Transition : *Vector)
 					delete Transition;
+				delete Vector;
 			}
 		}
 
@@ -186,6 +187,12 @@ namespace Graphics
 				CurrentState->ExitState();
 
 			CurrentState = Iter->second;
+
+			auto TransIter = Transitions.find(CurrentState);
+			if (TransIter == Transitions.end())
+				CurrentTransitions = nullptr;
+			else
+				CurrentTransitions = TransIter->second;
 		}
 
 		void SetCurrentState(State* _State)
@@ -193,36 +200,49 @@ namespace Graphics
 			if (CurrentState)
 				CurrentState->ExitState();
 			CurrentState = _State;
+			
+			auto Iter = Transitions.find(CurrentState);
+			if (Iter == Transitions.end())
+				CurrentTransitions = nullptr;
+			else
+				CurrentTransitions = Iter->second;
 		}
 
 		void UpdateCurrentState(RenderInterface& _RenderInterface)
 		{
 			CurrentState->Update(_RenderInterface);
-			if (Transitions.find(CurrentState) == Transitions.end())
-				return;
 
-			std::vector<StateTransition*>& TransitionsVector = Transitions.find(CurrentState)->second;
-			for (auto Transition : TransitionsVector)
-				Transition->TryTransition();
-
+			if (CurrentTransitions)
+			{
+				for (auto Transition : *CurrentTransitions)
+					Transition->TryTransition(*CurrentState);
+			}
 		}
 
 		void AddTransition(State* _State, StateTransition* _Transition)
 		{
-			auto [Iter, Inserted] = Transitions.insert(std::make_pair(_State, std::vector<StateTransition*>{ _Transition }));
-
-			if (!Inserted)
+			auto Iter = Transitions.find(_State);
+			if (Iter == Transitions.end())
 			{
-				Iter->second.push_back(_Transition);
+				std::vector<StateTransition*>* StateTransitionVector = new std::vector<StateTransition*>;
+				Transitions.insert(std::make_pair(_State, StateTransitionVector));
+				StateTransitionVector->push_back(_Transition);
+			}
+			else
+			{
+				std::vector<StateTransition*>* StateTransitionVector = Iter->second;
+				StateTransitionVector->push_back(_Transition);
 			}
 		}
 
 	private:
 		StateVariableTable& VariableTable;
+
 		std::map<Str::FString, State*> States;
-
-		std::map<State*, std::vector<StateTransition*>> Transitions;
-
 		State* CurrentState;
+
+		std::map<State*, std::vector<StateTransition*>*> Transitions;
+		std::vector<StateTransition*>* CurrentTransitions;
+
 	};
 }

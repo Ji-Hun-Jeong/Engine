@@ -127,9 +127,12 @@ namespace Game
 
 		bool* Move = StateTable.GetBool("Move");
 		Graphics::StateCondition* Condition = new Graphics::BoolCondition(Move, true);
-		Graphics::StateTransition* Transition = new Graphics::StateTransition(Condition, *Alert, *Walk, ChangeFunc);
-		
+		Graphics::StateTransition* Transition = new Graphics::StateTransition(Condition, *Walk, ChangeFunc);
 		StateMachine.AddTransition(Alert, Transition);
+
+		Condition = new Graphics::BoolCondition(Move, false);
+		Transition = new Graphics::StateTransition(Condition, *Alert, ChangeFunc);
+		StateMachine.AddTransition(Walk, Transition);
 
 		StateMachine.SetCurrentState(Alert);
 		_Model->AddRenderInterface(PlayerInterface);
@@ -183,11 +186,12 @@ namespace Game
 				Transform->SetPosition(Position);
 				*Move = true;
 			};
-		auto RightMove = [this]()->void
+		auto RightMove = [this, Move]()->void
 			{
 				Vector3 Position = Transform->GetPosition();
 				Position.x += 1 * Time::GetDT();
 				Transform->SetPosition(Position);
+				*Move = false;
 			};
 		auto UpMove = [this]()->void
 			{
