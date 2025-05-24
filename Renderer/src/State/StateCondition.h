@@ -35,4 +35,48 @@ namespace Graphics
 		int Threshold;
 		bool Less;
 	};
+
+	class FloatCondition : public StateCondition
+	{
+	public:
+		FloatCondition(float* _Value, float _Threshold, bool _Less)
+			: Value(_Value), Threshold(_Threshold), Less(_Less)
+		{
+		}
+		~FloatCondition() {}
+
+	public:
+		bool Satisfy() override
+		{
+			if (Less)
+				return *Value < Threshold;
+			else
+				return *Value > Threshold;
+		}
+
+	private:
+		float* Value;
+		float Threshold;
+		bool Less;
+	};
+
+	class BoolCondition : public StateCondition
+	{
+	public:
+		BoolCondition(bool* _Value, bool _Expected)
+			: Value(_Value), Expected(_Expected)
+		{
+		}
+		~BoolCondition() {}
+
+	public:
+		bool Satisfy() override
+		{
+			return *Value == Expected;
+		}
+
+	private:
+		bool* Value;
+		bool Expected;
+	};
 }

@@ -3,6 +3,7 @@
 #include <Engine/src/Input/Input.h>
 #include <Engine/src/Time/Time.h>
 #include <Renderer/src/RenderProcess/IGraphicProcess.h>
+#include <Renderer/src/State/State.h>
 
 namespace Game
 {

@@ -14,6 +14,8 @@ namespace Game
 		, ActionController(new PlayerActionController)
 		, SkillManager(new Game::SkillManager)
 		, SkillBundle(new PlayerSkillBundle(this))
+		, StateTable{}
+		, StateMachine(StateTable)
 	{
 		Transform = new Game::Transform;
 		Transform->SetScale(Vector3(0.2f, 0.2f, 1.0f));
@@ -39,6 +41,8 @@ namespace Game
 		, ActionController(nullptr)
 		, SkillManager(nullptr)
 		, SkillBundle(nullptr)
+		, StateTable(_Other.StateTable)
+		, StateMachine(_Other.StateMachine)
 	{
 	}
 
@@ -73,6 +77,8 @@ namespace Game
 		ConstData.MVP = Transform->GetModel().Transpose();
 
 		PlayerInterface->UpdateConstBuffer();
+
+		StateMachine.UpdateCurrentState(*PlayerInterface.get());
 	}
 
 	void Player::Destory()
@@ -80,56 +86,52 @@ namespace Game
 		Super::Destory();
 	}
 
-	/*void AddFrameInfoToAnimation(Graphics::IDRGenerator& _Generator, Graphics::Animation* _Anim, const std::vector<Str::FString>& _ImagePath
+	void AddFrameInfoToAnimation(Graphics::IDRGenerator& _Generator, Graphics::Animation* _Anim, const std::vector<Str::FString>& _ImagePath
 		, std::function<void()> _FrameEvent = nullptr)
 	{
 		auto SRV = _Generator.GenerateShaderResource(_ImagePath);
 		_Anim->AddFrameInfo(SRV, _FrameEvent);
-	}*/
+	}
 
 	void Player::BindRendererInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model)
 	{
 		std::vector<Graphics::CpuConstData> CpuConstDatas{ {&ConstData, sizeof(ConstData)} };
 		auto ConstBuffer = _Generator.GenerateConstBuffer(CpuConstDatas);
-		auto SRV = _Generator.GenerateShaderResource({ "Game/resource/image/Player/Alert/0.png" });
 
 		PlayerInterface = std::make_shared<Graphics::RenderInterface>(ConstBuffer);
-		PlayerInterface->SetImage(SRV);
-		/*PlayerInterface = std::make_shared<Graphics::Animator>(ConstBuffer);
 
-		Graphics::Animation* Alert = new Graphics::Animation(0.5f, true);
-		AddFrameInfoToAnimation(_Generator, Alert, { "Game/resource/image/Player/Alert/0.png" });
-		AddFrameInfoToAnimation(_Generator, Alert, { "Game/resource/image/Player/Alert/1.png" });
-		AddFrameInfoToAnimation(_Generator, Alert, { "Game/resource/image/Player/Alert/2.png" });
-		AddFrameInfoToAnimation(_Generator, Alert, { "Game/resource/image/Player/Alert/3.png" });
+		Graphics::Animation* AlertAnim = new Graphics::Animation(0.5f, true);
+		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/0.png" });
+		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/1.png" });
+		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/2.png" });
+		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/3.png" });
+		auto Alert = StateMachine.AddState("Alert", new Graphics::State(AlertAnim));
+
+		Graphics::Animation* WalkAnim = new Graphics::Animation(0.5f, true);
+		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/0.png" });
+		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/1.png" });
+		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/2.png" });
+		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/3.png" });
+		auto Walk = StateMachine.AddState("Walk", new Graphics::State(WalkAnim));
+
+		Graphics::Animation* AttackAnim = new Graphics::Animation(0.5f, false);
+		AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/0.png" });
+		AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/1.png" });
+		AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/2.png" });
+		auto Attack = StateMachine.AddState("Attack", new Graphics::State(AttackAnim));
+
+		auto ChangeFunc = [this](Graphics::State* _HeadState)->void
+			{
+				StateMachine.SetCurrentState(_HeadState);
+			};
+
+		bool* Move = StateTable.GetBool("Move");
+		Graphics::StateCondition* Condition = new Graphics::BoolCondition(Move, true);
+		Graphics::StateTransition* Transition = new Graphics::StateTransition(Condition, *Alert, *Walk, ChangeFunc);
 		
-		PlayerInterface->AddAnimation("Alert", Alert);
+		StateMachine.AddTransition(Alert, Transition);
 
-		Graphics::Animation* Attack = new Graphics::Animation(0.5f, false);
-		AddFrameInfoToAnimation(_Generator, Attack, { "Game/resource/image/Player/Attack/0/0.png" });
-		AddFrameInfoToAnimation(_Generator, Attack, { "Game/resource/image/Player/Attack/0/1.png" });
-		AddFrameInfoToAnimation(_Generator, Attack, { "Game/resource/image/Player/Attack/0/2.png" });
-		PlayerInterface->AddAnimation("Attack", Attack);
-
-		auto Test = []()->bool
-			{
-				if (Input::GetKey(Input::eKeyType::B, Input::eButtonState::Tap))
-					return true;
-				return false;
-			};
-		auto ChangeFunc = [this](Graphics::Animation* _HeadAnimation)->void
-			{
-				PlayerInterface->SetCurrentAnimation(_HeadAnimation);
-			};
-
-		Graphics::AnimationTransition* Transition = new Graphics::AnimationTransition(Alert, Attack, Test, ChangeFunc);
-		Transition->SetForceExit(true);
-		Alert->AddListener(Transition);
-		Transition = new Graphics::AnimationTransition(Attack, Alert, []()->bool {return true; }, ChangeFunc);
-		Attack->AddListener(Transition);
-
-		PlayerInterface->SetCurrentAnimation("Alert");*/
-
+		StateMachine.SetCurrentState(Alert);
 		_Model->AddRenderInterface(PlayerInterface);
 	}
 
@@ -173,11 +175,13 @@ namespace Game
 
 	void Player::addAction()
 	{
-		auto LeftMove = [this]()->void
+		bool* Move = StateTable.RegistBool("Move", false);
+		auto LeftMove = [this, Move]()->void
 			{
 				Vector3 Position = Transform->GetPosition();
 				Position.x += -1 * Time::GetDT();
 				Transform->SetPosition(Position);
+				*Move = true;
 			};
 		auto RightMove = [this]()->void
 			{

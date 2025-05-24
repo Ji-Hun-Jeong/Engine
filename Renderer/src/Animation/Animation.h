@@ -1,5 +1,5 @@
 #pragma once
-#include "Render/IDRGenerator.h"
+#include "Render/IRenderInterface.h"
 
 namespace Graphics
 {
@@ -21,6 +21,7 @@ namespace Graphics
 			RefCounterPtr<class IShaderResource> FrameImage;
 			std::function<void()> FrameEvent;
 		};
+		void Update(RenderInterface& _RenderInterface);
 
 		void ResetAnimation()
 		{
@@ -48,55 +49,5 @@ namespace Graphics
 		bool Repeat;
 		bool Finish;
 	};
-
-
-	/*class RENDERER_API Animator
-	{
-	public:
-		Animator()
-			: CurrentAnimation(nullptr)
-		{
-		}
-		~Animator()
-		{
-			for (auto& Animation : Animations)
-				delete Animation.second;
-		}
-
-	public:
-		void AddAnimation(const Str::FString& _AnimationName, Animation* _Animation)
-		{
-			Animations.insert(std::make_pair(_AnimationName, _Animation));
-		}
-
-		void SetCurrentAnimation(const Str::FString& _AnimationName)
-		{
-			if (CurrentAnimation)
-				CurrentAnimation->ResetAnimation();
-
-			CurrentAnimation = Animations.find(_AnimationName)->second;
-		}
-
-		void SetCurrentAnimation(Animation* _Animation)
-		{
-			if (CurrentAnimation)
-				CurrentAnimation->ResetAnimation();
-
-			CurrentAnimation = _Animation;
-		}
-
-		Animation* FindAnimation(const Str::FString& _AnimationName)
-		{
-			auto Iter = Animations.find(_AnimationName);
-			if (Iter == Animations.end())
-				return nullptr;
-			return Iter->second;
-		}
-
-	private:
-		std::map<Str::FString, Animation*> Animations;
-		Animation* CurrentAnimation;
-
-	};*/
 }
 
