@@ -86,13 +86,6 @@ namespace Game
 		Super::Destory();
 	}
 
-	void AddFrameInfoToAnimation(Graphics::IDRGenerator& _Generator, Graphics::Animation* _Anim, const std::vector<Str::FString>& _ImagePath
-		, std::function<void()> _FrameEvent = nullptr)
-	{
-		auto SRV = _Generator.GenerateShaderResource(_ImagePath);
-		_Anim->AddFrameInfo(SRV, _FrameEvent);
-	}
-
 	void Player::BindRendererInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model)
 	{
 		std::vector<Graphics::CpuConstData> CpuConstDatas{ {&ConstData, sizeof(ConstData)} };
@@ -101,23 +94,23 @@ namespace Game
 		PlayerInterface = std::make_shared<Graphics::RenderInterface>(ConstBuffer);
 
 		Graphics::Animation* AlertAnim = new Graphics::Animation(0.5f, true);
-		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/0.png" });
-		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/1.png" });
-		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/2.png" });
-		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/3.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/0.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/1.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/2.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/3.png" });
 		auto Alert = StateMachine.AddState("Alert", new Graphics::State(AlertAnim));
 
 		Graphics::Animation* WalkAnim = new Graphics::Animation(0.5f, true);
-		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/0.png" });
-		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/1.png" });
-		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/2.png" });
-		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/3.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/0.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/1.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/2.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/3.png" });
 		auto Walk = StateMachine.AddState("Walk", new Graphics::State(WalkAnim));
 
 		Graphics::Animation* AttackAnim = new Graphics::Animation(0.5f, false);
-		AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/0.png" });
-		AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/1.png" });
-		AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/2.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/0.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/1.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/2.png" });
 		auto Attack = StateMachine.AddState("Attack", new Graphics::State(AttackAnim));
 
 		auto ChangeFunc = [this](Graphics::State* _HeadState)->void
@@ -127,12 +120,10 @@ namespace Game
 
 		bool* Move = StateTable.GetBool("Move");
 		Graphics::StateCondition* Condition = new Graphics::BoolCondition(Move, true);
-		Graphics::StateTransition* Transition = new Graphics::StateTransition(Condition, *Walk, ChangeFunc);
-		StateMachine.AddTransition(Alert, Transition);
+		Graphics::AddTransition(StateMachine, Condition, *Alert, *Walk);
 
 		Condition = new Graphics::BoolCondition(Move, false);
-		Transition = new Graphics::StateTransition(Condition, *Alert, ChangeFunc);
-		StateMachine.AddTransition(Walk, Transition);
+		Graphics::AddTransition(StateMachine, Condition, *Walk, *Alert);
 
 		StateMachine.SetCurrentState(Alert);
 		_Model->AddRenderInterface(PlayerInterface);

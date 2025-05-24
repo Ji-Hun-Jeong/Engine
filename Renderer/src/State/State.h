@@ -18,14 +18,14 @@ namespace Graphics
 		{
 			if (Anim)
 				delete Anim;
-			
+
 		}
 
 	public:
 		void Update(RenderInterface& _RenderInterface);
 		void ExitState();
 		void SetAnimation(Animation* _Anim)
-		{ 
+		{
 			if (Anim)
 				delete Anim;
 			Anim = _Anim;
@@ -42,7 +42,7 @@ namespace Graphics
 		StateVariableTable() = default;
 		~StateVariableTable()
 		{
-			
+
 		}
 
 	public:
@@ -114,9 +114,8 @@ namespace Graphics
 	class RENDERER_API StateTransition
 	{
 	public:
-		StateTransition(StateCondition* _Condition, State& _Head, std::function<void(State*)> _ChangeStateFunc)
+		StateTransition(StateCondition* _Condition, State& _Head)
 			: Condition(_Condition), Head(_Head)
-			, ChangeStateFunc(_ChangeStateFunc)
 		{}
 		~StateTransition()
 		{
@@ -124,20 +123,18 @@ namespace Graphics
 		}
 
 	public:
-		void TryTransition(State& _CurrentState)
+		State* TryTransition(State& _CurrentState)
 		{
 			if (Condition->Satisfy() == false)
-				return;
+				return nullptr;
 
-			ChangeStateFunc(&Head);
+			return &Head;
 		}
 
 	private:
 		State& Head;
 
 		StateCondition* Condition;
-
-		std::function<void(State*)> ChangeStateFunc;
 
 	};
 
@@ -150,7 +147,7 @@ namespace Graphics
 			, CurrentState(nullptr)
 			, CurrentTransitions(nullptr)
 		{}
-		~StateMachine() 
+		~StateMachine()
 		{
 			for (auto Iter : States)
 				delete Iter.second;
@@ -200,7 +197,7 @@ namespace Graphics
 			if (CurrentState)
 				CurrentState->ExitState();
 			CurrentState = _State;
-			
+
 			auto Iter = Transitions.find(CurrentState);
 			if (Iter == Transitions.end())
 				CurrentTransitions = nullptr;
@@ -212,11 +209,19 @@ namespace Graphics
 		{
 			CurrentState->Update(_RenderInterface);
 
-			if (CurrentTransitions)
+			if (CurrentTransitions == nullptr)
+				return;
+
+			State* HeadState = nullptr;
+			for (auto Transition : *CurrentTransitions)
 			{
-				for (auto Transition : *CurrentTransitions)
-					Transition->TryTransition(*CurrentState);
+				HeadState = Transition->TryTransition(*CurrentState);
+				if (HeadState)
+					break;
 			}
+
+			if (HeadState)
+				SetCurrentState(HeadState);
 		}
 
 		void AddTransition(State* _State, StateTransition* _Transition)
@@ -245,4 +250,6 @@ namespace Graphics
 		std::vector<StateTransition*>* CurrentTransitions;
 
 	};
+
+	extern void RENDERER_API AddTransition(StateMachine& _StateMachine, StateCondition* _Condition, State& _TailState, State& _HeadState);
 }

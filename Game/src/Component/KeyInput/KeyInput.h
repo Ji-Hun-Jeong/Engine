@@ -88,5 +88,6 @@ namespace Game
 
 		bool IsFocus;
 	};
+
 }
 

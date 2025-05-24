@@ -31,4 +31,9 @@ namespace Graphics
 		if (Reset)
 			ResetAnimation();
 	}
+	void RENDERER_API AddFrameInfoToAnimation(Graphics::IDRGenerator& _Generator, Graphics::Animation* _Anim, const std::vector<Str::FString>& _ImagePath, std::function<void()> _FrameEvent)
+	{
+		auto SRV = _Generator.GenerateShaderResource(_ImagePath);
+		_Anim->AddFrameInfo(SRV, _FrameEvent);
+	}
 }

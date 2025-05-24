@@ -49,5 +49,8 @@ namespace Graphics
 		bool Repeat;
 		bool Finish;
 	};
+
+	extern void RENDERER_API AddFrameInfoToAnimation(Graphics::IDRGenerator& _Generator, Graphics::Animation* _Anim, const std::vector<Str::FString>& _ImagePath
+		, std::function<void()> _FrameEvent = nullptr);
 }
 

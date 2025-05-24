@@ -19,4 +19,10 @@ namespace Graphics
             Anim->ResetAnimation();
         }
     }
+
+    void AddTransition(StateMachine& _StateMachine, StateCondition* _Condition, State& _TailState, State& _HeadState)
+    {
+        Graphics::StateTransition* Transition = new Graphics::StateTransition(_Condition, _HeadState);
+        _StateMachine.AddTransition(&_TailState, Transition);
+    }
 }
