@@ -3,7 +3,7 @@
 
 namespace Graphics
 {
-	void Animation::Update(RenderInterface& _RenderInterface)
+	void Animation::Update(IRenderInterface& _RenderInterface)
 	{
 		ProgressTime += GraphicsTime::GetDT();
 		Finish = false;

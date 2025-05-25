@@ -5,16 +5,17 @@ namespace Game
 {
 	Object::Object(const Str::FString& _Name)
 		: Name(_Name)
+		, Transform()
 	{
 	}
 	Object::Object(const Object& _Other)
 		: Name(_Other.Name)
+		, Transform()
 	{
 	}
 	Object::~Object()
 	{
-		if (Transform)
-			delete Transform;
+		
 	}
 	void Object::InitObject()
 	{

@@ -14,9 +14,8 @@ namespace Game
 	Level::~Level()
 	{
 		Utility::ClearMap(Objects);
-		Utility::ClearMap(Actors);
 		if (&Renderer)
-			delete &Renderer;
+			delete& Renderer;
 	}
 
 	void Level::InitLevel()
@@ -36,8 +35,6 @@ namespace Game
 		Input.UpdateKeyState();
 		for (auto iter = Objects.begin(); iter != Objects.end(); ++iter)
 			iter->second->Update();
-		for (auto iter = Actors.begin(); iter != Actors.end(); ++iter)
-			iter->second->Update();
 	}
 
 	void Level::Render()
@@ -54,13 +51,5 @@ namespace Game
 			assert(0);
 
 		_Object->InitObject();
-	}
-	void Level::AddActor(Actor* _Actor)
-	{
-		auto iter = Actors.insert(std::make_pair(_Actor->GetName(), _Actor));
-		if (iter.second == false)
-			assert(0);
-
-		_Actor->InitObject();
 	}
 }

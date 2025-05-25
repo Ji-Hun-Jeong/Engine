@@ -21,7 +21,7 @@ namespace Graphics
 			RefCounterPtr<class IShaderResource> FrameImage;
 			std::function<void()> FrameEvent;
 		};
-		void Update(RenderInterface& _RenderInterface);
+		void Update(IRenderInterface& _RenderInterface);
 
 		void ResetAnimation()
 		{

@@ -1,4 +1,5 @@
 #pragma once
+#include <Engine/src/Time/Time.h>
 
 namespace Game
 {
@@ -31,11 +32,23 @@ namespace Game
 		void SetPosition(const Vector3& _Position) { Position = _Position; }
 		const Vector3& GetPosition() const { return Position; }
 
+		int GetDirection() const { return Direction; }
+		void Move(float _Speed)
+		{
+			Position.x += _Speed * Time::GetDT();
+			ChangeDirection(_Speed);
+		}
+		void ChangeDirection(float _Dir)
+		{
+			Direction = _Dir < 0 ? -1.0f : 1.0f;
+		}
+
 	private:
 		Vector3 Position;
 		Vector3 Rotation;
 		Vector3 Scale;
 
+		int Direction;
 	};
 }
 

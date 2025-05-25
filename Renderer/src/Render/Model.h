@@ -15,7 +15,7 @@ namespace Graphics
 		}
 
 	public:
-		void AddRenderInterface(std::shared_ptr<RenderInterface> _RenderInterface)
+		void AddRenderInterface(std::shared_ptr<IRenderInterface> _RenderInterface)
 		{
 			RenderInterfaces.push_back(_RenderInterface);
 		}
@@ -44,7 +44,7 @@ namespace Graphics
 	private:
 		RefCounterPtr<IMesh> Mesh;
 
-		std::list<std::shared_ptr<RenderInterface>> RenderInterfaces;
+		std::list<std::shared_ptr<IRenderInterface>> RenderInterfaces;
 
 	};
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include "GraphicsTime.h"
 
 namespace Graphics
 {
@@ -86,14 +87,32 @@ namespace Graphics
 	public:
 		TriggerVariable()
 			: Trigger(false)
+			, Timer(0.7f)
 		{}
 		~TriggerVariable() = default;
+
 	public:
-		void ResetTrigger() { Trigger = false; }
-		void SetTrigger() { Trigger = true; }
+		void Tick()
+		{
+			Timer.GoOn();
+			if(Timer.IsTimeOver())
+			{
+				// 약간의 텀을 둬서 행동전에 어떤 트리거를 발생시켜도 그 정도 시간은 이전행동이 끝난 후 발동할 수 있게
+				Trigger = false;
+				Timer.Reset();
+				Timer.SetRun(false);
+			}
+		}
+		void SetTrigger()
+		{
+			Trigger = true;
+			Timer.Reset();
+			Timer.SetRun(true);
+		}
 		bool IsTrigged() const { return Trigger; }
 
 	private:
+		GraphicsTime::Timer Timer;
 		bool Trigger;
 	};
 

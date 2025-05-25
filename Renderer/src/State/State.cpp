@@ -4,7 +4,7 @@
 
 namespace Graphics
 {
-    void State::Update(RenderInterface& _RenderInterface)
+    void State::Update(IRenderInterface& _RenderInterface)
     {
         if (Anim)
             Anim->Update(_RenderInterface);

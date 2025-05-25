@@ -1,18 +1,14 @@
 #pragma once
 #include "Object\Actor.h"
+#include "PlayerController/PlayerController.h"
 
 namespace Game
 {
-	using DirectX::SimpleMath::Matrix;
-	struct PlayerConst
-	{
-		Matrix MVP;
-	};
-
 	class Player : public Actor
 	{
 		using Super = Actor;
-		CLONE(Player, Actor)
+		CLONE(Player, Actor);
+		friend Player* CreatePlayer(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model);
 	public:
 		Player(const Str::FString& _Name);
 		Player(const Player& _Other);
@@ -26,20 +22,9 @@ namespace Game
 		virtual void Update() override;
 		virtual void Destory() override;
 
-		void BindRendererInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model);
-
-		void AddActionBySkill(const Str::FString& _ManagementName, const Str::FString& _SkillName, const Str::FString& _ActionName);
-
 		void Attack()
 		{
 			std::cout << "PlayerAttack!\n";
-		}
-
-		void Move(float _Speed)
-		{
-			Vector3 Position = Transform->GetPosition();
-			Position.x += _Speed * Time::GetDT();
-			Transform->SetPosition(Position);
 		}
 
 		Graphics::StateVariableTable& GetStateTable() { return StateTable; }
@@ -49,16 +34,14 @@ namespace Game
 		void addSkill();
 
 	private:
-		PlayerConst ConstData;
-		std::shared_ptr<Graphics::RenderInterface> PlayerInterface;
 		Graphics::StateVariableTable StateTable;
 		Graphics::StateMachine StateMachine;
 
-		class ActionController* ActionController;
 		class SkillManager* SkillManager;
 		class PlayerSkillBundle* SkillBundle;
 
 	};
 
+	extern Player* CreatePlayer(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model);
 }
 

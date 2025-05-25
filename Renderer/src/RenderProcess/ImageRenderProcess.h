@@ -33,7 +33,7 @@ namespace Graphics
 	public:
 		void BindRenderProcess() const override
 		{
-			const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
+			const float ClearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
 			RenderTargetView->ClearRenderTargetView(0, ClearColor);
 			RenderTargetView->ClearDepthStencilView(D3D11_CLEAR_DEPTH, 1.0f, 0);
 			DepthStencilState->OMSetDepthStencilState(0);

@@ -2,6 +2,13 @@
 #include "Platform/DirectX/DXRGenerator.h"
 #include "Render/Model.h"
 
+enum class eLayer : uint8_t
+{
+	BackGround,
+	Player,
+	UI,
+	End,
+};
 namespace Graphics
 {
 	class RENDERER_API IGraphicProcess
@@ -17,9 +24,9 @@ namespace Graphics
 	public:
 		virtual void BindRenderProcess() const = 0;
 
-		void AddModel(std::shared_ptr<Model>& _Model)
+		void AddModel(eLayer _Layer, std::shared_ptr<Model>& _Model)
 		{
-			Models.push_back(_Model);
+			Models[(uint8_t)_Layer].push_back(_Model);
 		}
 
 		void Present() const
@@ -30,13 +37,14 @@ namespace Graphics
 	protected:
 		void renderModel() const
 		{
-			for (const auto Model : Models)
-				Model->RenderModel(0, ModelsConstBufferStartSlot, 0);
+			for (uint8_t i = 0; i < (uint8_t)eLayer::End; ++i)
+				for (auto& Model : Models[i])
+					Model->RenderModel(0, ModelsConstBufferStartSlot, 0);
 			
 		}
 
 	protected:
-		std::list<std::shared_ptr<Model>> Models;
+		std::list<std::shared_ptr<Model>> Models[(uint8_t)eLayer::End];
 		RefCounterPtr<IPresenter> Presenter;
 
 		UINT ModelsConstBufferStartSlot;

@@ -21,7 +21,7 @@ namespace Graphics
 		}
 
 	public:
-		void Update(RenderInterface& _RenderInterface);
+		void Update(IRenderInterface& _RenderInterface);
 		void SetEnterState(std::function<void()> _EnterStateFunc) { EnterStateFunc = _EnterStateFunc; }
 		void SetExitState(std::function<void()> _ExitStateFunc) { ExitStateFunc = _ExitStateFunc; }
 		void EnterState();
@@ -51,7 +51,7 @@ namespace Graphics
 		void ResetTriggers()
 		{
 			for (auto& Iter : TriggerVariables)
-				Iter.second.ResetTrigger();
+				Iter.second.Tick();
 		}
 
 		int* RegistInt(const Str::FString& _VariableName, int _InitValue = 0)
@@ -199,7 +199,7 @@ namespace Graphics
 		}
 
 	public:
-		void UpdateCurrentState(RenderInterface& _RenderInterface)
+		void UpdateCurrentState(IRenderInterface& _RenderInterface)
 		{
 			CurrentState->Update(_RenderInterface);
 

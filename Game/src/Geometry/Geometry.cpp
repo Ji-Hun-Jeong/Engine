@@ -50,4 +50,33 @@ namespace Geometry
 
         return ReturnData;
     }
+    UVMeshData GenerateUVRect(const float _Aspect)
+    {
+        const float Aspect = _Aspect;
+
+        UVMeshData ReturnData;
+        std::vector<UVVertex>& Vertices = ReturnData.Vertices;
+
+        UVVertex V;
+
+        V.Pos = Vector3(-Aspect, -1.0f, 0.0f);
+        V.UV = Vector2(0.0f, 1.0f);
+        Vertices.push_back(V);
+
+        V.Pos = Vector3(-Aspect, 1.0f, 0.0f);
+        V.UV = Vector2(0.0f, 0.0f);
+        Vertices.push_back(V);
+
+        V.Pos = Vector3(Aspect, -1.0f, 0.0f);
+        V.UV = Vector2(1.0f, 1.0f);
+        Vertices.push_back(V);
+
+        V.Pos = Vector3(Aspect, 1.0f, 0.0f);
+        V.UV = Vector2(1.0f, 0.0f);
+        Vertices.push_back(V);
+
+        ReturnData.Indices = { 0, 1, 2, 1, 3, 2 };
+
+        return ReturnData;
+    }
 }

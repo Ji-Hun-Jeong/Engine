@@ -301,7 +301,7 @@ namespace Graphics
 			D3D11_RASTERIZER_DESC RDesc;
 			ZeroMemory(&RDesc, sizeof(RDesc));
 			RDesc.FillMode = D3D11_FILL_SOLID;	// WireFrame
-			RDesc.CullMode = D3D11_CULL_BACK;	// None, Front
+			RDesc.CullMode = D3D11_CULL_NONE;	// None, Front
 			RDesc.FrontCounterClockwise = false;
 			RDesc.DepthClipEnable = true;
 			RDesc.MultisampleEnable = true;

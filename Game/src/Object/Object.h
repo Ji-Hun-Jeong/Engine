@@ -22,11 +22,11 @@ namespace Game
 		void SetName(const Str::FString& _Name) { Name = _Name; }
 		const Str::FString& GetName() const { return Name; }
 
-		void SetTransform(Transform* _Transform) { Transform = _Transform; }
+		void Move(float _Speed) { Transform.Move(_Speed); }
 
 	protected:
 		Str::FString Name;
-		Transform* Transform;
+		Transform Transform;
 
 	};
 }

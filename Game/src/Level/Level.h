@@ -19,11 +19,9 @@ namespace Game
 		virtual void Render() final;
 		
 		void AddObject(Object* _Object);
-		void AddActor(Actor* _Actor);
 
 	protected:
 		std::map<Str::FString, Object*> Objects;
-		std::map<Str::FString, Actor*> Actors;
 		KeyInput Input;
 
 		Graphics::IDRGenerator& Generator;

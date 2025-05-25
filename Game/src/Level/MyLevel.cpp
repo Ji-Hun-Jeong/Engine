@@ -2,6 +2,7 @@
 #include "MyLevel.h"
 #include "Player/Player.h"
 #include "Player/PlayerController/PlayerController.h"
+#include "Object/BackGround/BackGround.h"
 
 namespace Game
 {
@@ -19,33 +20,49 @@ namespace Game
 	{
 		Super::InitLevel();
 
-		//Geometry::ColorMeshData Md = Geometry::GenerateColorTriangle();
+		{
+			auto MeshData = Geometry::GenerateUVRect();
 
-		//auto& Vertices = Md.Vertices;
-		//auto& Indices = Md.Indices;
+			auto& Vertices = MeshData.Vertices;
+			auto& Indices = MeshData.Indices;
 
-		//// Renderer모듈쪽에 추가
-		//auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(ColorVertex), Vertices.size()
-		//	, Indices.data(), sizeof(Indices[0]), Indices.size());
-		auto MeshData = Geometry::GenerateUVRect();
+			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
+				, Indices.data(), sizeof(Indices[0]), Indices.size());
+			auto Model = std::make_shared<Graphics::Model>(Mesh);
 
-		auto& Vertices = MeshData.Vertices;
-		auto& Indices = MeshData.Indices;
+			auto P = CreatePlayer(Generator, Model);
 
-		auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
-			, Indices.data(), sizeof(Indices[0]), Indices.size());
-		auto Model = std::make_shared<Graphics::Model>(Mesh);
+			AddObject(P);
+			Renderer.AddModel(eLayer::Player, Model);
 
-		Player* P = new Player("Test");
-		P->BindRendererInterface(Generator, Model);
+			PlayerController* Controller = new PlayerController(*P);
+			Controller->SetKeyInput(Input);
 
-		PlayerController* Controller = new PlayerController(*P);
-		Controller->SetKeyInput(Input);
-		AddObject(Controller);
+			AddObject(Controller);
+		}
 
-		Renderer.AddModel(Model);
+		{
+			auto MeshData = Geometry::GenerateUVRect(1280.0f / 960.0f);
 
-		AddActor(P);
+			auto& Vertices = MeshData.Vertices;
+			auto& Indices = MeshData.Indices;
+
+			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
+				, Indices.data(), sizeof(Indices[0]), Indices.size());
+			auto Model = std::make_shared<Graphics::Model>(Mesh);
+
+			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
+			auto BackImage = Generator.GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomStage.png" });
+			RenderInterface->SetImage(BackImage);
+			Model->AddRenderInterface(RenderInterface);
+
+			BackGround* Back = new BackGround;
+			Back->InitalizeRerderInterface(Generator, RenderInterface);
+			AddObject(Back);
+
+			Renderer.AddModel(eLayer::BackGround, Model);
+		}
+		
 	}
 
 	void MyLevel::EnterLevel()

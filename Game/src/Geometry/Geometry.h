@@ -24,5 +24,6 @@ namespace Geometry
 	};
 	extern ColorMeshData GenerateColorTriangle();
 	extern UVMeshData GenerateUVRect();
+	extern UVMeshData GenerateUVRect(const float _Aspect);
 }
 
