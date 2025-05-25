@@ -46,8 +46,6 @@ namespace Game
 		Graphics::StateMachine& GetStateMachine() { return StateMachine; }
 
 	private:
-		void addAction();
-		void addKey();
 		void addSkill();
 
 	private:

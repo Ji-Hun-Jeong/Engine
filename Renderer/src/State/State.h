@@ -4,7 +4,6 @@
 
 namespace Graphics
 {
-	class StateTransition;
 	class RENDERER_API State
 	{
 	public:
@@ -23,6 +22,9 @@ namespace Graphics
 
 	public:
 		void Update(RenderInterface& _RenderInterface);
+		void SetEnterState(std::function<void()> _EnterStateFunc) { EnterStateFunc = _EnterStateFunc; }
+		void SetExitState(std::function<void()> _ExitStateFunc) { ExitStateFunc = _ExitStateFunc; }
+		void EnterState();
 		void ExitState();
 		void SetAnimation(Animation* _Anim)
 		{
@@ -30,22 +32,28 @@ namespace Graphics
 				delete Anim;
 			Anim = _Anim;
 		}
+		bool IsFinish();
 
 	private:
 		Animation* Anim;
 
+		std::function<void()> EnterStateFunc;
+		std::function<void()> ExitStateFunc;
 	};
 
 	class RENDERER_API StateVariableTable
 	{
 	public:
 		StateVariableTable() = default;
-		~StateVariableTable()
-		{
-
-		}
+		~StateVariableTable() = default;
 
 	public:
+		void ResetTriggers()
+		{
+			for (auto& Iter : TriggerVariables)
+				Iter.second.ResetTrigger();
+		}
+
 		int* RegistInt(const Str::FString& _VariableName, int _InitValue = 0)
 		{
 			auto Iter = IntVariables.insert(std::make_pair(_VariableName, _InitValue));
@@ -70,6 +78,13 @@ namespace Graphics
 		bool* RegistBool(const Str::FString& _VariableName, bool _InitValue = false)
 		{
 			auto Iter = BoolVariables.insert(std::make_pair(_VariableName, _InitValue));
+			if (Iter.second == false)
+				return nullptr;
+			return &Iter.first->second;
+		}
+		TriggerVariable* RegistTrigger(const Str::FString& _VariableName)
+		{
+			auto Iter = TriggerVariables.insert(std::make_pair(_VariableName, TriggerVariable()));
 			if (Iter.second == false)
 				return nullptr;
 			return &Iter.first->second;
@@ -103,12 +118,21 @@ namespace Graphics
 				return nullptr;
 			return &Iter->second;
 		}
+		TriggerVariable* GetTrigger(const Str::FString& _VariableName)
+		{
+			auto Iter = TriggerVariables.find(_VariableName);
+			if (Iter == TriggerVariables.end())
+				return nullptr;
+			return &Iter->second;
+		}
 
 	private:
 		std::map<Str::FString, int> IntVariables;
 		std::map<Str::FString, float> FloatVariables;
 		std::map<Str::FString, double> DoubleVariables;
 		std::map<Str::FString, bool> BoolVariables;
+		std::map<Str::FString, TriggerVariable> TriggerVariables;
+		
 	};
 
 	class RENDERER_API StateTransition
@@ -116,25 +140,39 @@ namespace Graphics
 	public:
 		StateTransition(StateCondition* _Condition, State& _Head)
 			: Condition(_Condition), Head(_Head)
+			, ForceExit(false)
 		{}
 		~StateTransition()
 		{
-			delete Condition;
+			if (Condition)
+				delete Condition;
 		}
 
 	public:
 		State* TryTransition(State& _CurrentState)
 		{
+			if (ForceExit == false)
+			{
+				if (_CurrentState.IsFinish() == false)
+					return nullptr;
+			}
+
+			if (Condition == nullptr)
+				return &Head;
+
 			if (Condition->Satisfy() == false)
 				return nullptr;
 
 			return &Head;
 		}
+		void SetForceExit(bool _ForceExit) { ForceExit = _ForceExit; }
 
 	private:
 		State& Head;
 
 		StateCondition* Condition;
+
+		bool ForceExit;
 
 	};
 
@@ -161,6 +199,27 @@ namespace Graphics
 		}
 
 	public:
+		void UpdateCurrentState(RenderInterface& _RenderInterface)
+		{
+			CurrentState->Update(_RenderInterface);
+
+			if (CurrentTransitions == nullptr)
+				return;
+
+			State* HeadState = nullptr;
+			for (auto Transition : *CurrentTransitions)
+			{
+				HeadState = Transition->TryTransition(*CurrentState);
+				if (HeadState)
+					break;
+			}
+
+			if (HeadState)
+				SetCurrentState(HeadState);
+
+			VariableTable.ResetTriggers();
+		}
+
 		State* AddState(const Str::FString& _StateName, State* _State)
 		{
 			auto Iter = States.insert(std::make_pair(_StateName, _State));
@@ -185,6 +244,9 @@ namespace Graphics
 
 			CurrentState = Iter->second;
 
+			if (CurrentState)
+				CurrentState->EnterState();
+
 			auto TransIter = Transitions.find(CurrentState);
 			if (TransIter == Transitions.end())
 				CurrentTransitions = nullptr;
@@ -196,32 +258,17 @@ namespace Graphics
 		{
 			if (CurrentState)
 				CurrentState->ExitState();
+
 			CurrentState = _State;
+
+			if (CurrentState)
+				CurrentState->EnterState();
 
 			auto Iter = Transitions.find(CurrentState);
 			if (Iter == Transitions.end())
 				CurrentTransitions = nullptr;
 			else
 				CurrentTransitions = Iter->second;
-		}
-
-		void UpdateCurrentState(RenderInterface& _RenderInterface)
-		{
-			CurrentState->Update(_RenderInterface);
-
-			if (CurrentTransitions == nullptr)
-				return;
-
-			State* HeadState = nullptr;
-			for (auto Transition : *CurrentTransitions)
-			{
-				HeadState = Transition->TryTransition(*CurrentState);
-				if (HeadState)
-					break;
-			}
-
-			if (HeadState)
-				SetCurrentState(HeadState);
 		}
 
 		void AddTransition(State* _State, StateTransition* _Transition)
@@ -259,5 +306,6 @@ namespace Graphics
 
 	};
 
-	extern void RENDERER_API AddTransition(StateMachine& _StateMachine, StateCondition* _Condition, State& _TailState, State& _HeadState);
+	extern void RENDERER_API AddTransition(StateMachine& _StateMachine, StateCondition* _Condition, State* _TailState, State* _HeadState
+		, bool _ForceExit = true);
 }

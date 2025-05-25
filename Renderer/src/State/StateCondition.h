@@ -78,5 +78,43 @@ namespace Graphics
 	private:
 		bool* Value;
 		bool Expected;
+
 	};
+
+	class RENDERER_API TriggerVariable
+	{
+	public:
+		TriggerVariable()
+			: Trigger(false)
+		{}
+		~TriggerVariable() = default;
+	public:
+		void ResetTrigger() { Trigger = false; }
+		void SetTrigger() { Trigger = true; }
+		bool IsTrigged() const { return Trigger; }
+
+	private:
+		bool Trigger;
+	};
+
+	class TriggerCondition : public StateCondition
+	{
+	public:
+		TriggerCondition(TriggerVariable& _Trigger)
+			: Trigger(_Trigger)
+		{
+		}
+		~TriggerCondition() {}
+
+	public:
+		bool Satisfy() override
+		{
+			return Trigger.IsTrigged();
+		}
+
+	private:
+		TriggerVariable& Trigger;
+
+	};
+
 }

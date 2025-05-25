@@ -17,20 +17,6 @@ namespace Game
 	{
 		Transform = new Game::Transform;
 		Transform->SetScale(Vector3(0.2f, 0.2f, 1.0f));
-
-		// Skill을 미리 정의해두고 Skill을 Action에 넣어서 바인딩한다.
-		// Action과 Key를 정의해두고 두개를 바인딩한다.
-		/*addSkill();
-		addKey();
-		addAction();
-
-		BindActionAndKey(Input::eKeyType::Left, Input::eButtonState::Hold, "BasicAction", "LeftMove");
-		BindActionAndKey(Input::eKeyType::Right, Input::eButtonState::Hold, "BasicAction", "RightMove");
-		BindActionAndKey(Input::eKeyType::Up, Input::eButtonState::Hold, "BasicAction", "UpMove");
-		BindActionAndKey(Input::eKeyType::Down, Input::eButtonState::Hold, "BasicAction", "DownMove");
-		BindActionAndKey(Input::eKeyType::Ctrl, Input::eButtonState::Hold, "CantMoveAction", "Attack");
-		BindActionAndKey(Input::eKeyType::Shift, Input::eButtonState::Hold, "MoveAction", "UltimitDrive");*/
-
 	}
 
 	Player::Player(const Player& _Other)
@@ -99,7 +85,7 @@ namespace Game
 
 		Graphics::Animation* AttackAnim = new Graphics::Animation(0.5f, false);
 		Graphics::AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/0.png" });
-		Graphics::AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/1.png" });
+		Graphics::AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/1.png" }, std::bind(&Player::Attack, this));
 		Graphics::AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/2.png" });
 		auto Attack = StateMachine.AddState("Attack", new Graphics::State(AttackAnim));
 
@@ -118,54 +104,6 @@ namespace Game
 		Action* Action = new Game::Action(_ActionName, FindSkill->GetSkillAction());
 		Action->SetActionDelay(FindSkill->GetSkillDelay());
 		ActionController->AddAction(Action);
-	}
-
-	void Player::addAction()
-	{
-		bool* Move = StateTable.RegistBool("Move", false);
-		auto LeftMove = [this, Move]()->void
-			{
-				Vector3 Position = Transform->GetPosition();
-				Position.x += -1 * Time::GetDT();
-				Transform->SetPosition(Position);
-				*Move = true;
-			};
-		auto RightMove = [this, Move]()->void
-			{
-				Vector3 Position = Transform->GetPosition();
-				Position.x += 1 * Time::GetDT();
-				Transform->SetPosition(Position);
-				*Move = false;
-			};
-		auto UpMove = [this]()->void
-			{
-				Vector3 Position = Transform->GetPosition();
-				Position.y += 1 * Time::GetDT();
-				Transform->SetPosition(Position);
-			};
-		auto DownMove = [this]()->void
-			{
-				Vector3 Position = Transform->GetPosition();
-				Position.y += -1 * Time::GetDT();
-				Transform->SetPosition(Position);
-			};
-
-		Action* PlayerAction = new Action("LeftMove", LeftMove);
-		ActionController->AddAction(PlayerAction);
-
-		PlayerAction = new Action("RightMove", RightMove);
-		ActionController->AddAction(PlayerAction);
-
-		PlayerAction = new Action("UpMove", UpMove);
-		ActionController->AddAction(PlayerAction);
-
-		PlayerAction = new Action("DownMove", DownMove);
-		ActionController->AddAction(PlayerAction);
-
-		PlayerAction = new Action("Attack", std::bind(&Player::Attack, this));
-		PlayerAction->SetActionDelay(1.0f);
-		ActionController->AddAction(PlayerAction);
-
 	}
 
 	void Player::addSkill()
