@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "MyLevel.h"
 #include "Player/Player.h"
+#include "Player/PlayerController/PlayerController.h"
 
 namespace Game
 {
@@ -37,6 +38,10 @@ namespace Game
 
 		Player* P = new Player("Test");
 		P->BindRendererInterface(Generator, Model);
+
+		PlayerController* Controller = new PlayerController(*P);
+		Controller->SetKeyInput(Input);
+		AddObject(Controller);
 
 		Renderer.AddModel(Model);
 

@@ -240,6 +240,14 @@ namespace Graphics
 			}
 		}
 
+		State* GetState(const Str::FString& _StateName)
+		{
+			auto Iter = States.find(_StateName);
+			if (Iter == States.end())
+				return nullptr;
+			return Iter->second;
+		}
+
 	private:
 		StateVariableTable& VariableTable;
 

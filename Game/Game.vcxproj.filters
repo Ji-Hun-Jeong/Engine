@@ -42,7 +42,7 @@
     <ClCompile Include="src\Component\State\State.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Component\KeyInput\KeyInput.cpp">
+    <ClCompile Include="src\Object\KeyInput\KeyInput.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Component\Action\Action.cpp">
@@ -70,6 +70,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\EntryPoint.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Player\PlayerController\PlayerController.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,7 +104,7 @@
     <ClInclude Include="src\Component\State\State.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Component\KeyInput\KeyInput.h">
+    <ClInclude Include="src\Object\KeyInput\KeyInput.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Component\Action\Action.h">
@@ -132,6 +135,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Path\Path.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Player\PlayerController\PlayerController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

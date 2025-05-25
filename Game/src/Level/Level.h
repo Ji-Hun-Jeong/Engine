@@ -1,5 +1,6 @@
 #pragma once
 #include "Object/Actor.h"
+#include "Object/KeyInput/KeyInput.h"
 #include "Game/src/Geometry/Geometry.h"
 
 namespace Game
@@ -23,6 +24,7 @@ namespace Game
 	protected:
 		std::map<Str::FString, Object*> Objects;
 		std::map<Str::FString, Actor*> Actors;
+		KeyInput Input;
 
 		Graphics::IDRGenerator& Generator;
 		Graphics::IGraphicProcess& Renderer;

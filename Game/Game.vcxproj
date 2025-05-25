@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Player\PlayerController\PlayerController.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
@@ -148,7 +149,7 @@
     <ClCompile Include="src\Player\PlayerComponent\PlayerActionController.cpp" />
     <ClCompile Include="src\Component\Skill\Skill.cpp" />
     <ClCompile Include="src\Component\Action\Action.cpp" />
-    <ClCompile Include="src\Component\KeyInput\KeyInput.cpp" />
+    <ClCompile Include="src\Object\KeyInput\KeyInput.cpp" />
     <ClCompile Include="src\Level\Level.cpp" />
     <ClCompile Include="src\Object\Actor.cpp" />
     <ClCompile Include="src\Object\Object.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="src\Component\State\State.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Player\PlayerController\PlayerController.h" />
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\Core.h" />
     <ClInclude Include="src\Core\Window.h" />
@@ -173,7 +175,7 @@
     <ClInclude Include="src\Player\PlayerComponent\PlayerActionController.h" />
     <ClInclude Include="src\Component\Skill\Skill.h" />
     <ClInclude Include="src\Component\Action\Action.h" />
-    <ClInclude Include="src\Component\KeyInput\KeyInput.h" />
+    <ClInclude Include="src\Object\KeyInput\KeyInput.h" />
     <ClInclude Include="src\Level\Level.h" />
     <ClInclude Include="src\Object\Actor.h" />
     <ClInclude Include="src\Object\Object.h" />

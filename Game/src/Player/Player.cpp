@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Player.h"
 
-#include "Component/KeyInput/KeyInput.h"
 #include "Component/Skill/Skill.h"
 #include "PlayerComponent/PlayerActionController.h"
 #include "PlayerComponent/PlayerSkillBundle.h"
@@ -10,7 +9,6 @@ namespace Game
 {
 	Player::Player(const Str::FString& _Name)
 		: Super(_Name)
-		, KeyInput(new Game::KeyInput)
 		, ActionController(new PlayerActionController)
 		, SkillManager(new Game::SkillManager)
 		, SkillBundle(new PlayerSkillBundle(this))
@@ -22,7 +20,7 @@ namespace Game
 
 		// Skill을 미리 정의해두고 Skill을 Action에 넣어서 바인딩한다.
 		// Action과 Key를 정의해두고 두개를 바인딩한다.
-		addSkill();
+		/*addSkill();
 		addKey();
 		addAction();
 
@@ -31,13 +29,12 @@ namespace Game
 		BindActionAndKey(Input::eKeyType::Up, Input::eButtonState::Hold, "BasicAction", "UpMove");
 		BindActionAndKey(Input::eKeyType::Down, Input::eButtonState::Hold, "BasicAction", "DownMove");
 		BindActionAndKey(Input::eKeyType::Ctrl, Input::eButtonState::Hold, "CantMoveAction", "Attack");
-		BindActionAndKey(Input::eKeyType::Shift, Input::eButtonState::Hold, "MoveAction", "UltimitDrive");
+		BindActionAndKey(Input::eKeyType::Shift, Input::eButtonState::Hold, "MoveAction", "UltimitDrive");*/
 
 	}
 
 	Player::Player(const Player& _Other)
 		: Super(_Other)
-		, KeyInput(nullptr)
 		, ActionController(nullptr)
 		, SkillManager(nullptr)
 		, SkillBundle(nullptr)
@@ -48,8 +45,6 @@ namespace Game
 
 	Player::~Player()
 	{
-		if (KeyInput)
-			delete KeyInput;
 		if (ActionController)
 			delete ActionController;
 		if (SkillManager)
@@ -66,11 +61,6 @@ namespace Game
 	void Player::Update()
 	{
 		Super::Update();
-
-		KeyInput->UpdateKeyState();
-
-		KeyActioner& KeyActioner = KeyInput->GetKeyActioner();
-		KeyActioner.PerformKeyAction();
 
 		ActionController->Update();
 
@@ -113,44 +103,7 @@ namespace Game
 		Graphics::AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/2.png" });
 		auto Attack = StateMachine.AddState("Attack", new Graphics::State(AttackAnim));
 
-		auto ChangeFunc = [this](Graphics::State* _HeadState)->void
-			{
-				StateMachine.SetCurrentState(_HeadState);
-			};
-
-		bool* Move = StateTable.GetBool("Move");
-		Graphics::StateCondition* Condition = new Graphics::BoolCondition(Move, true);
-		Graphics::AddTransition(StateMachine, Condition, *Alert, *Walk);
-
-		Condition = new Graphics::BoolCondition(Move, false);
-		Graphics::AddTransition(StateMachine, Condition, *Walk, *Alert);
-
-		StateMachine.SetCurrentState(Alert);
 		_Model->AddRenderInterface(PlayerInterface);
-	}
-
-	void Player::BindAnimationAndAction()
-	{
-
-	}
-
-	void Player::BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState
-		, const Str::FString& _ActionClass, const Str::FString& _ActionName)
-	{
-		if (ActionController->IsExistAction(_ActionName) == false)
-			return;
-
-		KeyValue* FindKeyValue = KeyInput->GetKeyValue(_KeyType, _KeyState);
-		if (FindKeyValue == nullptr)
-			return;
-
-		Game::ActionController* PActionController = ActionController;
-		auto Event = [PActionController, _ActionClass, _ActionName](const Str::FString& _KeyName)->void
-			{
-				PActionController->PrepareAction(_ActionClass, _ActionName);
-			};
-		FindKeyValue->SetKeyEvent(Event);
-
 	}
 
 	void Player::AddActionBySkill(const Str::FString& _ManagementName, const Str::FString& _SkillName, const Str::FString& _ActionName)
@@ -213,18 +166,6 @@ namespace Game
 		PlayerAction->SetActionDelay(1.0f);
 		ActionController->AddAction(PlayerAction);
 
-		AddActionBySkill("1", "UltimitDrive", "UltimitDrive");
-
-	}
-
-	void Player::addKey()
-	{
-		KeyInput->AddKey(Input::eKeyType::Left, Input::eButtonState::Hold, "LeftMove");
-		KeyInput->AddKey(Input::eKeyType::Right, Input::eButtonState::Hold, "RightMove");
-		KeyInput->AddKey(Input::eKeyType::Up, Input::eButtonState::Hold, "UpMove");
-		KeyInput->AddKey(Input::eKeyType::Down, Input::eButtonState::Hold, "DownMove");
-		KeyInput->AddKey(Input::eKeyType::Ctrl, Input::eButtonState::Hold, "Attack");
-		KeyInput->AddKey(Input::eKeyType::Shift, Input::eButtonState::Hold, "Uld");
 	}
 
 	void Player::addSkill()

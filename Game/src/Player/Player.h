@@ -27,10 +27,6 @@ namespace Game
 		virtual void Destory() override;
 
 		void BindRendererInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model);
-		void BindAnimationAndAction();
-
-		void BindActionAndKey(Input::eKeyType _KeyType, Input::eButtonState _KeyState
-			, const Str::FString& _ActionClass, const Str::FString& _ActionName);
 
 		void AddActionBySkill(const Str::FString& _ManagementName, const Str::FString& _SkillName, const Str::FString& _ActionName);
 
@@ -38,6 +34,16 @@ namespace Game
 		{
 			std::cout << "PlayerAttack!\n";
 		}
+
+		void Move(float _Speed)
+		{
+			Vector3 Position = Transform->GetPosition();
+			Position.x += _Speed * Time::GetDT();
+			Transform->SetPosition(Position);
+		}
+
+		Graphics::StateVariableTable& GetStateTable() { return StateTable; }
+		Graphics::StateMachine& GetStateMachine() { return StateMachine; }
 
 	private:
 		void addAction();
@@ -50,7 +56,6 @@ namespace Game
 		Graphics::StateVariableTable StateTable;
 		Graphics::StateMachine StateMachine;
 
-		class KeyInput* KeyInput;
 		class ActionController* ActionController;
 		class SkillManager* SkillManager;
 		class PlayerSkillBundle* SkillBundle;

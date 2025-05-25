@@ -5,7 +5,8 @@
 namespace Game
 {
 	Level::Level(Graphics::IDRGenerator& _Generator)
-		: Generator(_Generator)
+		: Input{}
+		, Generator(_Generator)
 		, Renderer(*new Graphics::ImageRenderProcess(Generator, 2))
 	{
 	}
@@ -32,6 +33,7 @@ namespace Game
 
 	void Level::Update()
 	{
+		Input.UpdateKeyState();
 		for (auto iter = Objects.begin(); iter != Objects.end(); ++iter)
 			iter->second->Update();
 		for (auto iter = Actors.begin(); iter != Actors.end(); ++iter)
