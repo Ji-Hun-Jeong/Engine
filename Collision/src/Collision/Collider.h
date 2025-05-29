@@ -6,9 +6,12 @@ namespace Collision
 	{
 	public:
 		Collider() = default;
-		virtual ~Collider() = 0 {}
+		virtual ~Collider() {}
 
 	public:
+		virtual bool IsCollision(class CircleCollider*) {}
+		virtual bool IsCollision(class RectCollider*) {}
+
 		void SetColliderType(uint8_t _ColliderType) { ColliderType = _ColliderType; }
 
 		uint32_t GetColliderId() const { return ColliderId; }
@@ -31,7 +34,14 @@ namespace Collision
 		~CircleCollider() {}
 
 	public:
+		bool IsCollision(class RectCollider* _Collider)
+		{
 
+		}
+		bool IsCollision(CircleCollider* _Collider)
+		{
+
+		}
 
 	public:
 		Vector2 Position;
@@ -48,7 +58,11 @@ namespace Collision
 		~RectCollider() {}
 
 	public:
-		void f(CircleCollider* c)
+		bool IsCollision(RectCollider* _Collider)
+		{
+
+		}
+		bool IsCollision(CircleCollider* _Collider)
 		{
 
 		}
