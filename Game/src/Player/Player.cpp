@@ -13,7 +13,7 @@ namespace Game
 		, StateTable{}
 		, StateMachine(StateTable)
 	{
-		Transform.SetScale(Vector3(0.2f, 0.2f, 1.0f));
+		//Transform.SetScale(Vector3(0.2f, 0.2f, 1.0f));
 	}
 
 	Player::Player(const Player& _Other)

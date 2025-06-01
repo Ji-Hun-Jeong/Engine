@@ -44,6 +44,11 @@ namespace Graphics
 			ConstBuffer = _ConstBuffer;
 		}
 
+		Vector2 GetImageSize(size_t _Index)
+		{
+			return Image->GetImageSize(_Index);
+		}
+
 		void SetImage(RefCounterPtr<IShaderResource>& _Image) { Image = _Image; }
 
 		void SetRender(bool _BeRender) { BeRender = _BeRender; }

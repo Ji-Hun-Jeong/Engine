@@ -23,7 +23,7 @@ namespace Game
 
 		CollisionMgr.BindCollisionWhether("Player", "Monster");
 		{
-			auto MeshData = Geometry::GenerateUVRect();
+			auto MeshData = Geometry::GenerateUVRect(0.5f);
 
 			auto& Vertices = MeshData.Vertices;
 			auto& Indices = MeshData.Indices;
@@ -44,7 +44,11 @@ namespace Game
 		}
 
 		{
-			auto MeshData = Geometry::GenerateUVRect(1280.0f / 960.0f);
+			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
+			auto BackImage = Generator.GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomStage.png" });
+			Vector2 ImageSize = BackImage->GetImageSize(0);
+
+			auto MeshData = Geometry::GenerateUVRect(ImageSize.x / ImageSize.y);
 
 			auto& Vertices = MeshData.Vertices;
 			auto& Indices = MeshData.Indices;
@@ -53,8 +57,6 @@ namespace Game
 				, Indices.data(), sizeof(Indices[0]), Indices.size());
 			auto Model = std::make_shared<Graphics::Model>(Mesh);
 
-			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
-			auto BackImage = Generator.GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomStage.png" });
 			RenderInterface->SetImage(BackImage);
 			Model->AddRenderInterface(RenderInterface);
 
