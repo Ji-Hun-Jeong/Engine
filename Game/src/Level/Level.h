@@ -27,5 +27,8 @@ namespace Game
 		Graphics::IDRGenerator& Generator;
 		Graphics::IGraphicProcess& Renderer;
 		
+		Collision::ColliderManager CollisionMgr;
+		Collision::CollisionDetector CollisionDetector;
+
 	};
 }

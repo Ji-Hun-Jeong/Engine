@@ -9,7 +9,8 @@ namespace Game
 	MyLevel::MyLevel(Graphics::IDRGenerator& _Generator)
 		: Level(_Generator)
 	{
-
+		CollisionMgr.TypeMapping("Player");
+		CollisionMgr.TypeMapping("Monster");
 	}
 
 	MyLevel::~MyLevel()
@@ -20,6 +21,7 @@ namespace Game
 	{
 		Super::InitLevel();
 
+		CollisionMgr.BindCollisionWhether("Player", "Monster");
 		{
 			auto MeshData = Geometry::GenerateUVRect();
 
@@ -30,7 +32,7 @@ namespace Game
 				, Indices.data(), sizeof(Indices[0]), Indices.size());
 			auto Model = std::make_shared<Graphics::Model>(Mesh);
 
-			auto P = CreatePlayer(Generator, Model);
+			auto P = CreatePlayer(Generator, Model, CollisionMgr);
 
 			AddObject(P);
 			Renderer.AddModel(eLayer::Player, Model);
@@ -58,6 +60,10 @@ namespace Game
 
 			BackGround* Back = new BackGround;
 			Back->InitalizeRerderInterface(Generator, RenderInterface);
+			auto C = CollisionMgr.GetRectCollider("Monster");
+			C->SetSize(Back->GetScale());
+			
+			Back->SetCollider(C);
 			AddObject(Back);
 
 			Renderer.AddModel(eLayer::BackGround, Model);

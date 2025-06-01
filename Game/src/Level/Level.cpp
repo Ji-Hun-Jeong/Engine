@@ -8,6 +8,8 @@ namespace Game
 		: Input{}
 		, Generator(_Generator)
 		, Renderer(*new Graphics::ImageRenderProcess(Generator, 2))
+		, CollisionMgr()
+		, CollisionDetector(CollisionMgr)
 	{
 	}
 
@@ -35,6 +37,8 @@ namespace Game
 		Input.UpdateKeyState();
 		for (auto iter = Objects.begin(); iter != Objects.end(); ++iter)
 			iter->second->Update();
+
+		CollisionDetector.CheckCollisionProcessing();
 	}
 
 	void Level::Render()

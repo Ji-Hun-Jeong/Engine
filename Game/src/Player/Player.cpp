@@ -59,7 +59,7 @@ namespace Game
 		SkillManager->AddSkillToManagement("1", Skill);
 	}
 
-	Player* CreatePlayer(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model)
+	Player* CreatePlayer(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model, Collision::ColliderManager& _CollisionMgr)
 	{
 		Player* PlayerInstance = new Player("Player");
 
@@ -88,6 +88,20 @@ namespace Game
 		auto Attack = PlayerInstance->StateMachine.AddState("Attack", new Graphics::State(AttackAnim));
 
 		_Model->AddRenderInterface(RenderInterface);
+		
+		auto C = _CollisionMgr.GetRectCollider("Player");
+		C->SetSize(PlayerInstance->GetScale());
+		C->AddCollisionEnter([&_CollisionMgr](Collision::Collider* _Collider)->void
+			{
+				if (_CollisionMgr.GetTypeByString("Monster") == _Collider->GetColliderType())
+					std::cout << "CollisionEnter\n";
+			});
+		C->AddCollisionExit([&_CollisionMgr](Collision::Collider* _Collider)->void
+			{
+				if (_CollisionMgr.GetTypeByString("Monster") == _Collider->GetColliderType())
+					std::cout << "CollisionExit\n";
+			});
+		PlayerInstance->SetCollider(C);
 
 		return PlayerInstance;
 	}

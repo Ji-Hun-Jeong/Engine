@@ -8,7 +8,7 @@ namespace Game
 	{
 		using Super = Actor;
 		CLONE(Player, Actor);
-		friend Player* CreatePlayer(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model);
+		friend Player* CreatePlayer(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model, Collision::ColliderManager& _CollisionMgr);
 	public:
 		Player(const Str::FString& _Name);
 		Player(const Player& _Other);
@@ -42,6 +42,6 @@ namespace Game
 
 	};
 
-	extern Player* CreatePlayer(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model);
+	extern Player* CreatePlayer(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model, Collision::ColliderManager& _CollisionMgr);
 }
 
