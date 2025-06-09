@@ -23,7 +23,7 @@ namespace Game
 
 		CollisionMgr.BindCollisionWhether("Player", "Monster");
 		{
-			auto MeshData = Geometry::GenerateUVRect(0.5f);
+			auto MeshData = Geometry::GenerateUVRect(0.3f);
 
 			auto& Vertices = MeshData.Vertices;
 			auto& Indices = MeshData.Indices;
@@ -45,10 +45,10 @@ namespace Game
 
 		{
 			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
-			auto BackImage = Generator.GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomStage.png" });
+			auto BackImage = Generator.GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomBackground.png" });
 			Vector2 ImageSize = BackImage->GetImageSize(0);
 
-			auto MeshData = Geometry::GenerateUVRect(ImageSize.x / ImageSize.y);
+			auto MeshData = Geometry::GenerateUVRect(ImageSize.x, ImageSize.y);
 
 			auto& Vertices = MeshData.Vertices;
 			auto& Indices = MeshData.Indices;
@@ -60,7 +60,31 @@ namespace Game
 			RenderInterface->SetImage(BackImage);
 			Model->AddRenderInterface(RenderInterface);
 
-			BackGround* Back = new BackGround;
+			BackGround* Back = new BackGround("1");
+			Back->InitalizeRerderInterface(Generator, RenderInterface);
+			AddObject(Back);
+
+			Renderer.AddModel(eLayer::BackGround, Model);
+		}
+
+		{
+			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
+			auto BackImage = Generator.GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomStage.png" });
+			Vector2 ImageSize = BackImage->GetImageSize(0);
+
+			auto MeshData = Geometry::GenerateUVRect(ImageSize.x, ImageSize.y);
+
+			auto& Vertices = MeshData.Vertices;
+			auto& Indices = MeshData.Indices;
+
+			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
+				, Indices.data(), sizeof(Indices[0]), Indices.size());
+			auto Model = std::make_shared<Graphics::Model>(Mesh);
+
+			RenderInterface->SetImage(BackImage);
+			Model->AddRenderInterface(RenderInterface);
+
+			BackGround* Back = new BackGround("2");
 			Back->InitalizeRerderInterface(Generator, RenderInterface);
 			auto C = CollisionMgr.GetRectCollider("Monster");
 			C->SetSize(Back->GetScale());

@@ -8,6 +8,8 @@
 #include <Game/src/Core/Window.h>
 #include <Renderer/src/GraphicsTime.h>
 
+#include "Geometry/Geometry.h"
+
 namespace Game
 {
 	GameWorld::GameWorld(UINT _ScreenWidth, UINT _ScreenHeight)
@@ -16,6 +18,7 @@ namespace Game
 		, Generator(*new Graphics::DX::DXRGenerator(AppWindow->GetWindowHandle()))
 	{
 		// rendering리소스 정의
+		Geometry::Init(_ScreenWidth, _ScreenHeight);
 	}
 
 	GameWorld::~GameWorld()
@@ -27,6 +30,7 @@ namespace Game
 
 	void GameWorld::Init()
 	{
+		
 		Time::Init();
 		Path::Init("Game");
 

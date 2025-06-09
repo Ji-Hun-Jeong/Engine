@@ -40,7 +40,6 @@ namespace Graphics
 			for (uint8_t i = 0; i < (uint8_t)eLayer::End; ++i)
 				for (auto& Model : Models[i])
 					Model->RenderModel(0, ModelsConstBufferStartSlot, 0);
-			
 		}
 
 	protected:
@@ -48,6 +47,10 @@ namespace Graphics
 		RefCounterPtr<IPresenter> Presenter;
 
 		UINT ModelsConstBufferStartSlot;
+
+		std::shared_ptr<IRenderInterface> GlobalConst;
+
+		UINT GlobalConstBufferStartSlot;
 	};
 
 	class RENDERER_API BasicRenderProcess : public IGraphicProcess

@@ -54,76 +54,66 @@ namespace Graphics
 				Iter.second.Tick();
 		}
 
-		int* RegistInt(const Str::FString& _VariableName, int _InitValue = 0)
+		int& RegistInt(const Str::FString& _VariableName, int _InitValue = 0)
 		{
 			auto Iter = IntVariables.insert(std::make_pair(_VariableName, _InitValue));
-			if (Iter.second == false)
-				return nullptr;
-			return &Iter.first->second;
+
+			return Iter.first->second;
 		}
-		float* RegistFloat(const Str::FString& _VariableName, float _InitValue = 0.0f)
+		float& RegistFloat(const Str::FString& _VariableName, float _InitValue = 0.0f)
 		{
 			auto Iter = FloatVariables.insert(std::make_pair(_VariableName, _InitValue));
-			if (Iter.second == false)
-				return nullptr;
-			return &Iter.first->second;
+
+			return Iter.first->second;
 		}
-		double* RegistDouble(const Str::FString& _VariableName, double _InitValue = 0.0f)
+		double& RegistDouble(const Str::FString& _VariableName, double _InitValue = 0.0f)
 		{
 			auto Iter = DoubleVariables.insert(std::make_pair(_VariableName, _InitValue));
-			if (Iter.second == false)
-				return nullptr;
-			return &Iter.first->second;
+
+			return Iter.first->second;
 		}
-		bool* RegistBool(const Str::FString& _VariableName, bool _InitValue = false)
+		bool& RegistBool(const Str::FString& _VariableName, bool _InitValue = false)
 		{
 			auto Iter = BoolVariables.insert(std::make_pair(_VariableName, _InitValue));
-			if (Iter.second == false)
-				return nullptr;
-			return &Iter.first->second;
+
+			return Iter.first->second;
 		}
-		TriggerVariable* RegistTrigger(const Str::FString& _VariableName)
+		TriggerVariable& RegistTrigger(const Str::FString& _VariableName)
 		{
 			auto Iter = TriggerVariables.insert(std::make_pair(_VariableName, TriggerVariable()));
-			if (Iter.second == false)
-				return nullptr;
-			return &Iter.first->second;
+
+			return Iter.first->second;
 		}
 
-		int* GetInt(const Str::FString& _VariableName)
+		int& GetInt(const Str::FString& _VariableName)
 		{
 			auto Iter = IntVariables.find(_VariableName);
-			if (Iter == IntVariables.end())
-				return nullptr;
-			return &Iter->second;
+
+			return Iter->second;
 		}
-		float* GetFloat(const Str::FString& _VariableName)
+		float& GetFloat(const Str::FString& _VariableName)
 		{
 			auto Iter = FloatVariables.find(_VariableName);
-			if (Iter == FloatVariables.end())
-				return nullptr;
-			return &Iter->second;
+		
+			return Iter->second;
 		}
-		double* GetDouble(const Str::FString& _VariableName)
+		double& GetDouble(const Str::FString& _VariableName)
 		{
 			auto Iter = DoubleVariables.find(_VariableName);
-			if (Iter == DoubleVariables.end())
-				return nullptr;
-			return &Iter->second;
+			
+			return Iter->second;
 		}
-		bool* GetBool(const Str::FString& _VariableName)
+		bool& GetBool(const Str::FString& _VariableName)
 		{
 			auto Iter = BoolVariables.find(_VariableName);
-			if (Iter == BoolVariables.end())
-				return nullptr;
-			return &Iter->second;
+			
+			return Iter->second;
 		}
-		TriggerVariable* GetTrigger(const Str::FString& _VariableName)
+		TriggerVariable& GetTrigger(const Str::FString& _VariableName)
 		{
 			auto Iter = TriggerVariables.find(_VariableName);
-			if (Iter == TriggerVariables.end())
-				return nullptr;
-			return &Iter->second;
+			
+			return Iter->second;
 		}
 
 	private:

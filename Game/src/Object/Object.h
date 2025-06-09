@@ -19,17 +19,16 @@ namespace Game
 		virtual Object* GetClone() const = 0;
 		virtual void InitObject();
 		virtual void Update();
+		virtual void PostUpdate();
 		virtual void Destory();
 
 		void SetName(const Str::FString& _Name) { Name = _Name; }
 		const Str::FString& GetName() const { return Name; }
 
 		void SetCollider(std::shared_ptr<Collision::Collider> _Collider) { Collider = _Collider; }
-		void Move(float _Speed) 
-		{ 
+		void Move(float _Speed)
+		{
 			Transform.Move(_Speed);
-			if (Collider)
-				Collider->SetPosition(Transform.GetPosition());
 		}
 
 		const Vector3& GetPosition() const { return Transform.GetPosition(); }

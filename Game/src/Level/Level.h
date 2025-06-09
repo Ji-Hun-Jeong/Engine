@@ -19,9 +19,11 @@ namespace Game
 		virtual void Render() final;
 		
 		void AddObject(Object* _Object);
+		void AddCamera(class Camera* _Camera);
 
 	protected:
 		std::map<Str::FString, Object*> Objects;
+		std::map<Str::FString, class Camera*> Cameras;
 		KeyInput Input;
 
 		Graphics::IDRGenerator& Generator;

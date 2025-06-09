@@ -13,6 +13,7 @@ namespace Game
 			: Position(_Position)
 			, Rotation(Vector3(0.0f))
 			, Scale(Vector3(1.0f))
+			, Direction(-1.0f)
 		{}
 		~Transform() {}
 

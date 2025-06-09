@@ -15,7 +15,7 @@ namespace Game
 	using DirectX::SimpleMath::Matrix;
 	struct ConstData
 	{
-		Matrix MVP;
+		Matrix World;
 
 		int Direction;
 		Vector3 Dummy1;

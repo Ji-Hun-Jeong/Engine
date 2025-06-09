@@ -3,6 +3,14 @@
 
 namespace Geometry
 {
+	float ScreenWidth = 0;
+	float ScreenHeight = 0;
+	void Init(const float _ScreenWidth, const float _ScreenHeight)
+	{
+		ScreenWidth = _ScreenWidth;
+		ScreenHeight = _ScreenHeight;
+	}
+
 	ColorMeshData GenerateColorTriangle()
 	{
 		ColorMeshData ReturnData;
@@ -23,6 +31,7 @@ namespace Geometry
 
 		return ReturnData;
 	}
+
 	UVMeshData GenerateUVRect(float _Size)
 	{
 		UVMeshData ReturnData;
@@ -50,28 +59,30 @@ namespace Geometry
 
 		return ReturnData;
 	}
-	UVMeshData GenerateUVRect(const float _Width, const float _Height, const float _ScreenWidth, const float _ScreenHeight)
-	{
-		const float Aspect = _ScreenWidth / _ScreenHeight;
 
+	UVMeshData GenerateUVRect(const float _Width, const float _Height)
+	{
 		UVMeshData ReturnData;
 		std::vector<UVVertex>& Vertices = ReturnData.Vertices;
 
 		UVVertex V;
 
-		V.Pos = Vector3(-Aspect, -1.0f, 0.0f);
+		const float X = (_Width / ScreenWidth);
+		const float Y = (_Height / ScreenHeight);
+
+		V.Pos = Vector3(-X, -Y, 0.0f);
 		V.UV = Vector2(0.0f, 1.0f);
 		Vertices.push_back(V);
 
-		V.Pos = Vector3(-Aspect, 1.0f, 0.0f);
+		V.Pos = Vector3(-X, Y, 0.0f);
 		V.UV = Vector2(0.0f, 0.0f);
 		Vertices.push_back(V);
 
-		V.Pos = Vector3(Aspect, -1.0f, 0.0f);
+		V.Pos = Vector3(X, -Y, 0.0f);
 		V.UV = Vector2(1.0f, 1.0f);
 		Vertices.push_back(V);
 
-		V.Pos = Vector3(Aspect, 1.0f, 0.0f);
+		V.Pos = Vector3(X, Y, 0.0f);
 		V.UV = Vector2(1.0f, 0.0f);
 		Vertices.push_back(V);
 

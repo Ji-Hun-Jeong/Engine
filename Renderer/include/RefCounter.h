@@ -92,6 +92,14 @@ public:
 		_Other.RefCounter = nullptr;
 		return *this;
 	}
+	operator bool() const
+	{
+		return RefCounter != nullptr;
+	}
+	bool operator == (std::nullptr_t NullPtr) const
+	{
+		return RefCounter == NullPtr;
+	}
 
 public:
 	void Reset()

@@ -22,8 +22,9 @@ namespace Geometry
 		std::vector<UVVertex> Vertices;
 		std::vector<uint32_t> Indices;
 	};
+	extern void Init(const float _ScreenWidth, const float _ScreenHeight);
 	extern ColorMeshData GenerateColorTriangle();
 	extern UVMeshData GenerateUVRect(float _Size);
-	extern UVMeshData GenerateUVRect(const float _Width, const float _Height, const float _ScreenWidth, const float _ScreenHeight);
+	extern UVMeshData GenerateUVRect(const float _Width, const float _Height);
 }
 

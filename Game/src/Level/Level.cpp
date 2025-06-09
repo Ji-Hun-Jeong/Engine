@@ -2,6 +2,8 @@
 #include "Level.h"
 #include <Renderer/src/RenderProcess/ImageRenderProcess.h>
 
+#include "Object/Camera/Camera.h"
+
 namespace Game
 {
 	Level::Level(Graphics::IDRGenerator& _Generator)
@@ -35,6 +37,10 @@ namespace Game
 	void Level::Update()
 	{
 		Input.UpdateKeyState();
+
+		for (auto iter = Cameras.begin(); iter != Cameras.end(); ++iter)
+			iter->second->Update();
+
 		for (auto iter = Objects.begin(); iter != Objects.end(); ++iter)
 			iter->second->Update();
 
@@ -55,5 +61,14 @@ namespace Game
 			assert(0);
 
 		_Object->InitObject();
+	}
+
+	void Level::AddCamera(Camera* _Camera)
+	{
+		auto iter = Cameras.insert(std::make_pair(_Camera->GetName(), _Camera));
+		if (iter.second == false)
+			assert(0);
+
+		_Camera->InitObject();
 	}
 }

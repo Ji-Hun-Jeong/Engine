@@ -26,6 +26,11 @@ namespace Game
 	{
 		
 	}
+	void Object::PostUpdate()
+	{
+		if (Collider)
+			Collider->SetPosition(Transform.GetPosition());
+	}
 	void Object::Destory()
 	{
 	}

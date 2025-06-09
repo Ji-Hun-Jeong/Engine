@@ -30,8 +30,12 @@ namespace Graphics
 
 			ConstBuffer->VSSetConstBuffers(_ConstBufferStartSlot);
 			ConstBuffer->PSSetConstBuffers(_ConstBufferStartSlot);
-			Image->VSSetShaderResources(_ShaderResourceStartSlot);
-			Image->PSSetShaderResources(_ShaderResourceStartSlot);
+
+			if (Image)
+			{
+				Image->VSSetShaderResources(_ShaderResourceStartSlot);
+				Image->PSSetShaderResources(_ShaderResourceStartSlot);
+			}
 		}
 
 		void UpdateConstBuffer() const

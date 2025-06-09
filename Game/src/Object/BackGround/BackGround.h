@@ -8,8 +8,8 @@ namespace Game
 		using Super = Actor;
 		CLONE(BackGround, Actor)
 	public:
-		BackGround()
-			: Super("BackGround")
+		BackGround(const Str::FString& _Name)
+			: Super(_Name)
 		{}
 		~BackGround() {}
 	};

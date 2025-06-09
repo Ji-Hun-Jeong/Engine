@@ -14,7 +14,7 @@ struct PSInput
 
 cbuffer MeshConst : register(b2)
 {
-    matrix MVP;
+    matrix World;
     int Direction;
     float3 Dummy1;
 }
@@ -23,7 +23,7 @@ PSInput main(VSInput input)
 {
     PSInput output;
     output.position = float4(input.position, 1.0f);
-    output.position = mul(output.position, MVP);
+    output.position = mul(output.position, World);
     output.uv = input.uv;
     if(Direction > 0)
         output.uv.x = -output.uv.x;

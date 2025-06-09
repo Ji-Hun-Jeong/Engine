@@ -28,7 +28,7 @@ namespace Game
 	{
 		Super::Update();
 
-		CpuConstData.MVP = Transform.GetModel().Transpose();
+		CpuConstData.World = Transform.GetModel().Transpose();
 		CpuConstData.Direction = Transform.GetDirection();
 		RenderInterface->UpdateConstBuffer();
 	}

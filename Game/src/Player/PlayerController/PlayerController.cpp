@@ -24,48 +24,48 @@ namespace Game
 		Graphics::StateVariableTable& StateTable = Player.GetStateTable();
 		Graphics::StateMachine& StateMachine = Player.GetStateMachine();
 
-		bool* MoveState = StateTable.RegistBool("Move", false);
-		bool* PossibleMoveState = StateTable.RegistBool("PossibleMove", true);
-		Graphics::TriggerVariable* AttackTrigger = StateTable.RegistTrigger("Attack");
+		bool& MoveState = StateTable.RegistBool("Move", false);
+		bool& PossibleMoveState = StateTable.RegistBool("PossibleMove", true);
+		Graphics::TriggerVariable& AttackTrigger = StateTable.RegistTrigger("Attack");
 
-		_KeyInput.AddKey("MoveLeft", Input::eKeyType::Left, Input::eButtonState::Hold, [this, MoveState, PossibleMoveState]()->void
+		_KeyInput.AddKey("MoveLeft", Input::eKeyType::Left, Input::eButtonState::Hold, [this, &MoveState, PossibleMoveState]()->void
 			{
-				if (*PossibleMoveState == false)
+				if (PossibleMoveState == false)
 					return;
-				*MoveState = true;
+				MoveState = true;
 				Player.Move(-1.0f);
 			});
-		_KeyInput.AddKey("MoveRight", Input::eKeyType::Right, Input::eButtonState::Hold, [this, MoveState, PossibleMoveState]()->void
+		_KeyInput.AddKey("MoveRight", Input::eKeyType::Right, Input::eButtonState::Hold, [this, &MoveState, PossibleMoveState]()->void
 			{
-				if (*PossibleMoveState == false)
+				if (PossibleMoveState == false)
 					return;
-				*MoveState = false;
+				MoveState = false;
 				Player.Move(1.0f);
 			});
-		_KeyInput.AddKey("Attack", Input::eKeyType::Ctrl, Input::eButtonState::Tap, [this, AttackTrigger, PossibleMoveState]()->void
+		_KeyInput.AddKey("Attack", Input::eKeyType::Ctrl, Input::eButtonState::Tap, [this, &AttackTrigger, PossibleMoveState]()->void
 			{
-				AttackTrigger->SetTrigger();
+				AttackTrigger.SetTrigger();
 			});
 
 		auto Alert = StateMachine.GetState("Alert");
-		Alert->SetEnterState([PossibleMoveState]()->void
+		Alert->SetEnterState([&PossibleMoveState]()->void
 			{
-				*PossibleMoveState = true;
+				PossibleMoveState = true;
 			});
 		auto Walk = StateMachine.GetState("Walk");
 		auto Attack = StateMachine.GetState("Attack");
-		Attack->SetEnterState([PossibleMoveState]()->void
+		Attack->SetEnterState([&PossibleMoveState]()->void
 			{
-				*PossibleMoveState = false;
+				PossibleMoveState = false;
 			});
 
-		Graphics::StateCondition* Condition = new Graphics::BoolCondition(MoveState, true);
+		Graphics::StateCondition* Condition = new Graphics::BoolCondition(&MoveState, true);
 		Graphics::AddTransition(StateMachine, Condition, Alert, Walk);
 
-		Condition = new Graphics::BoolCondition(MoveState, false);
+		Condition = new Graphics::BoolCondition(&MoveState, false);
 		Graphics::AddTransition(StateMachine, Condition, Walk, Alert);
 
-		Condition = new Graphics::TriggerCondition(*AttackTrigger);
+		Condition = new Graphics::TriggerCondition(AttackTrigger);
 		Graphics::AddTransition(StateMachine, Condition, Alert, Attack);
 		// Attack애니메이션 끝나면 바로 Alert로 돌아오기 위해서
 		Graphics::AddTransition(StateMachine, nullptr, Attack, Alert, false);
