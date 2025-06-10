@@ -3,6 +3,7 @@
 #include "Player/Player.h"
 #include "Player/PlayerController/PlayerController.h"
 #include "Object/BackGround/BackGround.h"
+#include "Object/Camera/Camera.h"
 
 namespace Game
 {
@@ -23,7 +24,7 @@ namespace Game
 
 		CollisionMgr.BindCollisionWhether("Player", "Monster");
 		{
-			auto MeshData = Geometry::GenerateUVRect(0.3f);
+			auto MeshData = Geometry::GenerateUVRect(0.1f);
 
 			auto& Vertices = MeshData.Vertices;
 			auto& Indices = MeshData.Indices;
@@ -95,6 +96,13 @@ namespace Game
 			Renderer.AddModel(eLayer::BackGround, Model);
 		}
 		
+		{
+			Camera* C = new Camera("sdf");
+			auto ConstBuffer = C->InitalizeGlobalConst(Generator);
+			Renderer.SetGlobalConst(ConstBuffer, 0);
+
+			AddObject(C);
+		}
 	}
 
 	void MyLevel::EnterLevel()

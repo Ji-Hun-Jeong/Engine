@@ -1,6 +1,10 @@
 #pragma once
 #include <Collision/src/Collision/CollisionDetector.h>
 
+#include <Renderer/src/RenderProcess/IGraphicProcess.h>
+#include <Renderer/src/Render/IRenderInterface.h>
+#include <Renderer/src/State/State.h>
+
 #include "Component/Transform/Transform.h"
 
 namespace Game

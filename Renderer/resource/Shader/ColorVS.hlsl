@@ -21,6 +21,7 @@ PSInput main(VSInput input)
     PSInput output;
     output.position = float4(input.position, 1.0f);
     output.position = mul(output.position, World);
+    output.position = mul(output.position, ViewProj);
     output.color = input.color;
     return output;
 };

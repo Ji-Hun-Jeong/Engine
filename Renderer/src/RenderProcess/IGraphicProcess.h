@@ -34,6 +34,12 @@ namespace Graphics
 			Presenter->Present();
 		}
 
+		void SetGlobalConst(RefCounterPtr<IConstBuffer>& _GlobalConstBuffer, UINT _StartSlot)
+		{
+			_GlobalConstBuffer->VSSetConstBuffers(_StartSlot);
+			_GlobalConstBuffer->PSSetConstBuffers(_StartSlot);
+		}
+
 	protected:
 		void renderModel() const
 		{
@@ -48,9 +54,6 @@ namespace Graphics
 
 		UINT ModelsConstBufferStartSlot;
 
-		std::shared_ptr<IRenderInterface> GlobalConst;
-
-		UINT GlobalConstBufferStartSlot;
 	};
 
 	class RENDERER_API BasicRenderProcess : public IGraphicProcess

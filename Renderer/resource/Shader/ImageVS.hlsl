@@ -24,6 +24,7 @@ PSInput main(VSInput input)
     PSInput output;
     output.position = float4(input.position, 1.0f);
     output.position = mul(output.position, World);
+    output.position = mul(output.position, ViewProj);
     output.uv = input.uv;
     if(Direction > 0)
         output.uv.x = -output.uv.x;
