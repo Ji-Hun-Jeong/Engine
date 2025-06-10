@@ -12,7 +12,7 @@ struct PSInput
     float2 uv : TEXCOORD;
 };
 
-cbuffer MeshConst : register(b2)
+cbuffer MeshConst : register(b0)
 {
     matrix World;
     int Direction;

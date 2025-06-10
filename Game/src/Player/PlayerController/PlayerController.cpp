@@ -11,14 +11,17 @@ namespace Game
 	{
 		Super::InitObject();
 	}
+
 	void PlayerController::Update()
 	{
 		Super::Update();
 	}
+
 	void PlayerController::Destory()
 	{
 		Super::Destory();
 	}
+
 	void PlayerController::SetKeyInput(KeyInput& _KeyInput)
 	{
 		Graphics::StateVariableTable& StateTable = Player.GetStateTable();
@@ -28,21 +31,21 @@ namespace Game
 		bool& PossibleMoveState = StateTable.RegistBool("PossibleMove", true);
 		Graphics::TriggerVariable& AttackTrigger = StateTable.RegistTrigger("Attack");
 
-		_KeyInput.AddKey("MoveLeft", Input::eKeyType::Left, Input::eButtonState::Hold, [this, &MoveState, PossibleMoveState]()->void
+		_KeyInput.AddKey("PlayerMoveLeft", Input::eKeyType::Left, Input::eButtonState::Hold, [this, &MoveState, PossibleMoveState]()->void
 			{
 				if (PossibleMoveState == false)
 					return;
 				MoveState = true;
-				Player.Move(-1.0f);
+				Player.Move(Vector3(-1.0f, 0.0f, 0.0f), 1.0f);
 			});
-		_KeyInput.AddKey("MoveRight", Input::eKeyType::Right, Input::eButtonState::Hold, [this, &MoveState, PossibleMoveState]()->void
+		_KeyInput.AddKey("PlayerMoveRight", Input::eKeyType::Right, Input::eButtonState::Hold, [this, &MoveState, PossibleMoveState]()->void
 			{
 				if (PossibleMoveState == false)
 					return;
 				MoveState = false;
-				Player.Move(1.0f);
+				Player.Move(Vector3(1.0f, 0.0f, 0.0f), 1.0f);
 			});
-		_KeyInput.AddKey("Attack", Input::eKeyType::Ctrl, Input::eButtonState::Tap, [this, &AttackTrigger, PossibleMoveState]()->void
+		_KeyInput.AddKey("PlayerAttack", Input::eKeyType::Ctrl, Input::eButtonState::Tap, [this, &AttackTrigger, PossibleMoveState]()->void
 			{
 				AttackTrigger.SetTrigger();
 			});

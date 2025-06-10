@@ -8,6 +8,7 @@
 #include "Interface/ISampler.h"
 #include "Interface/IRasterizerState.h"
 #include "Interface/IDepthStencilState.h"
+#include "Interface/IBlendState.h"
 #include "Interface/IShaderResource.h"
 #include "Interface/ITopology.h"
 #include "Interface/IDraw.h"
@@ -50,13 +51,14 @@ namespace Graphics
 		virtual RefCounterPtr<IVertexShader> GenerateVertexShaderAndInputLayout(const Str::FString& _Path
 			, const std::vector<InputElementDesc>& _InputElements) = 0;
 		virtual RefCounterPtr<IPixelShader> GeneratePixelShader(const Str::FString& _Path) = 0;
-		virtual RefCounterPtr<ISampler> GenerateLinearSampler() = 0;
+		virtual RefCounterPtr<ISampler> GenerateSampler() = 0;
 		virtual RefCounterPtr<IRasterizerState> GenerateSolidCWState() = 0;
 		virtual RefCounterPtr<IDepthStencilState> GenerateBasicDepthStencilState() = 0;
 		virtual RefCounterPtr<IConstBuffer> GenerateConstBuffer(const std::vector<CpuConstData>& _CpuData) = 0;
 		virtual RefCounterPtr<ITopology> GenerateTopology(eTopology _Topology) = 0;
 		virtual RefCounterPtr<IPresenter> GeneratePresenter() = 0;
 		virtual RefCounterPtr<IShaderResource> GenerateShaderResource(const std::vector<Str::FString>& _Paths) = 0;
+		virtual RefCounterPtr<IBlendState> GenerateBlendState(const float* _BlendFactor) = 0;
 
 	protected:
 		HWND WindowHandle;

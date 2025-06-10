@@ -31,6 +31,7 @@ namespace Game
 			ConstBuffer = _Generator.GenerateConstBuffer({ ConstData });
 			return ConstBuffer;
 		}
+
 	private:
 		Matrix ViewProj;
 		RefCounterPtr<Graphics::IConstBuffer> ConstBuffer;

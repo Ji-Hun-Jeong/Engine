@@ -9,7 +9,7 @@ namespace Game
 	Level::Level(Graphics::IDRGenerator& _Generator)
 		: Input{}
 		, Generator(_Generator)
-		, Renderer(*new Graphics::ImageRenderProcess(Generator, 2))
+		, Renderer(*new Graphics::ImageRenderProcess(Generator, 0))
 		, CollisionMgr()
 		, CollisionDetector(CollisionMgr)
 	{

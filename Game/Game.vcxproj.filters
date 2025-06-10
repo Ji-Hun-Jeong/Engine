@@ -84,6 +84,9 @@
     <ClCompile Include="src\Object\Camera\Camera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\Object\Camera\CameraController\CameraController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -156,6 +159,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Object\Camera\Camera.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Camera\CameraController\CameraController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

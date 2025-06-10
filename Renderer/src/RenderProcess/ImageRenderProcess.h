@@ -10,6 +10,9 @@ namespace Graphics
 		ImageRenderProcess(Graphics::IDRGenerator& _Generator, UINT _ModelsConstBufferStartSlot)
 			: Super(_Generator, _ModelsConstBufferStartSlot)
 		{
+			const float Factor = 1.0f;
+			const float BlendFactor[4] = { Factor, Factor, Factor, 1.0f };
+			BlendState = _Generator.GenerateBlendState(BlendFactor);
 			RenderTargetView = _Generator.GenerateMainRenderTargetView();
 			DepthStencilState = _Generator.GenerateBasicDepthStencilState();
 			RasterizerState = _Generator.GenerateSolidCWState();
@@ -21,7 +24,7 @@ namespace Graphics
 			VertexShader = _Generator.GenerateVertexShaderAndInputLayout("./Renderer/resource/Shader/ImageVS.hlsl"
 				, InputElement);
 			PixelShader = _Generator.GeneratePixelShader("./Renderer/resource/Shader/ImagePS.hlsl");
-			Sampler = _Generator.GenerateLinearSampler();
+			Sampler = _Generator.GenerateSampler();
 			Topology = _Generator.GenerateTopology(eTopology::Triangle);
 			ViewPort = _Generator.GenerateMainViewPort();
 		}
@@ -33,21 +36,25 @@ namespace Graphics
 	public:
 		void BindRenderProcess() const override
 		{
-			const float ClearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
+			const float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 			RenderTargetView->ClearRenderTargetView(0, ClearColor);
 			RenderTargetView->ClearDepthStencilView(D3D11_CLEAR_DEPTH, 1.0f, 0);
+
 			DepthStencilState->OMSetDepthStencilState(0);
 			RenderTargetView->OMSetRenderTargets();
+			BlendState->OMSetBlendState();
 
 			Topology->IASetPrimitiveTopology();
 			VertexShader->IASetInputLayout();
 
 			VertexShader->VSSetShader();
-			Sampler->VSSetSampler(0, 1);
+			Sampler->VSSetSampler(0);
+
 			RasterizerState->RSSetState();
 			ViewPort->RSSetViewPort();
+
 			PixelShader->PSSetShader();
-			Sampler->PSSetSampler(0, 1);
+			Sampler->PSSetSampler(0);
 
 			Super::renderModel();
 		}
@@ -61,6 +68,7 @@ namespace Graphics
 		RefCounterPtr<ISampler> Sampler;
 		RefCounterPtr<ITopology> Topology;
 		RefCounterPtr<IViewPort> ViewPort;
+		RefCounterPtr<IBlendState> BlendState;
 
 	};
 }

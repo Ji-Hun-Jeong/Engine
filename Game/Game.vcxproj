@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Object\Camera\CameraController\CameraController.cpp" />
     <ClCompile Include="src\Object\Camera\Camera.cpp" />
     <ClCompile Include="src\Monster\Monster.cpp" />
     <ClCompile Include="src\Object\BackGround\BackGround.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="src\Component\State\State.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Object\Camera\CameraController\CameraController.h" />
     <ClInclude Include="src\Object\Camera\Camera.h" />
     <ClInclude Include="src\Monster\Monster.h" />
     <ClInclude Include="src\Object\BackGround\BackGround.h" />

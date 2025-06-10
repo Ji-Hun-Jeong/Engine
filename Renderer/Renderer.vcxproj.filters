@@ -99,6 +99,9 @@
     <ClInclude Include="src\State\StateCondition.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="src\Interface\IBlendState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\pch.cpp">
@@ -176,6 +179,9 @@
     <ClCompile Include="src\State\StateCondition.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\Interface\IBlendState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\Shader\Common.hlsli" />
@@ -185,6 +191,7 @@
     <FxCompile Include="resource\Shader\ColorPS.hlsl" />
     <FxCompile Include="resource\Shader\ImageVS.hlsl" />
     <FxCompile Include="resource\Shader\ImagePS.hlsl" />
+    <FxCompile Include="resource\Shader\PixelCollisionCS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\Debug\DirectXTK.lib" />

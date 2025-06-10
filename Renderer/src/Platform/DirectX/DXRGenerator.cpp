@@ -276,26 +276,37 @@ namespace Graphics
 			if (FAILED(hr))	assert(0);
 			return MakeRefCounter<DXPixelShader>(Context, PixelShader);
 		}
-		RefCounterPtr<ISampler> DXRGenerator::GenerateLinearSampler()
+		RefCounterPtr<ISampler> DXRGenerator::GenerateSampler()
 		{
-			D3D11_SAMPLER_DESC sampDesc;
-			ZeroMemory(&sampDesc, sizeof(sampDesc));
-			sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-			sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-			sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-			sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-			sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-			sampDesc.MinLOD = 0;
-			sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+			D3D11_SAMPLER_DESC Desc;
+			ZeroMemory(&Desc, sizeof(Desc));
+			Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+			Desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+			Desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+			Desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+			Desc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+			Desc.MinLOD = 0;
+			Desc.MaxLOD = D3D11_FLOAT32_MAX;
 
-			ComPtr<ID3D11SamplerState> SamplerState;
-			HRESULT hr = Device->CreateSamplerState(&sampDesc, SamplerState.GetAddressOf());
+			ComPtr<ID3D11SamplerState> LinearSampler;
+			HRESULT hr = Device->CreateSamplerState(&Desc, LinearSampler.GetAddressOf());
 			if (FAILED(hr))
 				assert(0);
 
-			std::vector<ComPtr<ID3D11SamplerState>> Samplers{ SamplerState };
+			Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+			Desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+			Desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+			Desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+
+			ComPtr<ID3D11SamplerState> PointSampler;
+			hr = Device->CreateSamplerState(&Desc, PointSampler.GetAddressOf());
+			if (FAILED(hr))
+				assert(0);
+			
+			std::vector<ComPtr<ID3D11SamplerState>> Samplers{ LinearSampler, PointSampler };
 			return MakeRefCounter<DXSampler>(Context, Samplers);
 		}
+		
 		RefCounterPtr<IRasterizerState> DXRGenerator::GenerateSolidCWState()
 		{
 			D3D11_RASTERIZER_DESC RDesc;
@@ -355,6 +366,31 @@ namespace Graphics
 				ShaderResourceViews[i] = Image;
 			}
 			return MakeRefCounter<DXShaderResource>(Context, ShaderResourceViews);
+		}
+
+		RefCounterPtr<IBlendState> DXRGenerator::GenerateBlendState(const float* _BlendFactor)
+		{
+			D3D11_BLEND_DESC Desc;
+			ZeroMemory(&Desc, sizeof(Desc));
+			Desc.RenderTarget[0].BlendEnable = true;
+			Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+			Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+			Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+
+			Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
+			Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_INV_SRC_ALPHA;
+			Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+
+			// 필요하면 RGBA 각각에 대해서도 조절 가능
+			Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+			ComPtr<ID3D11BlendState> BlendState = nullptr;
+
+			HRESULT HR = Device->CreateBlendState(&Desc, BlendState.GetAddressOf());
+			if (FAILED(HR))
+				assert(0);
+
+			return MakeRefCounter<DXBlendState>(Context, BlendState, _BlendFactor);
 		}
 	}
 }

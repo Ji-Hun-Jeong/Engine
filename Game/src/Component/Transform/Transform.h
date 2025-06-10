@@ -34,10 +34,10 @@ namespace Game
 		const Vector3& GetPosition() const { return Position; }
 
 		int GetDirection() const { return Direction; }
-		void Move(float _Speed)
+		void Move(const Vector3& _Axis, float _Speed)
 		{
-			Position.x += _Speed * Time::GetDT();
-			ChangeDirection(_Speed);
+			Position += _Axis * _Speed * Time::GetDT();
+			ChangeDirection(_Axis.x);
 		}
 		void ChangeDirection(float _Dir)
 		{

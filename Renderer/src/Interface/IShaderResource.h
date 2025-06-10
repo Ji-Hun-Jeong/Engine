@@ -60,7 +60,7 @@ namespace Graphics
 
 				ID3D11Texture2D* Texture = nullptr;
 				HRESULT Hr = Resource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&Texture);
-				Resource->Release(); 
+				Resource->Release();
 
 				// 텍스처 정보 가져오기
 				D3D11_TEXTURE2D_DESC Desc;
@@ -75,6 +75,5 @@ namespace Graphics
 			ComPtr<ID3D11DeviceContext>& Context;
 		};
 	}
-
 }
 

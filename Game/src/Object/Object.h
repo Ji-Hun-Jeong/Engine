@@ -30,9 +30,9 @@ namespace Game
 		const Str::FString& GetName() const { return Name; }
 
 		void SetCollider(std::shared_ptr<Collision::Collider> _Collider) { Collider = _Collider; }
-		void Move(float _Speed)
+		void Move(const Vector3& _Axis, float _Speed)
 		{
-			Transform.Move(_Speed);
+			Transform.Move(_Axis, _Speed);
 		}
 
 		const Vector3& GetPosition() const { return Transform.GetPosition(); }

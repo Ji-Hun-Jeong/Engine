@@ -30,7 +30,7 @@ namespace Graphics
 
 			RefCounterPtr<IPixelShader> GeneratePixelShader(const Str::FString& _Path) override;
 
-			RefCounterPtr<ISampler> GenerateLinearSampler() override;
+			RefCounterPtr<ISampler> GenerateSampler() override;
 
 			RefCounterPtr<IRasterizerState> GenerateSolidCWState() override;
 
@@ -44,6 +44,8 @@ namespace Graphics
 			}
 
 			RefCounterPtr<IShaderResource> GenerateShaderResource(const std::vector<Str::FString>& _Paths) override;
+
+			RefCounterPtr<IBlendState> GenerateBlendState(const float* _BlendFactor) override;
 
 		private:
 			ComPtr<ID3D11Device> Device;

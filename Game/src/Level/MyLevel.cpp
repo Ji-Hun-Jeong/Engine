@@ -4,6 +4,7 @@
 #include "Player/PlayerController/PlayerController.h"
 #include "Object/BackGround/BackGround.h"
 #include "Object/Camera/Camera.h"
+#include "Object/Camera/CameraController/CameraController.h"
 
 namespace Game
 {
@@ -23,8 +24,21 @@ namespace Game
 		Super::InitLevel();
 
 		CollisionMgr.BindCollisionWhether("Player", "Monster");
+
 		{
-			auto MeshData = Geometry::GenerateUVRect(0.1f);
+			Camera* C = new Camera("sdf");
+			auto ConstBuffer = C->InitalizeGlobalConst(Generator);
+			Renderer.SetGlobalConst(ConstBuffer, 1);
+
+			CameraController* Controller = new CameraController(*C);
+			Controller->SetKeyInput(Input);
+			AddObject(Controller);
+
+			AddObject(C);
+		}
+
+		{
+			auto MeshData = Geometry::GenerateUVRect(0.5f);
 
 			auto& Vertices = MeshData.Vertices;
 			auto& Indices = MeshData.Indices;
@@ -69,8 +83,23 @@ namespace Game
 		}
 
 		{
+			/*
+				Texture2D FloorSRV : register(t1);
+				Texture2D WallSRV : register(t2);
+				Texture2D LadderSRV : register(t3);
+				Texture2D RopeSRV : register(t4);
+				Texture2D MonsterWallSRV : register(t5);
+			*/
 			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
-			auto BackImage = Generator.GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomStage.png" });
+			auto BackImage = Generator.GenerateShaderResource
+			({ 
+				"Game/resource/image/Map/MushroomStage/MushroomStage.png",
+				"Game/resource/image/Map/MushroomStage/Floor.bmp",
+				"Game/resource/image/Map/MushroomStage/Wall.bmp",
+				"Game/resource/image/Map/MushroomStage/Ladder.bmp",
+				"Game/resource/image/Map/MushroomStage/Rope.bmp",
+				"Game/resource/image/Map/MushroomStage/MonsterWall.bmp"
+			});
 			Vector2 ImageSize = BackImage->GetImageSize(0);
 
 			auto MeshData = Geometry::GenerateUVRect(ImageSize.x, ImageSize.y);
@@ -96,13 +125,6 @@ namespace Game
 			Renderer.AddModel(eLayer::BackGround, Model);
 		}
 		
-		{
-			Camera* C = new Camera("sdf");
-			auto ConstBuffer = C->InitalizeGlobalConst(Generator);
-			Renderer.SetGlobalConst(ConstBuffer, 0);
-
-			AddObject(C);
-		}
 	}
 
 	void MyLevel::EnterLevel()
