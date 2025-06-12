@@ -1,6 +1,7 @@
 cbuffer CameraConst : register(b1)
 {
     matrix ViewProj;
+    matrix InvViewProj;
 }
 
 Texture2D FloorSRV : register(t1);

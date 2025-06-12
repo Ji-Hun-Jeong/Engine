@@ -4,6 +4,8 @@
 #include "Component/Skill/Skill.h"
 #include "PlayerComponent/PlayerSkillBundle.h"
 
+#include <Renderer/src/RenderProcess/PixelCollisionProcess.h>
+
 namespace Game
 {
 	Player::Player(const Str::FString& _Name)
@@ -48,6 +50,12 @@ namespace Game
 	void Player::Destory()
 	{
 		Super::Destory();
+	}
+
+	void Player::InitPixelCollision(Graphics::PixelCollisionProcess& _Process)
+	{
+		auto Interface = _Process.RegistPixelCollision(Transform.GetPositionRef());
+		Interface->SetActive(true);
 	}
 
 	void Player::addSkill()

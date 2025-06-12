@@ -392,5 +392,92 @@ namespace Graphics
 
 			return MakeRefCounter<DXBlendState>(Context, BlendState, _BlendFactor);
 		}
+		RefCounterPtr<IComputeShader> DXRGenerator::GenerateComputeShader(const Str::FString& _Path)
+		{
+			ComPtr<ID3DBlob> shaderBlob;
+			ComPtr<ID3DBlob> errorBlob;
+
+			UINT compileFlags = 0;
+#if defined(DEBUG) || defined(_DEBUG)
+			compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+			const std::wstring Wstr = _Path.GetWString();
+			HRESULT hr = D3DCompileFromFile(
+				Wstr.c_str(), 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
+				"cs_5_0", compileFlags, 0, shaderBlob.GetAddressOf(), errorBlob.GetAddressOf());
+			if (FAILED(hr))	assert(0);
+
+			ComPtr<ID3D11ComputeShader> ComputeShader;
+			hr = Device->CreateComputeShader(shaderBlob->GetBufferPointer(),
+				shaderBlob->GetBufferSize(), NULL,
+				ComputeShader.GetAddressOf());
+			if (FAILED(hr))	assert(0);
+			return MakeRefCounter<DXComputeShader>(Context, ComputeShader);
+		}
+
+		RefCounterPtr<IUnorderedAccessView> DXRGenerator::GenerateUnorderedAccessView(const std::vector<BufferDesc>& _BufferDesc)
+		{
+			std::vector<ComPtr<ID3D11Buffer>> Buffers;
+			Buffers.reserve(_BufferDesc.size());
+			std::vector<ComPtr<ID3D11Buffer>> StagingBuffers;
+			StagingBuffers.reserve(_BufferDesc.size());
+			std::vector<ComPtr<ID3D11UnorderedAccessView>> UAVs;
+			UAVs.reserve(_BufferDesc.size());
+
+			for (auto& BufferDesc : _BufferDesc)
+			{
+				ComPtr<ID3D11Buffer> Buffer;
+				{
+					D3D11_BUFFER_DESC Desc;
+					ZeroMemory(&Desc, sizeof(Desc));
+					Desc.ByteWidth = BufferDesc.ElementSize * BufferDesc.NumOfElement;
+					Desc.Usage = D3D11_USAGE_DEFAULT;
+					Desc.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
+					Desc.CPUAccessFlags = 0;
+					Desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+					Desc.StructureByteStride = BufferDesc.ElementSize;
+
+					D3D11_SUBRESOURCE_DATA Data;
+					Data.pSysMem = BufferDesc.Data;
+
+					HRESULT HR = Device->CreateBuffer(&Desc, &Data, Buffer.GetAddressOf());
+					if (FAILED(HR)) assert(0);
+
+					Buffers.push_back(Buffer);
+				}
+
+				{
+					ComPtr<ID3D11Buffer> StagingBuffer;
+
+					D3D11_BUFFER_DESC Desc;
+					ZeroMemory(&Desc, sizeof(Desc));
+					Desc.ByteWidth = BufferDesc.ElementSize * BufferDesc.NumOfElement;
+					Desc.Usage = D3D11_USAGE_STAGING;
+					Desc.BindFlags = 0;
+					Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
+
+					HRESULT HR = Device->CreateBuffer(&Desc, nullptr, StagingBuffer.GetAddressOf());
+					if (FAILED(HR)) assert(0);
+
+					StagingBuffers.push_back(StagingBuffer);
+				}
+
+				{
+					ComPtr<ID3D11UnorderedAccessView> UAV;
+
+					D3D11_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
+					UAVDesc.Format = DXGI_FORMAT_UNKNOWN;
+					UAVDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+					UAVDesc.Buffer.NumElements = BufferDesc.NumOfElement;
+
+					HRESULT HR = Device->CreateUnorderedAccessView(Buffer.Get(), &UAVDesc, UAV.GetAddressOf());
+					if (FAILED(HR)) assert(0);
+
+					UAVs.push_back(UAV);
+				}
+			}
+
+			return MakeRefCounter<DXUnorderedAccessView>(Context, Buffers, StagingBuffers, UAVs);
+		}
 	}
 }

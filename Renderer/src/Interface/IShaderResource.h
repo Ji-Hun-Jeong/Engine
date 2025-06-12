@@ -12,6 +12,7 @@ namespace Graphics
 	public:
 		virtual void VSSetShaderResources(UINT _StartSlot) const = 0;
 		virtual void PSSetShaderResources(UINT _StartSlot) const = 0;
+		virtual void CSSetShaderResources(UINT _StartSlot) const = 0;
 		virtual Vector2 GetImageSize(size_t _Index) const = 0;
 
 	protected:
@@ -49,6 +50,10 @@ namespace Graphics
 			void PSSetShaderResources(UINT _StartSlot) const override
 			{
 				Context->PSSetShaderResources(_StartSlot, ShaderResourceViews.size(), ShaderResourceViews.data());
+			}
+			void CSSetShaderResources(UINT _StartSlot) const override
+			{
+				Context->CSSetShaderResources(_StartSlot, ShaderResourceViews.size(), ShaderResourceViews.data());
 			}
 			Vector2 GetImageSize(size_t _Index) const override
 			{

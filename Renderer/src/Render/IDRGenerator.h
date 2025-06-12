@@ -5,12 +5,14 @@
 #include "Interface/IViewPort.h"
 #include "Interface/IVertexShaderInputLayout.h"
 #include "Interface/IPixelShader.h"
+#include "Interface/IComputeShader.h"
 #include "Interface/ISampler.h"
 #include "Interface/IRasterizerState.h"
 #include "Interface/IDepthStencilState.h"
 #include "Interface/IBlendState.h"
 #include "Interface/IShaderResource.h"
 #include "Interface/ITopology.h"
+#include "Interface/IUnorderedAccessView.h"
 #include "Interface/IDraw.h"
 
 namespace Graphics
@@ -30,6 +32,7 @@ namespace Graphics
 	// 즉, 생명주기를 쌩포인터로도 가리킬 수 있는 Com객체 같은 경우는 자신있으면 쌩포인터로 들고있어도 됌
 	// 하지만 생명주기를 스마트포인터에 의존해야하는 일반객체 같은 경우는 만약 멤버로 들고있을 예정이라면 스마트포인터를 사용하는게 좋음
 	// 만약 멤버에 대입하지 않을꺼고 함수 내부에서만 사용할 예정이면 쌩포인터로 받아도됌
+
 	class RENDERER_API IDRGenerator
 	{
 	public:
@@ -59,6 +62,8 @@ namespace Graphics
 		virtual RefCounterPtr<IPresenter> GeneratePresenter() = 0;
 		virtual RefCounterPtr<IShaderResource> GenerateShaderResource(const std::vector<Str::FString>& _Paths) = 0;
 		virtual RefCounterPtr<IBlendState> GenerateBlendState(const float* _BlendFactor) = 0;
+		virtual RefCounterPtr<IComputeShader> GenerateComputeShader(const Str::FString& _Path) = 0;
+		virtual RefCounterPtr<IUnorderedAccessView> GenerateUnorderedAccessView(const std::vector<BufferDesc>& _BufferDesc) = 0;
 
 	protected:
 		HWND WindowHandle;

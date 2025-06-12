@@ -47,6 +47,10 @@ namespace Graphics
 
 			RefCounterPtr<IBlendState> GenerateBlendState(const float* _BlendFactor) override;
 
+			RefCounterPtr<IComputeShader> GenerateComputeShader(const Str::FString& _Path) override;
+
+			RefCounterPtr<IUnorderedAccessView> GenerateUnorderedAccessView(const std::vector<BufferDesc>& _BufferDesc) override;
+
 		private:
 			ComPtr<ID3D11Device> Device;
 			ComPtr<ID3D11DeviceContext> Context;

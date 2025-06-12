@@ -1,6 +1,8 @@
 #pragma once
 #include "Level/Level.h"
 
+#include <Renderer/src/RenderProcess/PixelCollisionProcess.h>
+
 namespace Game
 {
 	class MyLevel : public Level
@@ -17,6 +19,7 @@ namespace Game
 		void ExitLevel() override;
 
 	private:
+		Graphics::PixelCollisionProcess PixelCollisionProcess;
 
 	};
 }

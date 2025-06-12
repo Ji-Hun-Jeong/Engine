@@ -47,8 +47,16 @@ namespace Game
 		CollisionDetector.CheckCollisionProcessing();
 	}
 
+	void Level::PostUpdate()
+	{
+		for (auto iter = Objects.begin(); iter != Objects.end(); ++iter)
+			iter->second->PostUpdate();
+	}
+
 	void Level::Render()
 	{
+		for (auto iter = Objects.begin(); iter != Objects.end(); ++iter)
+			std::cout << iter->second->GetPosition().x;
 		Renderer.BindRenderProcess();
 		Renderer.Present();
 	}

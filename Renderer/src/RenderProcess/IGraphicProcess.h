@@ -38,6 +38,7 @@ namespace Graphics
 		{
 			_GlobalConstBuffer->VSSetConstBuffers(_StartSlot);
 			_GlobalConstBuffer->PSSetConstBuffers(_StartSlot);
+			_GlobalConstBuffer->CSSetConstBuffers(_StartSlot);
 		}
 
 	protected:

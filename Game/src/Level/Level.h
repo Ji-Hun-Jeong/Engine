@@ -15,6 +15,7 @@ namespace Game
 		virtual void InitLevel();
 		virtual void EnterLevel();
 		virtual void Update();
+		virtual void PostUpdate();
 		virtual void ExitLevel();
 		virtual void Render() final;
 		

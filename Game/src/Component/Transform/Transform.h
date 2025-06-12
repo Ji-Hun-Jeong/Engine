@@ -32,6 +32,7 @@ namespace Game
 		const Vector3& GetRotation() const { return Rotation; }
 		void SetPosition(const Vector3& _Position) { Position = _Position; }
 		const Vector3& GetPosition() const { return Position; }
+		Vector3& GetPositionRef() { return Position; }
 
 		int GetDirection() const { return Direction; }
 		void Move(const Vector3& _Axis, float _Speed)

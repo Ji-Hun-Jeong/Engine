@@ -5,6 +5,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <memory>
+#include <queue>
 #include <map>
 #include <array>
 #include <set>
@@ -22,3 +23,10 @@
 using DirectX::SimpleMath::Vector3;
 using DirectX::SimpleMath::Vector2;
 using DirectX::SimpleMath::Matrix;
+
+struct RENDERER_API BufferDesc
+{
+	void* Data = nullptr;
+	UINT ElementSize = 0;
+	UINT NumOfElement = 0;
+};

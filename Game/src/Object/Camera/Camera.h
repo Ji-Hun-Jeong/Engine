@@ -5,6 +5,12 @@
 
 namespace Game
 {
+	struct CameraConst
+	{
+		Matrix ViewProj;
+		Matrix InvViewProj;
+	};
+
 	class Camera : public Object
 	{
 		using Super = Object;
@@ -19,21 +25,22 @@ namespace Game
 		virtual void Update() override
 		{
 			Super::Update();
-			ViewProj = Transform.GetModel().Invert().Transpose();
+			CameraConst.InvViewProj = Transform.GetModel().Transpose();
+			CameraConst.ViewProj = Transform.GetModel().Invert().Transpose();
 			ConstBuffer->UpdateBuffer();
 		}
 
-		const Matrix& GetViewProj() const { return ViewProj; }
+		const Matrix& GetViewProj() const { return CameraConst.ViewProj; }
 
 		RefCounterPtr<Graphics::IConstBuffer> InitalizeGlobalConst(Graphics::IDRGenerator& _Generator)
 		{
-			Graphics::CpuConstData ConstData{ &ViewProj, sizeof(ViewProj) };
+			Graphics::CpuConstData ConstData{ &CameraConst, sizeof(CameraConst) };
 			ConstBuffer = _Generator.GenerateConstBuffer({ ConstData });
 			return ConstBuffer;
 		}
 
 	private:
-		Matrix ViewProj;
+		CameraConst CameraConst;
 		RefCounterPtr<Graphics::IConstBuffer> ConstBuffer;
 
 	};

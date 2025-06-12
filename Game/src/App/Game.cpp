@@ -70,6 +70,7 @@ namespace Game
 	void GameWorld::Update()
 	{
 		CurrentLevel->Update();
+		CurrentLevel->PostUpdate();
 	}
 
 	void GameWorld::AddLevel(const Str::FString& _LevelName, Level* _Level)

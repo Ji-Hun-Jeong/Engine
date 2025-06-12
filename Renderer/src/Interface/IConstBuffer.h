@@ -17,6 +17,7 @@ namespace Graphics
 	public:
 		virtual void VSSetConstBuffers(UINT _StartSlot) const = 0;
 		virtual void PSSetConstBuffers(UINT _StartSlot) const = 0;
+		virtual void CSSetConstBuffers(UINT _StartSlot) const = 0;
 		virtual void UpdateBuffer() const = 0;
 
 	protected:
@@ -56,6 +57,11 @@ namespace Graphics
 			void PSSetConstBuffers(UINT _StartSlot) const override
 			{
 				Context->PSSetConstantBuffers(_StartSlot, Buffers.size(), Buffers.data());
+			}
+
+			void CSSetConstBuffers(UINT _StartSlot) const override
+			{
+				Context->CSSetConstantBuffers(_StartSlot, Buffers.size(), Buffers.data());
 			}
 
 			void UpdateBuffer() const override

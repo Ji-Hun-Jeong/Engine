@@ -10,6 +10,7 @@ namespace Game
 {
 	MyLevel::MyLevel(Graphics::IDRGenerator& _Generator)
 		: Level(_Generator)
+		, PixelCollisionProcess(_Generator)
 	{
 		CollisionMgr.TypeMapping("Player");
 		CollisionMgr.TypeMapping("Monster");
@@ -48,6 +49,7 @@ namespace Game
 			auto Model = std::make_shared<Graphics::Model>(Mesh);
 
 			auto P = CreatePlayer(Generator, Model, CollisionMgr);
+			P->InitPixelCollision(PixelCollisionProcess);
 
 			AddObject(P);
 			Renderer.AddModel(eLayer::Player, Model);
@@ -83,13 +85,6 @@ namespace Game
 		}
 
 		{
-			/*
-				Texture2D FloorSRV : register(t1);
-				Texture2D WallSRV : register(t2);
-				Texture2D LadderSRV : register(t3);
-				Texture2D RopeSRV : register(t4);
-				Texture2D MonsterWallSRV : register(t5);
-			*/
 			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
 			auto BackImage = Generator.GenerateShaderResource
 			({ 
@@ -135,6 +130,7 @@ namespace Game
 	void MyLevel::Update()
 	{
 		Super::Update();
+		PixelCollisionProcess.Progress();
 	}
 
 	void MyLevel::ExitLevel()

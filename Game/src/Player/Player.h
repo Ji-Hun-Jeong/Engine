@@ -2,6 +2,10 @@
 #include "Object\Actor.h"
 #include "PlayerController/PlayerController.h"
 
+namespace Graphics
+{
+	class PixelCollisionProcess;
+}
 namespace Game
 {
 	class Player : public Actor
@@ -26,6 +30,8 @@ namespace Game
 		{
 			std::cout << "PlayerAttack!\n";
 		}
+
+		void InitPixelCollision(Graphics::PixelCollisionProcess& _Process);
 
 		Graphics::StateVariableTable& GetStateTable() { return StateTable; }
 		Graphics::StateMachine& GetStateMachine() { return StateMachine; }
