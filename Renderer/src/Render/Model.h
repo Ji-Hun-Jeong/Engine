@@ -6,8 +6,9 @@ namespace Graphics
 	class RENDERER_API Model
 	{
 	public:
-		Model(RefCounterPtr<IMesh>& _Mesh)
-			: Mesh(_Mesh)
+		Model(RefCounterPtr<IMesh>& _Mesh, RefCounterPtr<ITopology>& _Topology, RefCounterPtr<IVertexShader>& _VertexShader
+		, RefCounterPtr<IPixelShader>& _PixelShader)
+			: Mesh(_Mesh), Topology(_Topology), VertexShader(_VertexShader), PixelShader(_PixelShader)
 		{
 		}
 		~Model()
@@ -22,6 +23,10 @@ namespace Graphics
 
 		void RenderModel(UINT _MeshDataStartSlot, UINT _ConstBufferStartSlot, UINT _ShaderResourceStartSlot)
 		{
+			Topology->IASetPrimitiveTopology();
+			VertexShader->IASetInputLayout();
+			VertexShader->VSSetShader();
+			PixelShader->PSSetShader();
 			Mesh->IASetBuffer(_MeshDataStartSlot);
 			for (auto Iter = RenderInterfaces.begin(); Iter != RenderInterfaces.end();)
 			{
@@ -43,6 +48,10 @@ namespace Graphics
 
 	private:
 		RefCounterPtr<IMesh> Mesh;
+		RefCounterPtr<ITopology> Topology;
+		RefCounterPtr<IVertexShader> VertexShader;
+		RefCounterPtr<IPixelShader> PixelShader;
+
 
 		std::list<std::shared_ptr<IRenderInterface>> RenderInterfaces;
 

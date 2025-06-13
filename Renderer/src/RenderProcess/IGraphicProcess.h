@@ -22,6 +22,7 @@ namespace Graphics
 		{}
 
 	public:
+		virtual void InitRenderProcess() const = 0;
 		virtual void BindRenderProcess() const = 0;
 
 		void AddModel(eLayer _Layer, std::shared_ptr<Model>& _Model)
@@ -38,7 +39,6 @@ namespace Graphics
 		{
 			_GlobalConstBuffer->VSSetConstBuffers(_StartSlot);
 			_GlobalConstBuffer->PSSetConstBuffers(_StartSlot);
-			_GlobalConstBuffer->CSSetConstBuffers(_StartSlot);
 		}
 
 	protected:
@@ -85,6 +85,10 @@ namespace Graphics
 		}
 
 	public:
+		void InitRenderProcess() const override
+		{
+
+		}
 		void BindRenderProcess() const override
 		{
 			const float ClearColor[4] = { 0.0f,0.0f,0.0f,1.0f };

@@ -16,16 +16,8 @@ namespace Graphics
 			RenderTargetView = _Generator.GenerateMainRenderTargetView();
 			DepthStencilState = _Generator.GenerateBasicDepthStencilState();
 			RasterizerState = _Generator.GenerateSolidCWState();
-			const std::vector<InputElementDesc> InputElement =
-			{
-				{eSementicName::Position, eFormat::Vector3, 0, eInputClass::VertexData},
-				{eSementicName::UV, eFormat::Vector2, 12, eInputClass::VertexData}
-			};
-			VertexShader = _Generator.GenerateVertexShaderAndInputLayout("./Renderer/resource/Shader/ImageVS.hlsl"
-				, InputElement);
-			PixelShader = _Generator.GeneratePixelShader("./Renderer/resource/Shader/ImagePS.hlsl");
+			
 			Sampler = _Generator.GenerateSampler();
-			Topology = _Generator.GenerateTopology(eTopology::Triangle);
 			ViewPort = _Generator.GenerateMainViewPort();
 		}
 		~ImageRenderProcess()
@@ -34,6 +26,13 @@ namespace Graphics
 		}
 
 	public:
+		void InitRenderProcess() const override
+		{
+			Sampler->VSSetSampler(0);
+			Sampler->PSSetSampler(0);
+			RasterizerState->RSSetState();
+			ViewPort->RSSetViewPort();
+		}
 		void BindRenderProcess() const override
 		{
 			const float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -44,18 +43,6 @@ namespace Graphics
 			RenderTargetView->OMSetRenderTargets();
 			BlendState->OMSetBlendState();
 
-			Topology->IASetPrimitiveTopology();
-			VertexShader->IASetInputLayout();
-
-			VertexShader->VSSetShader();
-			Sampler->VSSetSampler(0);
-
-			RasterizerState->RSSetState();
-			ViewPort->RSSetViewPort();
-
-			PixelShader->PSSetShader();
-			Sampler->PSSetSampler(0);
-
 			Super::renderModel();
 		}
 
@@ -63,10 +50,9 @@ namespace Graphics
 		RefCounterPtr<IRenderTargetView> RenderTargetView;
 		RefCounterPtr<IDepthStencilState> DepthStencilState;
 		RefCounterPtr<IRasterizerState> RasterizerState;
-		RefCounterPtr<IVertexShader> VertexShader;
-		RefCounterPtr<IPixelShader> PixelShader;
+
 		RefCounterPtr<ISampler> Sampler;
-		RefCounterPtr<ITopology> Topology;
+
 		RefCounterPtr<IViewPort> ViewPort;
 		RefCounterPtr<IBlendState> BlendState;
 

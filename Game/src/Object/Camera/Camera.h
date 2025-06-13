@@ -9,6 +9,9 @@ namespace Game
 	{
 		Matrix ViewProj;
 		Matrix InvViewProj;
+		UINT ScreenWidth;
+		UINT ScreenHeight;
+		Vector2 Dummy1;
 	};
 
 	class Camera : public Object
@@ -16,9 +19,12 @@ namespace Game
 		using Super = Object;
 		CLONE(Camera, Object)
 	public:
-		Camera(const Str::FString& _Name)
+		Camera(const Str::FString& _Name, UINT _ScreenWidth, UINT _ScreenHeight)
 			: Super(_Name)
-		{}
+		{
+			CameraConst.ScreenWidth = _ScreenWidth;
+			CameraConst.ScreenHeight = _ScreenHeight;
+		}
 		~Camera() {}
 
 	public:

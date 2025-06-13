@@ -14,6 +14,7 @@ namespace Game
 		, SkillBundle(new PlayerSkillBundle(this))
 		, StateTable{}
 		, StateMachine(StateTable)
+		, PixelCollisionInterface(nullptr)
 	{
 		Transform.SetScale(Vector3(0.2f, 0.2f, 1.0f));
 	}
@@ -24,6 +25,7 @@ namespace Game
 		, SkillBundle(nullptr)
 		, StateTable(_Other.StateTable)
 		, StateMachine(_Other.StateMachine)
+		, PixelCollisionInterface(nullptr)
 	{
 	}
 
@@ -33,6 +35,8 @@ namespace Game
 			delete SkillManager;
 		if (SkillBundle)
 			delete SkillBundle;
+		if (PixelCollisionInterface)
+			delete PixelCollisionInterface;
 	}
 
 	void Player::InitObject()
@@ -56,6 +60,7 @@ namespace Game
 	{
 		auto Interface = _Process.RegistPixelCollision(Transform.GetPositionRef());
 		Interface->SetActive(true);
+		PixelCollisionInterface = Interface;
 	}
 
 	void Player::addSkill()

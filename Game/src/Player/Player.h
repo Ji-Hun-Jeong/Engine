@@ -5,6 +5,7 @@
 namespace Graphics
 {
 	class PixelCollisionProcess;
+	class PixelCollisionInterface;
 }
 namespace Game
 {
@@ -42,6 +43,8 @@ namespace Game
 	private:
 		Graphics::StateVariableTable StateTable;
 		Graphics::StateMachine StateMachine;
+
+		Graphics::PixelCollisionInterface* PixelCollisionInterface;
 
 		class SkillManager* SkillManager;
 		class PlayerSkillBundle* SkillBundle;

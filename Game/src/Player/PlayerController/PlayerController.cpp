@@ -45,6 +45,20 @@ namespace Game
 				MoveState = false;
 				Player.Move(Vector3(1.0f, 0.0f, 0.0f), 1.0f);
 			});
+		_KeyInput.AddKey("PlayerMoveUp", Input::eKeyType::Up, Input::eButtonState::Hold, [this, &MoveState, PossibleMoveState]()->void
+			{
+				if (PossibleMoveState == false)
+					return;
+				MoveState = true;
+				Player.Move(Vector3(0.0f, 1.0f, 0.0f), 1.0f);
+			});
+		_KeyInput.AddKey("PlayerMoveDown", Input::eKeyType::Down, Input::eButtonState::Hold, [this, &MoveState, PossibleMoveState]()->void
+			{
+				if (PossibleMoveState == false)
+					return;
+				MoveState = false;
+				Player.Move(Vector3(0.0f, -1.0f, 0.0f), 1.0f);
+			});
 		_KeyInput.AddKey("PlayerAttack", Input::eKeyType::Ctrl, Input::eButtonState::Tap, [this, &AttackTrigger, PossibleMoveState]()->void
 			{
 				AttackTrigger.SetTrigger();

@@ -27,9 +27,13 @@ namespace Game
 	void Actor::Update()
 	{
 		Super::Update();
+	}
 
+	void Actor::PostUpdate()
+	{
 		CpuConstData.World = Transform.GetModel().Transpose();
 		CpuConstData.Direction = Transform.GetDirection();
+
 		RenderInterface->UpdateConstBuffer();
 	}
 

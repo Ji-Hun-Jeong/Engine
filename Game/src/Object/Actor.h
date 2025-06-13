@@ -31,6 +31,7 @@ namespace Game
 	public:
 		virtual void InitObject() override;
 		virtual void Update() override;
+		virtual void PostUpdate() override;
 		virtual void Destory() override;
 
 		virtual void InitalizeRerderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::IRenderInterface>& RenderInterface);

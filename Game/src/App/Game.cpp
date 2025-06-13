@@ -15,7 +15,8 @@ namespace Game
 	GameWorld::GameWorld(UINT _ScreenWidth, UINT _ScreenHeight)
 		: Super(_ScreenWidth, _ScreenHeight)
 		, CurrentLevel(nullptr)
-		, Generator(*new Graphics::DX::DXRGenerator(AppWindow->GetWindowHandle()))
+		, Generator(new Graphics::DX::DXRGenerator(AppWindow->GetWindowHandle()))
+		, GRM(new Graphics::GraphicResourceMgr)
 	{
 		// rendering리소스 정의
 		Geometry::Init(_ScreenWidth, _ScreenHeight);
@@ -24,21 +25,27 @@ namespace Game
 	GameWorld::~GameWorld()
 	{
 		Utility::ClearMap(Levels);
-		if (&Generator)
-			delete &Generator;
+		if (Generator)
+			delete Generator;
+		if (GRM)
+			delete GRM;
 	}
 
 	void GameWorld::Init()
 	{
-		
 		Time::Init();
 		Path::Init("Game");
 
-		AddLevel("Test", new MyLevel(Generator));
+		AddLevel("Test", new MyLevel(*Generator, *GRM));
 		SetCurrentLevel("Test");
 
-		for (auto iter : Levels)
+		for (auto& iter : Levels)
+			iter.second->InitResource();
+		for (auto& iter : Levels)
+		{
+			iter.second->InitCamera(AppWindow->GetScreenWidth(), AppWindow->GetScreenHeight());
 			iter.second->InitLevel();
+		}
 	}
 
 	bool GameWorld::Process()

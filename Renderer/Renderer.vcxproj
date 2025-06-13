@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Base\GraphicResourceMgr.h" />
     <ClInclude Include="src\Interface\IUnorderedAccessView.h" />
     <ClInclude Include="src\RenderProcess\PixelCollisionProcess.h" />
     <ClInclude Include="src\Interface\IComputeShader.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="src\State\StateCondition.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Base\GraphicResourceMgr.cpp" />
     <ClCompile Include="src\Interface\IUnorderedAccessView.cpp" />
     <ClCompile Include="src\RenderProcess\PixelCollisionProcess.cpp" />
     <ClCompile Include="src\Interface\IComputeShader.cpp" />
@@ -210,6 +212,14 @@
     <None Include="resource\Shader\Common.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="resource\Shader\BackGroundPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="resource\Shader\ColorPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

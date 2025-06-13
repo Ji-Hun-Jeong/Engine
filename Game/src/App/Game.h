@@ -4,6 +4,7 @@
 namespace Graphics
 {
 	class IDRGenerator;
+	class GraphicResourceMgr;
 }
 namespace Game
 {
@@ -27,7 +28,8 @@ namespace Game
 		std::map<Str::FString, class Level*> Levels;
 		class Level* CurrentLevel;
 
-		Graphics::IDRGenerator& Generator;
+		Graphics::IDRGenerator* Generator;
+		Graphics::GraphicResourceMgr* GRM;
 	};
 }
 

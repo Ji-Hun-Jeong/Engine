@@ -6,10 +6,11 @@
 
 namespace Game
 {
-	Level::Level(Graphics::IDRGenerator& _Generator)
+	Level::Level(Graphics::IDRGenerator& _Generator, Graphics::GraphicResourceMgr& _GRM)
 		: Input{}
 		, Generator(_Generator)
 		, Renderer(*new Graphics::ImageRenderProcess(Generator, 0))
+		, GRM(_GRM)
 		, CollisionMgr()
 		, CollisionDetector(CollisionMgr)
 	{
@@ -23,6 +24,11 @@ namespace Game
 	}
 
 	void Level::InitLevel()
+	{
+		Renderer.InitRenderProcess();
+	}
+
+	void Level::InitResource()
 	{
 	}
 
@@ -55,8 +61,6 @@ namespace Game
 
 	void Level::Render()
 	{
-		for (auto iter = Objects.begin(); iter != Objects.end(); ++iter)
-			std::cout << iter->second->GetPosition().x;
 		Renderer.BindRenderProcess();
 		Renderer.Present();
 	}
