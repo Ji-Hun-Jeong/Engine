@@ -12,13 +12,16 @@ float4 main(PSInput _Input) : SV_TARGET
     float4 FloorPixel = FloorSRV.Sample(PointSampler, _Input.uv);
     float4 MonsterWallPixel = MonsterWallSRV.Sample(PointSampler, _Input.uv);
     float4 LadderPixel = LadderSRV.Sample(PointSampler, _Input.uv);
+    float4 WallPixel = WallSRV.Sample(PointSampler, _Input.uv);
     
-    if (FloorPixel.r == 0.0f || FloorPixel.g == 0.0f || FloorPixel.b == 0.0f)
+    if (FloorPixel.r != 1.0f || FloorPixel.g != 1.0f || FloorPixel.b != 1.0f)
         Color = FloorPixel;
-    if (MonsterWallPixel.r == 0.0f || MonsterWallPixel.g == 0.0f || MonsterWallPixel.b == 0.0f)
+    if (MonsterWallPixel.r != 1.0f || MonsterWallPixel.g != 1.0f || MonsterWallPixel.b != 1.0f)
         Color = MonsterWallPixel;
-    if (LadderPixel.r == 0.0f || LadderPixel.g == 0.0f || LadderPixel.b == 0.0f)
+    if (LadderPixel.r != 1.0f || LadderPixel.g != 1.0f || LadderPixel.b != 1.0f)
         Color = LadderPixel;
+    if (WallPixel.r != 1.0f || WallPixel.g != 1.0f || WallPixel.b != 1.0f)
+        Color = WallPixel;
     
     return Color;
 

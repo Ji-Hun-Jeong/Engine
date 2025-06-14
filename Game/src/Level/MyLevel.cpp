@@ -107,7 +107,7 @@ namespace Game
 		auto ImageVS = GRM.GetVertexShader("ImageVS");
 		auto ImagePS = GRM.GetPixelShader("ImagePS");
 		auto BackGroundPS = GRM.GetPixelShader("BackGroundPS");
-		/*{
+		{
 			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
 			auto BackImage = GRM.GetShaderResource("MushroomBackground");
 			Vector2 ImageSize = BackImage->GetImageSize(0);
@@ -129,7 +129,7 @@ namespace Game
 			AddObject(Back);
 
 			Renderer.AddModel(eLayer::BackGround, Model);
-		}*/
+		}
 
 		{
 			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();

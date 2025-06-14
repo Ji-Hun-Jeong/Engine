@@ -98,9 +98,8 @@ namespace Graphics
 				PixelCollisionInterface* Interface = *Iter;
 				UINT Index = Interface->GetIndex();
 				Interface->SetPosition(Positions[Index]);
-
 			}
-			std::cout << Positions[1].x <<" " << Positions[1].y << " " << Positions[1].z << '\n';
+			std::cout << CollisionStates[0] << "\n";
 		}
 
 		void SetActiveInterface(UINT _Index, bool _TF)
