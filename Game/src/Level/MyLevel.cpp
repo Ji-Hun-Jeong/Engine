@@ -93,6 +93,9 @@ namespace Game
 
 			auto P = CreatePlayer(Generator, Model, CollisionMgr);
 			P->InitPixelCollision(PixelCollisionProcess);
+			auto RB = new Collision::RigidBody(P->GetPositionRef());
+			RB->SetMass(0.01f);
+			P->SetRigidBody(RB);
 
 			AddObject(P);
 			Renderer.AddModel(eLayer::Player, Model);
@@ -107,6 +110,7 @@ namespace Game
 		auto ImageVS = GRM.GetVertexShader("ImageVS");
 		auto ImagePS = GRM.GetPixelShader("ImagePS");
 		auto BackGroundPS = GRM.GetPixelShader("BackGroundPS");
+
 		{
 			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
 			auto BackImage = GRM.GetShaderResource("MushroomBackground");

@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Collision\RigidBody.h" />
     <ClInclude Include="src\Collision\Collider.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Collision\CollisionDetector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Collision\RigidBody.cpp" />
     <ClCompile Include="src\Collision\Collider.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

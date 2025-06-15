@@ -26,6 +26,7 @@ bool Collision(inout float3 _Position, float2 _UV, uint2 _ImageScale, int2 _Offs
     {
         float2 Position = OriginPosition + int2(i, 0);
         float2 UV = Position / float2(_ImageScale);
+        UV = clamp(UV, 0.0f, 1.0f);
         float4 PixelColor = _Image.SampleLevel(PointSampler, UV, 0);
         
         if (PixelColor.r != 1.0f || PixelColor.g != 1.0f || PixelColor.b != 1.0f)
@@ -40,6 +41,7 @@ bool Collision(inout float3 _Position, float2 _UV, uint2 _ImageScale, int2 _Offs
     {
         float2 Position = OriginPosition + int2(0, j);
         float2 UV = Position / float2(_ImageScale);
+        UV = clamp(UV, 0.0f, 1.0f);
         float4 PixelColor = _Image.SampleLevel(PointSampler, UV, 0);
         
         if (PixelColor.r != 1.0f || PixelColor.g != 1.0f || PixelColor.b != 1.0f)

@@ -5,6 +5,7 @@ namespace Collision
 {
 	Collider::~Collider()
 	{
+		
 	}
 
 	bool IsCollision(RectCollider* _Collider1, RectCollider* _Collider2) 
