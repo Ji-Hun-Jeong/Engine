@@ -37,6 +37,7 @@ namespace Game
 			Transform.Move(_Axis, _Speed);
 		}
 
+		Collision::RigidBody& GetRigidBody() { return *RigidBody; }
 		Vector3& GetPositionRef() { return Transform.GetPositionRef(); }
 		const Vector3& GetPosition() const { return Transform.GetPosition(); }
 		const Vector3& GetRotation() const { return Transform.GetRotation(); }

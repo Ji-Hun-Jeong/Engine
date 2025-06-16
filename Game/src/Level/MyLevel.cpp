@@ -93,7 +93,7 @@ namespace Game
 
 			auto P = CreatePlayer(Generator, Model, CollisionMgr);
 			P->InitPixelCollision(PixelCollisionProcess);
-			auto RB = new Collision::RigidBody(P->GetPositionRef());
+			Collision::RigidBody* RB = new Collision::RigidBody(P->GetPositionRef());
 			RB->SetMass(0.01f);
 			P->SetRigidBody(RB);
 
