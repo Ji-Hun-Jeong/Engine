@@ -10,6 +10,11 @@
 #include "Object/KeyInput/KeyInput.h"
 #include "Geometry/Geometry.h"
 
+namespace Graphics
+{
+	class PixelCollisionProcess;
+	class PixelCollisionInterface;
+}
 namespace Game
 {
 	using DirectX::SimpleMath::Matrix;
@@ -53,7 +58,7 @@ namespace Game
 			_Model->AddRenderInterface(RenderInterface);
 		}
 
-
+		void InitPixelCollision(Graphics::PixelCollisionProcess& _Process);
 	protected:
 		void initalizeConstBuffer(Graphics::IDRGenerator& _Generator)
 		{
@@ -65,6 +70,6 @@ namespace Game
 	protected:
 		ConstData CpuConstData;
 		std::shared_ptr<Graphics::IRenderInterface> RenderInterface;
-
+		Graphics::PixelCollisionInterface* PixelCollisionInterface;
     };
 }

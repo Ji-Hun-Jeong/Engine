@@ -2,11 +2,6 @@
 #include "Object\Actor.h"
 #include "PlayerController/PlayerController.h"
 
-namespace Graphics
-{
-	class PixelCollisionProcess;
-	class PixelCollisionInterface;
-}
 namespace Game
 {
 	class Player : public Actor
@@ -33,7 +28,7 @@ namespace Game
 		void InitalizeRenderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model) override;
 		void InitalizeCollision(Collision::ColliderManager& _CollisionMgr) override;
 
-		void InitPixelCollision(Graphics::PixelCollisionProcess& _Process);
+		
 
 		Graphics::StateVariableTable& GetStateTable() { return StateTable; }
 		Graphics::StateMachine& GetStateMachine() { return StateMachine; }
@@ -44,8 +39,6 @@ namespace Game
 	private:
 		Graphics::StateVariableTable StateTable;
 		Graphics::StateMachine StateMachine;
-
-		Graphics::PixelCollisionInterface* PixelCollisionInterface;
 
 		class SkillManager* SkillManager;
 		class PlayerSkillBundle* SkillBundle;

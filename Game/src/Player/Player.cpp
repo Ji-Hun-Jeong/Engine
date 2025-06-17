@@ -4,8 +4,6 @@
 #include "Component/Skill/Skill.h"
 #include "PlayerComponent/PlayerSkillBundle.h"
 
-#include <Renderer/src/RenderProcess/PixelCollisionProcess.h>
-
 namespace Game
 {
 	Player::Player(const Str::FString& _Name)
@@ -14,7 +12,6 @@ namespace Game
 		, SkillBundle(new PlayerSkillBundle(this))
 		, StateTable{}
 		, StateMachine(StateTable)
-		, PixelCollisionInterface(nullptr)
 	{
 		Transform.SetScale(Vector3(0.2f, 0.2f, 1.0f));
 	}
@@ -25,7 +22,6 @@ namespace Game
 		, SkillBundle(nullptr)
 		, StateTable(_Other.StateTable)
 		, StateMachine(_Other.StateMachine)
-		, PixelCollisionInterface(nullptr)
 	{
 	}
 
@@ -98,12 +94,7 @@ namespace Game
 		Collider = C;
 	}
 
-	void Player::InitPixelCollision(Graphics::PixelCollisionProcess& _Process)
-	{
-		auto Interface = _Process.RegistPixelCollision(Transform.GetPositionRef());
-		Interface->SetActive(true);
-		PixelCollisionInterface = Interface;
-	}
+	
 
 	void Player::addSkill()
 	{
