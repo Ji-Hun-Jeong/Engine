@@ -3,6 +3,10 @@
 #include <Engine/src/Input/Input.h>
 #include <Engine/src/Time/Time.h>
 
+#include <Renderer/src/RenderProcess/IGraphicProcess.h>
+#include <Renderer/src/Render/IRenderInterface.h>
+#include <Renderer/src/State/State.h>
+
 #include "Object/KeyInput/KeyInput.h"
 #include "Geometry/Geometry.h"
 
@@ -34,7 +38,29 @@ namespace Game
 		virtual void PostUpdate() override;
 		virtual void Destory() override;
 
-		virtual void InitalizeRerderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::IRenderInterface>& RenderInterface);
+		virtual void InitalizeRenderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model)
+		{
+			RenderInterface = std::make_shared<Graphics::IRenderInterface>();
+			initalizeConstBuffer(_Generator);
+
+			_Model->AddRenderInterface(RenderInterface);
+		}
+		void SetRenderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model, std::shared_ptr<Graphics::IRenderInterface>& _RenderInterface)
+		{
+			RenderInterface = _RenderInterface;
+			initalizeConstBuffer(_Generator);
+
+			_Model->AddRenderInterface(RenderInterface);
+		}
+
+
+	protected:
+		void initalizeConstBuffer(Graphics::IDRGenerator& _Generator)
+		{
+			std::vector<Graphics::CpuConstData> CpuConstDatas{ {&CpuConstData, sizeof(CpuConstData)} };
+			auto ConstBuffer = _Generator.GenerateConstBuffer(CpuConstDatas);
+			RenderInterface->SetConstBuffer(ConstBuffer);
+		}
 
 	protected:
 		ConstData CpuConstData;

@@ -1,6 +1,7 @@
 #pragma once
-#include "Object/Object.h"
+#include "Object/Actor.h"
 
+#include <Renderer/src/Render/IDRGenerator.h>
 #include <Renderer/src/Interface/IConstBuffer.h>
 
 namespace Game

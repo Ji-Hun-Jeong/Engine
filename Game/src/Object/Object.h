@@ -2,10 +2,6 @@
 #include <Collision/src/Collision/CollisionDetector.h>
 #include <Collision/src/Collision/RigidBody.h>
 
-#include <Renderer/src/RenderProcess/IGraphicProcess.h>
-#include <Renderer/src/Render/IRenderInterface.h>
-#include <Renderer/src/State/State.h>
-
 #include "Component/Transform/Transform.h"
 
 namespace Game
@@ -27,10 +23,11 @@ namespace Game
 		virtual void PostUpdate();
 		virtual void Destory();
 
+		virtual void InitalizeCollision(Collision::ColliderManager& _CollisionMgr) {}
+
 		void SetName(const Str::FString& _Name) { Name = _Name; }
 		const Str::FString& GetName() const { return Name; }
 
-		void SetCollider(std::shared_ptr<Collision::Collider> _Collider) { Collider = _Collider; }
 		void SetRigidBody(Collision::RigidBody* _RigidBody) { RigidBody = _RigidBody; }
 		void Move(const Vector3& _Axis, float _Speed)
 		{

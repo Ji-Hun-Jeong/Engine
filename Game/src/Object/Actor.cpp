@@ -42,12 +42,4 @@ namespace Game
 		Super::Destory();
 	}
 
-	void Actor::InitalizeRerderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::IRenderInterface>& _RenderInterface)
-	{
-		std::vector<Graphics::CpuConstData> CpuConstDatas{ {&CpuConstData, sizeof(CpuConstData)} };
-		auto ConstBuffer = _Generator.GenerateConstBuffer(CpuConstDatas);
-
-		RenderInterface = _RenderInterface;
-		RenderInterface->SetConstBuffer(ConstBuffer);
-	}
 }

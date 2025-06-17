@@ -27,6 +27,9 @@ namespace Time
         DeltaTime = static_cast<float>(CurrentTime.QuadPart - PrevTime.QuadPart) / static_cast<float>(Frequency.QuadPart);
         PrevTime = CurrentTime;
 
+        if (1 / 30.0f < DeltaTime)
+            DeltaTime = 1 / 60.0f;
+
         for (auto& Timer : Timers)
             Timer->GoOn();
     }

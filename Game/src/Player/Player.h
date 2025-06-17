@@ -13,7 +13,6 @@ namespace Game
 	{
 		using Super = Actor;
 		CLONE(Player, Actor);
-		friend Player* CreatePlayer(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model, Collision::ColliderManager& _CollisionMgr);
 	public:
 		Player(const Str::FString& _Name);
 		Player(const Player& _Other);
@@ -31,6 +30,8 @@ namespace Game
 		{
 			std::cout << "PlayerAttack!\n";
 		}
+		void InitalizeRenderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model) override;
+		void InitalizeCollision(Collision::ColliderManager& _CollisionMgr) override;
 
 		void InitPixelCollision(Graphics::PixelCollisionProcess& _Process);
 
@@ -51,6 +52,5 @@ namespace Game
 
 	};
 
-	extern Player* CreatePlayer(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model, Collision::ColliderManager& _CollisionMgr);
 }
 

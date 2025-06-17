@@ -99,7 +99,7 @@ namespace Graphics
 				UINT Index = Interface->GetIndex();
 				Interface->SetPosition(Positions[Index]);
 			}
-			std::cout << CollisionStates[0] << "\n";
+			/*std::cout << CollisionStates[0] << "\n";*/
 		}
 
 		void SetActiveInterface(UINT _Index, bool _TF)

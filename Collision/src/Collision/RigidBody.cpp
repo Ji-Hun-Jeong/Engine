@@ -19,10 +19,10 @@ namespace Collision
 
 		const float AbsVelocityX = std::abs(Velocity.x);
 		const float AbsVelocityY = std::abs(Velocity.y);
-		if (AbsVelocityX < 10.0f)
+		if (AbsVelocityX < 1.0f)
 			Velocity.x = 0.0f;
 
-		if (AbsVelocityY < 0.2f)
+		if (AbsVelocityY < 0.01f)
 			Velocity.y = 0.0f;
 
 		if (MaxSpeed < AbsVelocityX)
@@ -31,7 +31,7 @@ namespace Collision
 			Velocity.y = Velocity.y < 0 ? -MaxSpeed : MaxSpeed;
 
 		RefPosition += Vector3(Velocity.x, Velocity.y, 0.0f) * _DT;
-
+		
 		Force = Vector2();
 	}
 }

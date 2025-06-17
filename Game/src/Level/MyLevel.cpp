@@ -23,31 +23,59 @@ namespace Game
 
 	void MyLevel::InitResource()
 	{
-		auto MeshData = Geometry::GenerateUVRect(0.5f);
+		{
+			auto MeshData = Geometry::GenerateUVRect(0.5f);
 
-		auto& Vertices = MeshData.Vertices;
-		auto& Indices = MeshData.Indices;
+			auto& Vertices = MeshData.Vertices;
+			auto& Indices = MeshData.Indices;
 
-		auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
-			, Indices.data(), sizeof(Indices[0]), Indices.size());
+			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
+				, Indices.data(), sizeof(Indices[0]), Indices.size());
 
-		GRM.AddMesh("BasicRect", Mesh);
+			GRM.AddMesh("BasicRect", Mesh);
+		}
 
-		auto BackgroundImage = Generator.GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomBackground.png" });
-		GRM.AddShaderResource("MushroomBackground", BackgroundImage);
+		{
+			auto BackgroundImage = Generator.GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomBackground.png" });
+			GRM.AddShaderResource("MushroomBackground", BackgroundImage);
 
-		auto BackImage = Generator.GenerateShaderResource
-		({
-			"Game/resource/image/Map/MushroomStage/MushroomStage.png",
-			"Game/resource/image/Map/MushroomStage/Floor.bmp",
-			"Game/resource/image/Map/MushroomStage/Wall.bmp",
-			"Game/resource/image/Map/MushroomStage/Ladder.bmp",
-			"Game/resource/image/Map/MushroomStage/Rope.bmp",
-			"Game/resource/image/Map/MushroomStage/MonsterWall.bmp"
-		});
-		BackImage->PSSetShaderResources(0);
-		BackImage->CSSetShaderResources(0);
-		GRM.AddShaderResource("MushroomStage", BackImage);
+			Vector2 ImageSize = BackgroundImage->GetImageSize(0);
+
+			auto MeshData = Geometry::GenerateUVRect(ImageSize.x, ImageSize.y);
+
+			auto& Vertices = MeshData.Vertices;
+			auto& Indices = MeshData.Indices;
+
+			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
+				, Indices.data(), sizeof(Indices[0]), Indices.size());
+			GRM.AddMesh("MushroomBackground", Mesh);
+		}
+
+		{
+			auto BackImage = Generator.GenerateShaderResource
+			({
+				"Game/resource/image/Map/MushroomStage/MushroomStage.png",
+				"Game/resource/image/Map/MushroomStage/Floor.bmp",
+				"Game/resource/image/Map/MushroomStage/Wall.bmp",
+				"Game/resource/image/Map/MushroomStage/Ladder.bmp",
+				"Game/resource/image/Map/MushroomStage/Rope.bmp",
+				"Game/resource/image/Map/MushroomStage/MonsterWall.bmp"
+				});
+			BackImage->PSSetShaderResources(0);
+			BackImage->CSSetShaderResources(0);
+			GRM.AddShaderResource("MushroomStage", BackImage);
+
+			Vector2 ImageSize = BackImage->GetImageSize(0);
+
+			auto MeshData = Geometry::GenerateUVRect(ImageSize.x, ImageSize.y);
+
+			auto& Vertices = MeshData.Vertices;
+			auto& Indices = MeshData.Indices;
+
+			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
+				, Indices.data(), sizeof(Indices[0]), Indices.size());
+			GRM.AddMesh("MushroomStage", Mesh);
+		}
 
 		const std::vector<Graphics::InputElementDesc> InputElement =
 		{
@@ -91,73 +119,44 @@ namespace Game
 		{
 			auto Model = Graphics::MakeModel(GRM, "BasicRect", "Triangle", "ImageVS", "ImagePS");
 
-			auto P = CreatePlayer(Generator, Model, CollisionMgr);
-			P->InitPixelCollision(PixelCollisionProcess);
-			Collision::RigidBody* RB = new Collision::RigidBody(P->GetPositionRef());
-			RB->SetMass(0.01f);
-			P->SetRigidBody(RB);
+			auto PlayerInstance = new Player("Player");
+			PlayerInstance->InitalizeRenderInterface(Generator, Model);
+			PlayerInstance->InitalizeCollision(CollisionMgr);
+			PlayerInstance->InitPixelCollision(PixelCollisionProcess);
 
-			AddObject(P);
+			Collision::RigidBody* RB = new Collision::RigidBody(PlayerInstance->GetPositionRef());
+			RB->SetMass(0.01f);
+			PlayerInstance->SetRigidBody(RB);
+
+			AddObject(PlayerInstance);
 			Renderer.AddModel(eLayer::Player, Model);
 
-			PlayerController* Controller = new PlayerController(*P);
+			PlayerController* Controller = new PlayerController(*PlayerInstance);
 			Controller->SetKeyInput(Input);
 
 			AddObject(Controller);
 		}
 
-		auto TriangleToplogy = GRM.GetTopology("Triangle");
-		auto ImageVS = GRM.GetVertexShader("ImageVS");
-		auto ImagePS = GRM.GetPixelShader("ImagePS");
-		auto BackGroundPS = GRM.GetPixelShader("BackGroundPS");
-
 		{
-			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
-			auto BackImage = GRM.GetShaderResource("MushroomBackground");
-			Vector2 ImageSize = BackImage->GetImageSize(0);
-
-			auto MeshData = Geometry::GenerateUVRect(ImageSize.x, ImageSize.y);
-
-			auto& Vertices = MeshData.Vertices;
-			auto& Indices = MeshData.Indices;
-
-			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
-				, Indices.data(), sizeof(Indices[0]), Indices.size());
-			auto Model = std::make_shared<Graphics::Model>(Mesh, TriangleToplogy, ImageVS, ImagePS);
-
-			RenderInterface->SetImage(BackImage);
-			Model->AddRenderInterface(RenderInterface);
+			auto Model = Graphics::MakeModel(GRM, "MushroomBackground", "Triangle", "ImageVS", "ImagePS");
 
 			BackGround* Back = new BackGround("1");
-			Back->InitalizeRerderInterface(Generator, RenderInterface);
+			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
+			auto BackImage = GRM.GetShaderResource("MushroomBackground");
+			RenderInterface->SetImage(BackImage);
+			Back->SetRenderInterface(Generator, Model, RenderInterface);
 			AddObject(Back);
 
 			Renderer.AddModel(eLayer::BackGround, Model);
 		}
-
 		{
-			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
-			auto BackImage = GRM.GetShaderResource("MushroomStage");
-			Vector2 ImageSize = BackImage->GetImageSize(0);
-
-			auto MeshData = Geometry::GenerateUVRect(ImageSize.x, ImageSize.y);
-
-			auto& Vertices = MeshData.Vertices;
-			auto& Indices = MeshData.Indices;
-
-			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
-				, Indices.data(), sizeof(Indices[0]), Indices.size());
-			auto Model = std::make_shared<Graphics::Model>(Mesh, TriangleToplogy, ImageVS, BackGroundPS);
-
-			RenderInterface->SetImage(BackImage);
-			Model->AddRenderInterface(RenderInterface);
+			auto Model = Graphics::MakeModel(GRM, "MushroomStage", "Triangle", "ImageVS", "BackGroundPS");
 
 			BackGround* Back = new BackGround("2");
-			Back->InitalizeRerderInterface(Generator, RenderInterface);
-			auto C = CollisionMgr.GetRectCollider("Monster");
-			C->SetSize(Back->GetScale());
-
-			Back->SetCollider(C);
+			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
+			auto BackImage = GRM.GetShaderResource("MushroomStage");
+			RenderInterface->SetImage(BackImage);
+			Back->SetRenderInterface(Generator, Model, RenderInterface);
 			AddObject(Back);
 
 			Renderer.AddModel(eLayer::BackGround, Model);
