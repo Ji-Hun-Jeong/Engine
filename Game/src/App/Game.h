@@ -30,6 +30,9 @@ namespace Game
 
 		Graphics::IDRGenerator* Generator;
 		Graphics::GraphicResourceMgr* GRM;
+
+		class ClassManager* ClassMgr;
+		class KeyInput* Input;
 	};
 }
 

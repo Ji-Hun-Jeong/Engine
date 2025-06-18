@@ -1,15 +1,10 @@
 #include "pch.h"
 #include "Player.h"
 
-#include "Component/Skill/Skill.h"
-#include "PlayerComponent/PlayerSkillBundle.h"
-
 namespace Game
 {
 	Player::Player(const Str::FString& _Name)
 		: Super(_Name)
-		, SkillManager(new Game::SkillManager)
-		, SkillBundle(new PlayerSkillBundle(this))
 		, StateTable{}
 		, StateMachine(StateTable)
 	{
@@ -18,8 +13,6 @@ namespace Game
 
 	Player::Player(const Player& _Other)
 		: Super(_Other)
-		, SkillManager(nullptr)
-		, SkillBundle(nullptr)
 		, StateTable(_Other.StateTable)
 		, StateMachine(_Other.StateMachine)
 	{
@@ -27,10 +20,6 @@ namespace Game
 
 	Player::~Player()
 	{
-		if (SkillManager)
-			delete SkillManager;
-		if (SkillBundle)
-			delete SkillBundle;
 		if (PixelCollisionInterface)
 			delete PixelCollisionInterface;
 	}
@@ -94,15 +83,5 @@ namespace Game
 		Collider = C;
 	}
 
-	
-
-	void Player::addSkill()
-	{
-		SkillManager->AddManagement("1");
-
-		Skill* Skill = new Game::Skill("UltimitDrive", 0.5f, std::bind(&PlayerSkillBundle::UltimitDrive, SkillBundle));
-
-		SkillManager->AddSkillToManagement("1", Skill);
-	}
 
 }

@@ -17,6 +17,8 @@ namespace Game
 		, CurrentLevel(nullptr)
 		, Generator(new Graphics::DX::DXRGenerator(AppWindow->GetWindowHandle()))
 		, GRM(new Graphics::GraphicResourceMgr)
+		, ClassMgr(new ClassManager)
+		, Input(new KeyInput)
 	{
 		// rendering리소스 정의
 		Geometry::Init(_ScreenWidth, _ScreenHeight);
@@ -29,6 +31,10 @@ namespace Game
 			delete Generator;
 		if (GRM)
 			delete GRM;
+		if (ClassMgr)
+			delete ClassMgr;
+		if (Input)
+			delete Input;
 	}
 
 	void GameWorld::Init()
@@ -36,7 +42,11 @@ namespace Game
 		Time::Init();
 		Path::Init("Game");
 
-		AddLevel("Test", new MyLevel(*Generator, *GRM));
+		Level* Level = new MyLevel;
+		Level->InitRenderer(Generator, GRM);
+		Level->SetClassManager(ClassMgr);
+		Level->SetKeyInput(Input);
+		AddLevel("Test", Level);
 		SetCurrentLevel("Test");
 
 		for (auto& iter : Levels)

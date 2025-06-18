@@ -21,7 +21,7 @@
     <ClCompile Include="src\Level\MyLevel.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Player\Player.cpp">
+    <ClCompile Include="src\Object\Player\Player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp">
@@ -39,22 +39,7 @@
     <ClCompile Include="src\Component\Transform\Transform.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Component\State\State.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\Object\KeyInput\KeyInput.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Component\Action\Action.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Component\Skill\Skill.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Player\PlayerComponent\PlayerActionController.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Player\PlayerComponent\PlayerSkillBundle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Geometry\Geometry.cpp">
@@ -72,19 +57,31 @@
     <ClCompile Include="src\EntryPoint.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Player\PlayerController\PlayerController.cpp">
+    <ClCompile Include="src\Object\Player\PlayerController\PlayerController.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Object\BackGround\BackGround.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Monster\Monster.cpp">
+    <ClCompile Include="src\Object\Monster\Monster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Object\Camera\Camera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Object\Camera\CameraController\CameraController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Class\Class.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Class\Skill.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Class\Phantom\Phantom.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Class\Phantom\Skill\1\SwiftPhantom.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +95,7 @@
     <ClInclude Include="src\Level\MyLevel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Player\Player.h">
+    <ClInclude Include="src\Object\Player\Player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Object\Actor.h">
@@ -113,22 +110,7 @@
     <ClInclude Include="src\Component\Transform\Transform.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Component\State\State.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="src\Object\KeyInput\KeyInput.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Component\Action\Action.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Component\Skill\Skill.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Player\PlayerComponent\PlayerActionController.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Player\PlayerComponent\PlayerSkillBundle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Geometry\Geometry.h">
@@ -149,19 +131,31 @@
     <ClInclude Include="src\Path\Path.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Player\PlayerController\PlayerController.h">
+    <ClInclude Include="src\Object\Player\PlayerController\PlayerController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Object\BackGround\BackGround.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="src\Monster\Monster.h">
+    <ClInclude Include="src\Object\Monster\Monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Object\Camera\Camera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Object\Camera\CameraController\CameraController.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Class\Class.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Class\Skill.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Class\Phantom\Phantom.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Class\Phantom\Skill\1\SwiftPhantom.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

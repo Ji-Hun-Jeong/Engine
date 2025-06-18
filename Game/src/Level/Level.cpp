@@ -6,26 +6,27 @@
 
 namespace Game
 {
-	Level::Level(Graphics::IDRGenerator& _Generator, Graphics::GraphicResourceMgr& _GRM)
+	Level::Level()
 		: Input{}
-		, Generator(_Generator)
-		, Renderer(*new Graphics::ImageRenderProcess(Generator, 0))
-		, GRM(_GRM)
+		, Generator(nullptr)
+		, Renderer(nullptr)
+		, GRM(nullptr)
 		, CollisionMgr()
 		, CollisionDetector(CollisionMgr)
+		, ClassMgr(nullptr)
 	{
 	}
 
 	Level::~Level()
 	{
 		Utility::ClearMap(Objects);
-		if (&Renderer)
-			delete& Renderer;
+		if (Renderer)
+			delete Renderer;
 	}
 
 	void Level::InitLevel()
 	{
-		Renderer.InitRenderProcess();
+		
 	}
 
 	void Level::InitResource()
@@ -42,7 +43,7 @@ namespace Game
 
 	void Level::Update()
 	{
-		Input.UpdateKeyState();
+		Input->UpdateKeyState();
 
 		for (auto iter = Cameras.begin(); iter != Cameras.end(); ++iter)
 			iter->second->Update();
@@ -61,8 +62,16 @@ namespace Game
 
 	void Level::Render()
 	{
-		Renderer.BindRenderProcess();
-		Renderer.Present();
+		Renderer->BindRenderProcess();
+		Renderer->Present();
+	}
+
+	void Level::InitRenderer(Graphics::IDRGenerator* _Generator, Graphics::GraphicResourceMgr* _GRM)
+	{
+		Generator = _Generator;
+		GRM = _GRM;
+		Renderer = new Graphics::ImageRenderProcess(*Generator, 0);
+		Renderer->InitRenderProcess();
 	}
 
 

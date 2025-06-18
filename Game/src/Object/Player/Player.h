@@ -28,20 +28,13 @@ namespace Game
 		void InitalizeRenderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model) override;
 		void InitalizeCollision(Collision::ColliderManager& _CollisionMgr) override;
 
-		
-
 		Graphics::StateVariableTable& GetStateTable() { return StateTable; }
 		Graphics::StateMachine& GetStateMachine() { return StateMachine; }
 
-	private:
-		void addSkill();
 
 	private:
 		Graphics::StateVariableTable StateTable;
 		Graphics::StateMachine StateMachine;
-
-		class SkillManager* SkillManager;
-		class PlayerSkillBundle* SkillBundle;
 
 	};
 

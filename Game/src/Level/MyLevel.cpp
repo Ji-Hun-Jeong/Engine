@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "MyLevel.h"
-#include "Player/Player.h"
-#include "Player/PlayerController/PlayerController.h"
+#include "Object/Player/Player.h"
+#include "Object/Player/PlayerController/PlayerController.h"
 #include "Object/BackGround/BackGround.h"
 #include "Object/Camera/Camera.h"
 #include "Object/Camera/CameraController/CameraController.h"
@@ -9,9 +9,9 @@
 
 namespace Game
 {
-	MyLevel::MyLevel(Graphics::IDRGenerator& _Generator, Graphics::GraphicResourceMgr& _GRM)
-		: Level(_Generator, _GRM)
-		, PixelCollisionProcess(_Generator)
+	MyLevel::MyLevel()
+		: Level()
+		, PixelCollisionProcess(nullptr)
 	{
 		CollisionMgr.TypeMapping("Player");
 		CollisionMgr.TypeMapping("Monster");
@@ -19,6 +19,8 @@ namespace Game
 
 	MyLevel::~MyLevel()
 	{
+		if (PixelCollisionProcess)
+			delete PixelCollisionProcess;
 	}
 
 	void MyLevel::InitResource()
@@ -29,15 +31,15 @@ namespace Game
 			auto& Vertices = MeshData.Vertices;
 			auto& Indices = MeshData.Indices;
 
-			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
+			auto Mesh = Generator->GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
 				, Indices.data(), sizeof(Indices[0]), Indices.size());
 
-			GRM.AddMesh("BasicRect", Mesh);
+			GRM->AddMesh("BasicRect", Mesh);
 		}
 
 		{
-			auto BackgroundImage = Generator.GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomBackground.png" });
-			GRM.AddShaderResource("MushroomBackground", BackgroundImage);
+			auto BackgroundImage = Generator->GenerateShaderResource({ "Game/resource/image/Map/MushroomStage/MushroomBackground.png" });
+			GRM->AddShaderResource("MushroomBackground", BackgroundImage);
 
 			Vector2 ImageSize = BackgroundImage->GetImageSize(0);
 
@@ -46,13 +48,13 @@ namespace Game
 			auto& Vertices = MeshData.Vertices;
 			auto& Indices = MeshData.Indices;
 
-			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
+			auto Mesh = Generator->GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
 				, Indices.data(), sizeof(Indices[0]), Indices.size());
-			GRM.AddMesh("MushroomBackground", Mesh);
+			GRM->AddMesh("MushroomBackground", Mesh);
 		}
 
 		{
-			auto BackImage = Generator.GenerateShaderResource
+			auto BackImage = Generator->GenerateShaderResource
 			({
 				"Game/resource/image/Map/MushroomStage/MushroomStage.png",
 				"Game/resource/image/Map/MushroomStage/Floor.bmp",
@@ -63,7 +65,7 @@ namespace Game
 				});
 			BackImage->PSSetShaderResources(0);
 			BackImage->CSSetShaderResources(0);
-			GRM.AddShaderResource("MushroomStage", BackImage);
+			GRM->AddShaderResource("MushroomStage", BackImage);
 
 			Vector2 ImageSize = BackImage->GetImageSize(0);
 
@@ -72,9 +74,9 @@ namespace Game
 			auto& Vertices = MeshData.Vertices;
 			auto& Indices = MeshData.Indices;
 
-			auto Mesh = Generator.GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
+			auto Mesh = Generator->GenerateMesh(Vertices.data(), sizeof(Vertices[0]), Vertices.size()
 				, Indices.data(), sizeof(Indices[0]), Indices.size());
-			GRM.AddMesh("MushroomStage", Mesh);
+			GRM->AddMesh("MushroomStage", Mesh);
 		}
 
 		const std::vector<Graphics::InputElementDesc> InputElement =
@@ -83,31 +85,37 @@ namespace Game
 			{Graphics::eSementicName::UV, Graphics::eFormat::Vector2, 12, Graphics::eInputClass::VertexData}
 		};
 
-		auto ImageVS = Generator.GenerateVertexShaderAndInputLayout("./Renderer/resource/Shader/ImageVS.hlsl"
+		auto ImageVS = Generator->GenerateVertexShaderAndInputLayout("./Renderer/resource/Shader/ImageVS.hlsl"
 			, InputElement);
-		GRM.AddVertexShader("ImageVS", ImageVS);
+		GRM->AddVertexShader("ImageVS", ImageVS);
 
-		auto TriangleTopology = Generator.GenerateTopology(Graphics::eTopology::Triangle);
-		GRM.AddTopology("Triangle", TriangleTopology);
+		auto TriangleTopology = Generator->GenerateTopology(Graphics::eTopology::Triangle);
+		GRM->AddTopology("Triangle", TriangleTopology);
 
-		auto ImagePS = Generator.GeneratePixelShader("./Renderer/resource/Shader/ImagePS.hlsl");
-		GRM.AddPixelShader("ImagePS", ImagePS);
+		auto ImagePS = Generator->GeneratePixelShader("./Renderer/resource/Shader/ImagePS.hlsl");
+		GRM->AddPixelShader("ImagePS", ImagePS);
 
-		auto BackGroundPS = Generator.GeneratePixelShader("./Renderer/resource/Shader/BackGroundPS.hlsl");
-		GRM.AddPixelShader("BackGroundPS", BackGroundPS);
+		auto BackGroundPS = Generator->GeneratePixelShader("./Renderer/resource/Shader/BackGroundPS.hlsl");
+		GRM->AddPixelShader("BackGroundPS", BackGroundPS);
 	}
 
 	void MyLevel::InitCamera(UINT _ScreenWidth, UINT _ScreenHeight)
 	{
 		Camera* C = new Camera("sdf", _ScreenWidth, _ScreenHeight);
-		auto ConstBuffer = C->InitalizeGlobalConst(Generator);
-		Renderer.SetGlobalConst(ConstBuffer, 1);
+		auto ConstBuffer = C->InitalizeGlobalConst(*Generator);
+		Renderer->SetGlobalConst(ConstBuffer, 1);
 
 		CameraController* Controller = new CameraController(*C);
-		Controller->SetKeyInput(Input);
+		Controller->SetKeyInput(*Input);
 		AddObject(Controller);
 
 		AddObject(C);
+	}
+
+	void MyLevel::InitRenderer(Graphics::IDRGenerator* _Generator, Graphics::GraphicResourceMgr* _GRM)
+	{
+		Super::InitRenderer(_Generator, _GRM);
+		PixelCollisionProcess = new Graphics::PixelCollisionProcess(*Generator);
 	}
 
 	void MyLevel::InitLevel()
@@ -117,49 +125,52 @@ namespace Game
 		CollisionMgr.BindCollisionWhether("Player", "Monster");
 
 		{
-			auto Model = Graphics::MakeModel(GRM, "BasicRect", "Triangle", "ImageVS", "ImagePS");
+			auto Model = Graphics::MakeModel(*GRM, "BasicRect", "Triangle", "ImageVS", "ImagePS");
 
 			auto PlayerInstance = new Player("Player");
-			PlayerInstance->InitalizeRenderInterface(Generator, Model);
+			PlayerInstance->InitalizeRenderInterface(*Generator, Model);
 			PlayerInstance->InitalizeCollision(CollisionMgr);
-			PlayerInstance->InitPixelCollision(PixelCollisionProcess);
+			PlayerInstance->InitPixelCollision(*PixelCollisionProcess);
 
 			Collision::RigidBody* RB = new Collision::RigidBody(PlayerInstance->GetPositionRef());
 			RB->SetMass(0.01f);
 			PlayerInstance->SetRigidBody(RB);
 
 			AddObject(PlayerInstance);
-			Renderer.AddModel(eLayer::Player, Model);
+			Renderer->AddModel(eLayer::Player, Model);
 
 			PlayerController* Controller = new PlayerController(*PlayerInstance);
-			Controller->SetKeyInput(Input);
+			Controller->SetKeyInput(*Input);
 
 			AddObject(Controller);
+
+			ClassMgr->AttachClassToPlayer(*PlayerInstance, "Phantom");
+			ClassMgr->AddToInput(*Input);
 		}
 
 		{
-			auto Model = Graphics::MakeModel(GRM, "MushroomBackground", "Triangle", "ImageVS", "ImagePS");
+			auto Model = Graphics::MakeModel(*GRM, "MushroomBackground", "Triangle", "ImageVS", "ImagePS");
 
 			BackGround* Back = new BackGround("1");
 			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
-			auto BackImage = GRM.GetShaderResource("MushroomBackground");
+			auto BackImage = GRM->GetShaderResource("MushroomBackground");
 			RenderInterface->SetImage(BackImage);
-			Back->SetRenderInterface(Generator, Model, RenderInterface);
+			Back->SetRenderInterface(*Generator, Model, RenderInterface);
 			AddObject(Back);
 
-			Renderer.AddModel(eLayer::BackGround, Model);
+			Renderer->AddModel(eLayer::BackGround, Model);
 		}
 		{
-			auto Model = Graphics::MakeModel(GRM, "MushroomStage", "Triangle", "ImageVS", "BackGroundPS");
+			auto Model = Graphics::MakeModel(*GRM, "MushroomStage", "Triangle", "ImageVS", "BackGroundPS");
 
 			BackGround* Back = new BackGround("2");
 			auto RenderInterface = std::make_shared<Graphics::IRenderInterface>();
-			auto BackImage = GRM.GetShaderResource("MushroomStage");
+			auto BackImage = GRM->GetShaderResource("MushroomStage");
 			RenderInterface->SetImage(BackImage);
-			Back->SetRenderInterface(Generator, Model, RenderInterface);
+			Back->SetRenderInterface(*Generator, Model, RenderInterface);
 			AddObject(Back);
 
-			Renderer.AddModel(eLayer::BackGround, Model);
+			Renderer->AddModel(eLayer::BackGround, Model);
 		}
 
 	}
@@ -172,7 +183,7 @@ namespace Game
 	void MyLevel::Update()
 	{
 		Super::Update();
-		PixelCollisionProcess.Progress();
+		PixelCollisionProcess->Progress();
 	}
 
 	void MyLevel::PostUpdate()

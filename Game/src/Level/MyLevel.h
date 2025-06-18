@@ -9,7 +9,7 @@ namespace Game
 	{
 		using Super = Level;
 	public:
-		explicit MyLevel(Graphics::IDRGenerator& _Generator, Graphics::GraphicResourceMgr& _GRM);
+		explicit MyLevel();
 		~MyLevel();
 
 	public:
@@ -20,9 +20,10 @@ namespace Game
 		void PostUpdate() override;
 		void ExitLevel() override;
 		void InitCamera(UINT _ScreenWidth, UINT _ScreenHeight) override;
+		void InitRenderer(Graphics::IDRGenerator* _Generator, Graphics::GraphicResourceMgr* _GRM) override;
 
 	private:
-		Graphics::PixelCollisionProcess PixelCollisionProcess;
+		Graphics::PixelCollisionProcess* PixelCollisionProcess;
 
 	};
 }

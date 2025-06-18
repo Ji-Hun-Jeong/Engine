@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "PlayerController.h"
-#include "Player/Player.h"
+#include "Object/Player/Player.h"
 #include "Object/KeyInput/KeyInput.h"
 
 #include <Renderer/src/State/State.h>
