@@ -25,6 +25,9 @@ namespace Game
 		void SetCurrentLevel(const Str::FString& _LevelName);
 
 	private:
+		class Level* initLevel(class Level* _Level);
+
+	private:
 		std::map<Str::FString, class Level*> Levels;
 		class Level* CurrentLevel;
 

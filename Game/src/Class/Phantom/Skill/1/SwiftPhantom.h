@@ -14,10 +14,7 @@ namespace Game
 		~SwiftPhantom() {}
 
 	public:
-		void Cast() override
-		{
-			std::cout << "SwiftPhantom\n";
-		}
+		void Cast() override;
 
 	private:
 		

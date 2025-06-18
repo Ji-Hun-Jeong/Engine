@@ -23,8 +23,24 @@ namespace Game
 			delete PixelCollisionProcess;
 	}
 
-	void MyLevel::InitResource()
+	void MyLevel::InitCamera(UINT _ScreenWidth, UINT _ScreenHeight)
 	{
+		Camera* C = new Camera("sdf", _ScreenWidth, _ScreenHeight);
+		auto ConstBuffer = C->InitalizeGlobalConst(*Generator);
+		Renderer->SetGlobalConst(ConstBuffer, 1);
+
+		CameraController* Controller = new CameraController(*C);
+		Controller->SetKeyInput(*Input);
+		AddObject(Controller);
+
+		AddObject(C);
+	}
+
+	void MyLevel::InitRenderer(Graphics::IDRGenerator* _Generator, Graphics::GraphicResourceMgr* _GRM)
+	{
+		Super::InitRenderer(_Generator, _GRM);
+		PixelCollisionProcess = new Graphics::PixelCollisionProcess(*Generator);
+
 		{
 			auto MeshData = Geometry::GenerateUVRect(0.5f);
 
@@ -99,25 +115,6 @@ namespace Game
 		GRM->AddPixelShader("BackGroundPS", BackGroundPS);
 	}
 
-	void MyLevel::InitCamera(UINT _ScreenWidth, UINT _ScreenHeight)
-	{
-		Camera* C = new Camera("sdf", _ScreenWidth, _ScreenHeight);
-		auto ConstBuffer = C->InitalizeGlobalConst(*Generator);
-		Renderer->SetGlobalConst(ConstBuffer, 1);
-
-		CameraController* Controller = new CameraController(*C);
-		Controller->SetKeyInput(*Input);
-		AddObject(Controller);
-
-		AddObject(C);
-	}
-
-	void MyLevel::InitRenderer(Graphics::IDRGenerator* _Generator, Graphics::GraphicResourceMgr* _GRM)
-	{
-		Super::InitRenderer(_Generator, _GRM);
-		PixelCollisionProcess = new Graphics::PixelCollisionProcess(*Generator);
-	}
-
 	void MyLevel::InitLevel()
 	{
 		Super::InitLevel();
@@ -129,11 +126,13 @@ namespace Game
 
 			auto PlayerInstance = new Player("Player");
 			PlayerInstance->InitalizeRenderInterface(*Generator, Model);
-			PlayerInstance->InitalizeCollision(CollisionMgr);
 			PlayerInstance->InitPixelCollision(*PixelCollisionProcess);
+			PlayerInstance->InitalizeCollision(CollisionMgr);
 
 			Collision::RigidBody* RB = new Collision::RigidBody(PlayerInstance->GetPositionRef());
 			RB->SetMass(0.01f);
+			RB->SetMaxSpeed(Vector2(10.0f, 0.7f));
+			
 			PlayerInstance->SetRigidBody(RB);
 
 			AddObject(PlayerInstance);

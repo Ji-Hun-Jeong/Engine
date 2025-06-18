@@ -25,10 +25,10 @@ namespace Collision
 		if (AbsVelocityY < 0.01f)
 			Velocity.y = 0.0f;
 
-		if (MaxSpeed < AbsVelocityX)
-			Velocity.x = Velocity.x < 0 ? -MaxSpeed : MaxSpeed;
-		if (MaxSpeed < AbsVelocityY)
-			Velocity.y = Velocity.y < 0 ? -MaxSpeed : MaxSpeed;
+		if (MaxSpeed.x < AbsVelocityX)
+			Velocity.x = Velocity.x < 0 ? -MaxSpeed.x : MaxSpeed.x;
+		if (MaxSpeed.y < AbsVelocityY)
+			Velocity.y = Velocity.y < 0 ? -MaxSpeed.y : MaxSpeed.y;
 
 		RefPosition += Vector3(Velocity.x, Velocity.y, 0.0f) * _DT;
 		

@@ -29,9 +29,6 @@ namespace Game
 		
 	}
 
-	void Level::InitResource()
-	{
-	}
 
 	void Level::EnterLevel()
 	{

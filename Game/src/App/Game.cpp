@@ -42,15 +42,10 @@ namespace Game
 		Time::Init();
 		Path::Init("Game");
 
-		Level* Level = new MyLevel;
-		Level->InitRenderer(Generator, GRM);
-		Level->SetClassManager(ClassMgr);
-		Level->SetKeyInput(Input);
-		AddLevel("Test", Level);
+		
+		AddLevel("Test", initLevel(new MyLevel));
 		SetCurrentLevel("Test");
 
-		for (auto& iter : Levels)
-			iter.second->InitResource();
 		for (auto& iter : Levels)
 		{
 			iter.second->InitCamera(AppWindow->GetScreenWidth(), AppWindow->GetScreenHeight());
@@ -102,5 +97,12 @@ namespace Game
 		auto iter = Levels.find(_LevelName);
 		assert(iter->second);
 		CurrentLevel = iter->second;
+	}
+	Level* GameWorld::initLevel(Level* _Level)
+	{
+		_Level->InitRenderer(Generator, GRM);
+		_Level->SetClassManager(ClassMgr);
+		_Level->SetKeyInput(Input);
+		return _Level;
 	}
 }

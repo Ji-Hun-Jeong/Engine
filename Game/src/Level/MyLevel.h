@@ -13,7 +13,6 @@ namespace Game
 		~MyLevel();
 
 	public:
-		void InitResource() override;
 		void InitLevel() override;
 		void EnterLevel() override;
 		void Update() override;

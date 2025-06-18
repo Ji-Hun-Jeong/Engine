@@ -15,7 +15,6 @@ namespace Game
 		virtual ~Level() = 0;
 
 	public:
-		virtual void InitResource();
 		virtual void InitLevel();
 		virtual void EnterLevel();
 		virtual void ExitLevel();
@@ -31,6 +30,7 @@ namespace Game
 
 		void AddObject(Object* _Object);
 		void AddCamera(class Camera* _Camera);
+
 
 	protected:
 		std::map<Str::FString, Object*> Objects;

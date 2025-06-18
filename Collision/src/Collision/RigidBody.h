@@ -34,13 +34,15 @@ namespace Collision
 		const Vector2& GetCoeff() const { return Coeff; }
 		float		   GetMass() const { return Mass; }
 
+		void SetMaxSpeed(const Vector2& _MaxSpeed) { MaxSpeed = _MaxSpeed; }
+
 	private:
 		Vector2 Force;
 		Vector2 Accel;
 		Vector2 Velocity;
 		Vector2 Coeff;
 
-		float MaxSpeed;
+		Vector2 MaxSpeed;
 		float Mass;
 		float Gravity;
 
