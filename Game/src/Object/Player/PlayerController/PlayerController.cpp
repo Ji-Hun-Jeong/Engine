@@ -50,15 +50,9 @@ namespace Game
 			{
 				if (PossibleMoveState == false)
 					return;
-				RigidBody.SetForce(Vector2(0.0f, 10.0f));
+				RigidBody.SetVelocity(Vector2(0.0f, 3.0f));
 			});
-		//_KeyInput.AddKey("PlayerMoveDown", Input::eKeyType::Down, Input::eButtonState::Hold, [this, &MoveState, PossibleMoveState]()->void
-		//	{
-		//		if (PossibleMoveState == false)
-		//			return;
-		//		MoveState = false;
-		//		Player.Move(Vector3(0.0f, -1.0f, 0.0f), 1.0f);
-		//	});
+		
 		_KeyInput.AddKey("PlayerAttack", Input::eKeyType::Ctrl, Input::eButtonState::Tap, [this, &AttackTrigger, PossibleMoveState]()->void
 			{
 				AttackTrigger.SetTrigger();

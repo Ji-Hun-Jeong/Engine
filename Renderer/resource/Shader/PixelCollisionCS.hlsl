@@ -70,7 +70,7 @@ void main(uint3 DTid : SV_DispatchThreadID)
     float2 UV = ConvertWorldPositionToImageUV(Position, uint2(ImageWidth, ImageHeight));
     
     CollisionStates[Index] = 0;
-    if (Collision(Position, UV, uint2(ImageWidth, ImageHeight), int2(0, 5), FloorSRV))
+    if (Collision(Position, UV, uint2(ImageWidth, ImageHeight), int2(0, 2), FloorSRV))
     {
         Positions[Index] = Position;
         CollisionStates[Index] |= 1;

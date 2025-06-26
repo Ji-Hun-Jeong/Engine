@@ -7,8 +7,7 @@ namespace Game
 	void SwiftPhantom::Cast()
 	{
 		auto& RigidBody = RefPlayer.GetRigidBody();
-		//RigidBody.AddForce(Vector2(1.0f, 0.1f));
-		RigidBody.AddVelocity(Vector2(1.0f, 0.3f));
+		RigidBody.AddForce(Vector2(0.1f, 0.1f));
 	}
 }
 

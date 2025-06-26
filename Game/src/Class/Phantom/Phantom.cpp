@@ -6,6 +6,7 @@ namespace Game
 {
 	void Phantom::InitClass(Player& _RefPlayer)
 	{
+		Super::InitClass(_RefPlayer);
 		addSkill(1, new SwiftPhantom(_RefPlayer));
 	}
 	void Phantom::AddSkillToInput(KeyInput& _KeyInput)

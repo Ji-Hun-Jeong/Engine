@@ -10,13 +10,17 @@ namespace Game
 	public:
 		Class(const Str::FString& _ClassName)
 			: ClassName(_ClassName)
+			, RefPlayer(nullptr)
 		{ }
 		virtual ~Class() = 0
 		{
 		}
 
 	public:
-		virtual void InitClass(Player& _RefPlayer) = 0;
+		virtual void InitClass(Player& _RefPlayer)
+		{
+			RefPlayer = &_RefPlayer;
+		}
 		virtual void AddSkillToInput(KeyInput& _KeyInput) = 0;
 
 		const Str::FString& GetName() const { return ClassName; }
@@ -30,7 +34,7 @@ namespace Game
 	protected:
 		Str::FString ClassName;
 		SkillManager SkillMgr;
-
+		Player* RefPlayer;
 	};
 
 	class ClassManager
