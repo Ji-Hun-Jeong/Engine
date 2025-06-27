@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "StateCondition.h"
 
-namespace Graphics
+namespace Game
 {
 
 }

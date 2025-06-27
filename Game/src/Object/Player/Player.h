@@ -1,13 +1,13 @@
 #pragma once
-#include "Object\Actor.h"
+#include "Object\Character.h"
 #include "PlayerController/PlayerController.h"
 
 namespace Game
 {
-	class Player : public Actor
+	class Player : public Character
 	{
-		using Super = Actor;
-		CLONE(Player, Actor);
+		using Super = Character;
+		CLONE(Player, Character);
 	public:
 		Player(const Str::FString& _Name);
 		Player(const Player& _Other);
@@ -28,13 +28,8 @@ namespace Game
 		void InitalizeRenderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model) override;
 		void InitalizeCollision(Collision::ColliderManager& _CollisionMgr) override;
 
-		Graphics::StateVariableTable& GetStateTable() { return StateTable; }
-		Graphics::StateMachine& GetStateMachine() { return StateMachine; }
-
-
 	private:
-		Graphics::StateVariableTable StateTable;
-		Graphics::StateMachine StateMachine;
+		
 
 	};
 

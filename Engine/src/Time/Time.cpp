@@ -30,27 +30,6 @@ namespace Time
         if (1 / 30.0f < DeltaTime)
             DeltaTime = 1 / 60.0f;
 
-        for (auto& Timer : Timers)
-            Timer->GoOn();
-    }
-
-
-    void RegistTimer(Timer* _Timer)
-    {
-        Timers.push_back(_Timer);
-    }
-    void DetachTimer(Timer* _Timer)
-    {
-        for (auto Iter = Timers.begin(); Iter != Timers.end(); )
-        {
-            if (_Timer == *Iter)
-            {
-                delete* Iter;
-                Iter = Timers.erase(Iter);
-            }
-            else
-                ++Iter;
-        }
     }
 }
 

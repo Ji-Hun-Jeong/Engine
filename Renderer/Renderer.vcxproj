@@ -144,7 +144,6 @@
     <ClInclude Include="src\RenderProcess\PixelCollisionProcess.h" />
     <ClInclude Include="src\Interface\IComputeShader.h" />
     <ClInclude Include="src\Interface\IBlendState.h" />
-    <ClInclude Include="src\State\State.h" />
     <ClInclude Include="src\Animation\Animation.h" />
     <ClInclude Include="src\Base\Notify.h" />
     <ClInclude Include="src\GraphicsTime.h" />
@@ -171,7 +170,6 @@
     <ClInclude Include="include\WICTextureLoader.h" />
     <ClInclude Include="src\Platform\DirectX\DX.h" />
     <ClInclude Include="src\pch.h" />
-    <ClInclude Include="src\State\StateCondition.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Base\GraphicResourceMgr.cpp" />
@@ -179,7 +177,6 @@
     <ClCompile Include="src\RenderProcess\PixelCollisionProcess.cpp" />
     <ClCompile Include="src\Interface\IComputeShader.cpp" />
     <ClCompile Include="src\Interface\IBlendState.cpp" />
-    <ClCompile Include="src\State\State.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
     <ClCompile Include="include\RefCounter.cpp" />
     <ClCompile Include="src\Base\Notify.cpp" />
@@ -206,7 +203,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\State\StateCondition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\Shader\Common.hlsli" />

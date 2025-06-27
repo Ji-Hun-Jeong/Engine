@@ -3,8 +3,6 @@
 #include "Object/Player/Player.h"
 #include "Object/KeyInput/KeyInput.h"
 
-#include <Renderer/src/State/State.h>
-
 namespace Game
 {
 	void PlayerController::InitObject()
@@ -24,13 +22,13 @@ namespace Game
 
 	void PlayerController::SetKeyInput(KeyInput& _KeyInput)
 	{
-		Graphics::StateVariableTable& StateTable = Player.GetStateTable();
-		Graphics::StateMachine& StateMachine = Player.GetStateMachine();
+		StateVariableTable& StateTable = Player.GetStateTable();
+		StateMachine& StateMachine = Player.GetStateMachine();
 		Collision::RigidBody& RigidBody = Player.GetRigidBody();
 		
 		bool& MoveState = StateTable.RegistBool("Move", false);
 		bool& PossibleMoveState = StateTable.RegistBool("PossibleMove", true);
-		Graphics::TriggerVariable& AttackTrigger = StateTable.RegistTrigger("Attack");
+		TriggerVariable& AttackTrigger = StateTable.RegistTrigger("Attack");
 
 		_KeyInput.AddKey("PlayerMoveLeft", Input::eKeyType::Left, Input::eButtonState::Hold, [this, &MoveState, PossibleMoveState]()->void
 			{
@@ -70,16 +68,16 @@ namespace Game
 				PossibleMoveState = false;
 			});
 
-		Graphics::StateCondition* Condition = new Graphics::BoolCondition(&MoveState, true);
-		Graphics::AddTransition(StateMachine, Condition, Alert, Walk);
+		StateCondition* Condition = new BoolCondition(&MoveState, true);
+		AddTransition(StateMachine, Condition, Alert, Walk);
 
-		Condition = new Graphics::BoolCondition(&MoveState, false);
-		Graphics::AddTransition(StateMachine, Condition, Walk, Alert);
+		Condition = new BoolCondition(&MoveState, false);
+		AddTransition(StateMachine, Condition, Walk, Alert);
 
-		Condition = new Graphics::TriggerCondition(AttackTrigger);
-		Graphics::AddTransition(StateMachine, Condition, Alert, Attack);
+		Condition = new TriggerCondition(AttackTrigger);
+		AddTransition(StateMachine, Condition, Alert, Attack);
 		// Attack애니메이션 끝나면 바로 Alert로 돌아오기 위해서
-		Graphics::AddTransition(StateMachine, nullptr, Attack, Alert, false);
+		AddTransition(StateMachine, nullptr, Attack, Alert, false);
 
 		StateMachine.SetCurrentState(Alert);
 	}

@@ -5,7 +5,6 @@
 
 #include <Renderer/src/RenderProcess/IGraphicProcess.h>
 #include <Renderer/src/Render/IRenderInterface.h>
-#include <Renderer/src/State/State.h>
 
 #include "Object/KeyInput/KeyInput.h"
 #include "Geometry/Geometry.h"

@@ -139,6 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Object\Character.cpp" />
+    <ClCompile Include="src\Component\Animation\Animator.cpp" />
+    <ClCompile Include="src\Component\Animation\Animation.cpp" />
     <ClCompile Include="src\Class\Phantom\Phantom.cpp" />
     <ClCompile Include="src\Class\Skill.cpp" />
     <ClCompile Include="src\Class\Class.cpp" />
@@ -165,8 +168,14 @@
     <ClCompile Include="src\App\Game.cpp" />
     <ClCompile Include="src\Component\Transform\Transform.cpp" />
     <ClCompile Include="src\Class\Phantom\Skill\1\SwiftPhantom.cpp" />
+    <ClCompile Include="src\Component\State\State.cpp" />
+    <ClCompile Include="src\Component\State\StateCondition.cpp" />
+    <ClCompile Include="src\Component\State\StateVariable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Object\Character.h" />
+    <ClInclude Include="src\Component\Animation\Animator.h" />
+    <ClInclude Include="src\Component\Animation\Animation.h" />
     <ClInclude Include="src\Class\Phantom\Phantom.h" />
     <ClInclude Include="src\Class\Skill.h" />
     <ClInclude Include="src\Class\Class.h" />
@@ -191,6 +200,9 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Component\Transform\Transform.h" />
     <ClInclude Include="src\Class\Phantom\Skill\1\SwiftPhantom.h" />
+    <ClInclude Include="src\Component\State\State.h" />
+    <ClInclude Include="src\Component\State\StateCondition.h" />
+    <ClInclude Include="src\Component\State\StateVariable.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\image\Player\Alert\0.png" />

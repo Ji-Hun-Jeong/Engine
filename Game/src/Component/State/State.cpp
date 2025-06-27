@@ -1,16 +1,9 @@
 #include "pch.h"
 #include "State.h"
-#include "Animation/Animation.h"
+#include "Component/Animation/Animator.h"
 
-namespace Graphics
+namespace Game
 {
-    void State::Update(IRenderInterface& _RenderInterface)
-    {
-        if (Anim)
-            Anim->Update(_RenderInterface);
-        
-    }
-
     void State::EnterState()
     {
         if (EnterStateFunc)
@@ -19,25 +12,26 @@ namespace Graphics
 
     void State::ExitState()
     {
-        if (Anim)
-            Anim->ResetAnimation();
         if (ExitStateFunc)
             ExitStateFunc();
     }
 
-    bool State::IsFinish()
+    void StateMachine::SetBaseAnimation(Animator& _Animator)
     {
-        if (Anim)
-        {
-            return Anim->IsFinish();
-        }
-        return true;
+        if (StateChange == false)
+            return;
+
+        Animation* BaseAnimation = CurrentState->GetBaseAnimation();
+
+        if (BaseAnimation)
+            _Animator.ReserveNextAnimation(EAnimationPriority::Base, BaseAnimation);
     }
 
     void AddTransition(StateMachine& _StateMachine, StateCondition* _Condition, State* _TailState, State* _HeadState, bool _ForceExit)
     {
-        Graphics::StateTransition* Transition = new Graphics::StateTransition(_Condition, *_HeadState);
+        StateTransition* Transition = new StateTransition(_Condition, _HeadState);
         Transition->SetForceExit(_ForceExit);
         _StateMachine.AddTransition(_TailState, Transition);
     }
+
 }

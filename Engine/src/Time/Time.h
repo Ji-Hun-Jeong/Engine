@@ -9,9 +9,9 @@ namespace Time
 	class Timer
 	{
 	public:
-		Timer(float _SettingTime, bool* _BoolValue)
-			: SettingTime(_SettingTime), RemainTime(0.0f)
-			, BoolValue(_BoolValue)
+		Timer(float _SettingTime)
+			: SettingTime(_SettingTime), RemainTime(_SettingTime)
+			, TimeOver(false)
 			, Run(false)
 		{
 		}
@@ -25,26 +25,24 @@ namespace Time
 
 			RemainTime -= GetDT();
 			if (RemainTime <= 0.0f)
-				*BoolValue = true;
+				TimeOver = true;
 		}
 
 		void Reset()
 		{
 			RemainTime = SettingTime;
-			*BoolValue = false;
+			TimeOver = false;
 		}
 
 		void SetRun(bool _Run) { Run = _Run; }
+		bool IsTimeOver() const { return TimeOver; }
 
 	private:
 		float SettingTime;
 		float RemainTime;
 
-		bool* BoolValue;
+		bool TimeOver;
 
 		bool Run;
 	};
-
-	extern void RegistTimer(Timer* _Timer);
-	extern void DetachTimer(Timer* _Timer);
 };
