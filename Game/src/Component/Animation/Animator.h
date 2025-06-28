@@ -40,18 +40,22 @@ namespace Game
 		{
 			CurrentAnimation->Update(RenderInterface);
 
-			if (CurrentAnimation->IsFinish() || CurrentAnimation->IsForceQuit())
+			if (CurrentAnimation->IsFinish())
 			{
 				CurrentAnimation->ResetAnimation();
+
+				if (AnimationQueue.empty())
+					return;
+
 				CurrentAnimation = AnimationQueue.top().Anim;
 				AnimationQueue.pop();
+				while (!AnimationQueue.empty())
+					AnimationQueue.pop();
 			}
 		}
 
 		void ReserveNextAnimation(EAnimationPriority _Priority, Animation* _Animation)
 		{
-			if (CurrentAnimation == _Animation)
-				return;
 			AnimationQueue.push(AnimationNode(UINT(_Priority), _Animation));
 		}
 

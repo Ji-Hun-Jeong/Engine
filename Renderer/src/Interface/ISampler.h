@@ -11,6 +11,7 @@ namespace Graphics
 
 	public:
 		virtual void VSSetSampler(UINT _StartSlot) const = 0;
+		virtual void CSSetSampler(UINT _StartSlot) const = 0;
 		virtual void PSSetSampler(UINT _StartSlot) const = 0;
 
 	protected:
@@ -43,6 +44,10 @@ namespace Graphics
 			void VSSetSampler(UINT _StartSlot) const override
 			{
 				Context->VSSetSamplers(_StartSlot, Samplers.size(), Samplers.data());
+			}
+			void CSSetSampler(UINT _StartSlot) const override
+			{
+				Context->CSSetSamplers(_StartSlot, Samplers.size(), Samplers.data());
 			}
 			void PSSetSampler(UINT _StartSlot) const override
 			{

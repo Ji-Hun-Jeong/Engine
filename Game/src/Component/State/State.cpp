@@ -4,6 +4,11 @@
 
 namespace Game
 {
+    State::~State()
+    {
+        if (BaseAnimation)
+            delete BaseAnimation;
+    }
     void State::EnterState()
     {
         if (EnterStateFunc)
@@ -18,9 +23,6 @@ namespace Game
 
     void StateMachine::SetBaseAnimation(Animator& _Animator)
     {
-        if (StateChange == false)
-            return;
-
         Animation* BaseAnimation = CurrentState->GetBaseAnimation();
 
         if (BaseAnimation)

@@ -20,7 +20,8 @@ namespace Game
 
 	Actor::~Actor()
 	{
-		
+		if (PixelCollisionInterface)
+			delete PixelCollisionInterface;
 	}
 
 	void Actor::InitObject()

@@ -144,7 +144,6 @@
     <ClInclude Include="src\RenderProcess\PixelCollisionProcess.h" />
     <ClInclude Include="src\Interface\IComputeShader.h" />
     <ClInclude Include="src\Interface\IBlendState.h" />
-    <ClInclude Include="src\Animation\Animation.h" />
     <ClInclude Include="src\Base\Notify.h" />
     <ClInclude Include="src\GraphicsTime.h" />
     <ClInclude Include="src\Render\IRenderInterface.h" />
@@ -177,7 +176,6 @@
     <ClCompile Include="src\RenderProcess\PixelCollisionProcess.cpp" />
     <ClCompile Include="src\Interface\IComputeShader.cpp" />
     <ClCompile Include="src\Interface\IBlendState.cpp" />
-    <ClCompile Include="src\Animation\Animation.cpp" />
     <ClCompile Include="include\RefCounter.cpp" />
     <ClCompile Include="src\Base\Notify.cpp" />
     <ClCompile Include="src\GraphicsTime.cpp" />

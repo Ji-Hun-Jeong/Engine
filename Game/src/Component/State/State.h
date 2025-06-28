@@ -12,9 +12,7 @@ namespace Game
 			, BaseAnimation(_BaseAnimation)
 		{
 		}
-		~State()
-		{
-		}
+		~State();
 
 	public:
 		void SetEnterState(std::function<void()> _EnterStateFunc) { EnterStateFunc = _EnterStateFunc; }
@@ -77,7 +75,6 @@ namespace Game
 			: VariableTable(_VariableTable)
 			, CurrentState(nullptr)
 			, CurrentTransitions(nullptr)
-			, StateChange(false)
 		{
 		}
 		~StateMachine()
@@ -96,8 +93,6 @@ namespace Game
 	public:
 		void UpdateCurrentState()
 		{
-			StateChange = false;
-
 			if (CurrentTransitions == nullptr)
 				return;
 
@@ -106,10 +101,10 @@ namespace Game
 			{
 				HeadState = Transition->TryTransition(*CurrentState);
 				if (HeadState)
-					StateChange = true;
+					break;
 			}
 
-			if (StateChange)
+			if (HeadState)
 				SetCurrentState(HeadState);
 
 			VariableTable.ResetTriggers();
@@ -188,8 +183,6 @@ namespace Game
 
 		std::map<State*, std::vector<StateTransition*>*> Transitions;
 		std::vector<StateTransition*>* CurrentTransitions;
-
-		bool StateChange;
 
 	};
 

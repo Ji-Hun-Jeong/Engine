@@ -10,7 +10,7 @@ float4 main(PSInput _Input) : SV_TARGET
 {
     // BlendState적용중이라 뒷배경 보고싶으면 a값을 0으로
     float4 Color = float4(0.0f, 0.0f, 0.0f, 1.0f);
-    // Color = Image.Sample(LinearSampler, _Input.uv);
+    Color = Image.Sample(LinearSampler, _Input.uv);
     float4 FloorPixel = FloorSRV.Sample(PointSampler, _Input.uv);
     float4 MonsterWallPixel = MonsterWallSRV.Sample(PointSampler, _Input.uv);
     float4 LadderPixel = LadderSRV.Sample(PointSampler, _Input.uv);

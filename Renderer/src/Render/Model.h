@@ -13,6 +13,7 @@ namespace Graphics
 		}
 		~Model()
 		{
+			int a;
 		}
 
 	public:

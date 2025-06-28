@@ -16,8 +16,7 @@ namespace Game
 
 	Player::~Player()
 	{
-		if (PixelCollisionInterface)
-			delete PixelCollisionInterface;
+
 	}
 
 	void Player::InitObject()
@@ -59,7 +58,7 @@ namespace Game
 		AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/2.png" });
 		auto Attack = StateMachine.AddState("Attack", new State(AttackAnim));
 
-		StateMachine.SetCurrentState(Alert);
+		Animator.Initalize(AlertAnim);
 	}
 
 	void Player::InitalizeCollision(Collision::ColliderManager& _CollisionMgr)

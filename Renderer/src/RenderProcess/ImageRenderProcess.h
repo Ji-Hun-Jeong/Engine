@@ -29,6 +29,7 @@ namespace Graphics
 		void InitRenderProcess() const override
 		{
 			Sampler->VSSetSampler(0);
+			Sampler->CSSetSampler(0);
 			Sampler->PSSetSampler(0);
 			RasterizerState->RSSetState();
 			ViewPort->RSSetViewPort();

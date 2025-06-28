@@ -10,6 +10,6 @@ struct PSInput
 float4 main(PSInput input) : SV_TARGET
 {
     float4 Color = float4(0.0f, 1.0f, 1.0f, 1.0f);
-    //Color = Image.Sample(LinearSampler, input.uv);
+    Color = Image.Sample(LinearSampler, input.uv);
     return Color;
 }
