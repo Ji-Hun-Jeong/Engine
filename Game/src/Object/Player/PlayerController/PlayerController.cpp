@@ -51,7 +51,7 @@ namespace Game
 				RigidBody.SetVelocity(Vector2(0.0f, 3.0f));
 			});
 		
-		_KeyInput.AddKey("PlayerAttack", Input::eKeyType::Ctrl, Input::eButtonState::Tap, [this, &AttackTrigger, PossibleMoveState]()->void
+		_KeyInput.AddKey("PlayerAttack", Input::eKeyType::Ctrl, Input::eButtonState::Tap, [this, &AttackTrigger]()->void
 			{
 				AttackTrigger.SetTrigger();
 			});
@@ -69,15 +69,15 @@ namespace Game
 			});
 
 		StateCondition* Condition = new BoolCondition(&MoveState, true);
-		AddTransition(StateMachine, Condition, Alert, Walk);
+		Alert->AddTransition(new StateTransition(Condition, Walk));
 
 		Condition = new BoolCondition(&MoveState, false);
-		AddTransition(StateMachine, Condition, Walk, Alert);
+		Walk->AddTransition(new StateTransition(Condition, Alert));
 
 		Condition = new TriggerCondition(AttackTrigger);
-		AddTransition(StateMachine, Condition, Alert, Attack);
+		Alert->AddTransition(new StateTransition(Condition, Attack));
 		// Attack애니메이션 끝나면 바로 Alert로 돌아오기 위해서
-		AddTransition(StateMachine, nullptr, Attack, Alert, false);
+		Attack->AddTransition(new StateTransition(nullptr, Alert));
 
 		StateMachine.SetCurrentState(Alert);
 	}

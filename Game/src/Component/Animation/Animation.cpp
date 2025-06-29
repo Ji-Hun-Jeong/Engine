@@ -9,29 +9,27 @@ namespace Game
 	{
 		ProgressTime += Time::GetDT();
 
-		bool Reset = false;
+		_RenderInterface->SetImage(FrameInfos[CurrentFrame].FrameImage);
+
 		if (FrameTime <= ProgressTime)
 		{
 			CurrentFrame += 1;
 			ProgressTime = 0.0f;
 
 			if (FrameInfos.size() <= CurrentFrame)
-			{
-				CurrentFrame = FrameInfos.size() - 1;
-				if (Repeat)
-					Reset = true;
-				else
-					Finish = true;
-
-				// 이건 마지막에 종료할 때 끝 프레임만 한번 더 그리는 용도이기 때문에 이 밑으로 그리는 작업 외엔 아무것도 있으면 안됌
-			}
-			else if (FrameInfos[CurrentFrame].FrameEvent)
-				FrameInfos[CurrentFrame].FrameEvent();
+				Finish = true;
+			else
+				FrameChange = true;
 		}
-		_RenderInterface->SetImage(FrameInfos[CurrentFrame].FrameImage);
 
-		if (Reset)
-			ResetAnimation();
+		// 만약 프레임이 바뀌었으면 이벤트 실행시키고 Change 변수를 다시 true로 만들기전까지는 안들어오게
+		if (FrameChange == false)
+			return;
+
+		if (FrameInfos[CurrentFrame].FrameEvent)
+			FrameInfos[CurrentFrame].FrameEvent();
+
+		FrameChange = false;
 	}
 
 	void AddFrameInfoToAnimation(Graphics::IDRGenerator& _Generator, Animation* _Anim, const std::vector<Str::FString>& _ImagePath, std::function<void()> _FrameEvent)

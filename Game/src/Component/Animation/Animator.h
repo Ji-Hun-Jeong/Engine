@@ -31,39 +31,30 @@ namespace Game
 		~Animator() {}
 
 	public:
-		void Initalize(Animation* _Animation)
+		void Update()
 		{
+			if (CurrentAnimation->IsFinish())
+				return;
+
+			CurrentAnimation->Update(RenderInterface);
+		}
+
+		void SetCurrentAnimation(Animation* _Animation)
+		{
+			if (CurrentAnimation)
+				CurrentAnimation->ResetAnimation();
 			CurrentAnimation = _Animation;
 		}
 
-		void Update()
+		bool CurrentAnimationSkip() const
 		{
-			CurrentAnimation->Update(RenderInterface);
-
-			if (CurrentAnimation->IsFinish())
-			{
-				CurrentAnimation->ResetAnimation();
-
-				if (AnimationQueue.empty())
-					return;
-
-				CurrentAnimation = AnimationQueue.top().Anim;
-				AnimationQueue.pop();
-				while (!AnimationQueue.empty())
-					AnimationQueue.pop();
-			}
-		}
-
-		void ReserveNextAnimation(EAnimationPriority _Priority, Animation* _Animation)
-		{
-			AnimationQueue.push(AnimationNode(UINT(_Priority), _Animation));
+			bool Skip = CurrentAnimation->IsForceQuit() || CurrentAnimation->IsFinish();
+			return Skip;
 		}
 
 	private:
 		Animation* CurrentAnimation;
 		
-		std::priority_queue<AnimationNode, std::vector<AnimationNode>> AnimationQueue;
-
 		std::shared_ptr<Graphics::IRenderInterface>& RenderInterface;
 
 	};

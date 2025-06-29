@@ -12,14 +12,15 @@ namespace Game
 	class Animation
 	{
 	public:
-		Animation(float _FrameTime, bool _Repeat, bool _ForceQuit)
+		Animation(float _FrameTime, bool _ForceQuit)
 			: FrameTime(_FrameTime)
-			, ProgressTime(FrameTime)
-			, CurrentFrame(-1)
-			, Repeat(_Repeat)
+			, ProgressTime(0.0f)
+			, CurrentFrame(0)
 			, Finish(false)
 			, ForceQuit(_ForceQuit)
+			, FrameChange(true)
 		{
+			// 프레임입장할 때마다 이벤트 발생시켜야하기 때문에 -1프레임부터 시작
 		}
 		~Animation() {}
 
@@ -33,9 +34,10 @@ namespace Game
 
 		void ResetAnimation()
 		{
-			ProgressTime = FrameTime;
-			CurrentFrame = -1;
+			ProgressTime = 0.0f;
+			CurrentFrame = 0;
 			Finish = false;
+			FrameChange = true;
 		}
 
 		void AddFrameInfo(RefCounterPtr<Graphics::IShaderResource>& _Image, std::function<void()> _FrameEvent = nullptr)
@@ -56,11 +58,10 @@ namespace Game
 		float FrameTime;
 		float ProgressTime;
 
-		UINT CurrentFrame;
-
-		bool Repeat;
+		int CurrentFrame;
 		bool Finish;
 		bool ForceQuit;
+		bool FrameChange;
 	};
 
 	extern void AddFrameInfoToAnimation(Graphics::IDRGenerator& _Generator, Animation* _Anim, const std::vector<Str::FString>& _ImagePath

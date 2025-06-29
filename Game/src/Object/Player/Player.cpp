@@ -38,27 +38,27 @@ namespace Game
 	{
 		Super::InitalizeRenderInterface(_Generator, _Model);
 
-		Animation* AlertAnim = new Animation(0.5f, true, true);
+		Animation* AlertAnim = new Animation(0.5f, true);
 		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/0.png" });
 		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/1.png" });
 		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/2.png" });
 		AddFrameInfoToAnimation(_Generator, AlertAnim, { "Game/resource/image/Player/Alert/3.png" });
-		auto Alert = StateMachine.AddState("Alert", new State(AlertAnim));
+		auto Alert = StateMachine.AddState("Alert", (new State(AlertAnim))->SetName("Alert"));
 
-		Animation* WalkAnim = new Animation(0.5f, true, true);
+		Animation* WalkAnim = new Animation(0.5f, true);
 		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/0.png" });
 		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/1.png" });
 		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/2.png" });
 		AddFrameInfoToAnimation(_Generator, WalkAnim, { "Game/resource/image/Player/Walk/3.png" });
-		auto Walk = StateMachine.AddState("Walk", new State(WalkAnim));
+		auto Walk = StateMachine.AddState("Walk", (new State(WalkAnim))->SetName("Walk"));
 
-		Animation* AttackAnim = new Animation(0.5f, false, false);
+		Animation* AttackAnim = new Animation(0.5f, false);
 		AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/0.png" });
 		AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/1.png" }, std::bind(&Player::Attack, this));
 		AddFrameInfoToAnimation(_Generator, AttackAnim, { "Game/resource/image/Player/Attack/0/2.png" });
-		auto Attack = StateMachine.AddState("Attack", new State(AttackAnim));
+		auto Attack = StateMachine.AddState("Attack", (new State(AttackAnim))->SetName("Attack"));
 
-		Animator.Initalize(AlertAnim);
+		Animator.SetCurrentAnimation(AlertAnim);
 	}
 
 	void Player::InitalizeCollision(Collision::ColliderManager& _CollisionMgr)

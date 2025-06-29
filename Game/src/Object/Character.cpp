@@ -10,6 +10,7 @@ namespace Game
 	void Character::Update()
 	{
 		Super::Update();
+		StateMachine.DecideUpdateWhether(Animator);
 		StateMachine.UpdateCurrentState();
 		StateMachine.SetBaseAnimation(Animator);
 

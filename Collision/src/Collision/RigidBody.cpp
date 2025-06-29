@@ -31,7 +31,7 @@ namespace Collision
 			Velocity.y = Velocity.y < 0 ? -MaxSpeed.y : MaxSpeed.y;
 
 		RefPosition += Vector3(Velocity.x, Velocity.y, 0.0f) * _DT;
-		std::cout << Velocity.y << "\n";
+		//std::cout << Velocity.y << "\n";
 		Force = Vector2();
 	}
 }

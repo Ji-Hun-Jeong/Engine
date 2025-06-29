@@ -6,8 +6,10 @@ namespace Game
 {
     State::~State()
     {
-        if (BaseAnimation)
-            delete BaseAnimation;
+        if (StateAnimation)
+            delete StateAnimation;
+        for (auto Transition : Transitions)
+            delete Transition;
     }
     void State::EnterState()
     {
@@ -21,19 +23,22 @@ namespace Game
             ExitStateFunc();
     }
 
-    void StateMachine::SetBaseAnimation(Animator& _Animator)
+    void StateMachine::DecideUpdateWhether(Animator& _Animator)
     {
-        Animation* BaseAnimation = CurrentState->GetBaseAnimation();
-
-        if (BaseAnimation)
-            _Animator.ReserveNextAnimation(EAnimationPriority::Base, BaseAnimation);
+        UpdateWhether = _Animator.CurrentAnimationSkip();
     }
 
-    void AddTransition(StateMachine& _StateMachine, StateCondition* _Condition, State* _TailState, State* _HeadState, bool _ForceExit)
+    void StateMachine::SetBaseAnimation(Animator& _Animator)
     {
-        StateTransition* Transition = new StateTransition(_Condition, _HeadState);
-        Transition->SetForceExit(_ForceExit);
-        _StateMachine.AddTransition(_TailState, Transition);
+        if (StateChanged == false)
+            return;
+
+        Animation* StateAnimation = CurrentState->GetStateAnimation();
+
+        if (StateAnimation)
+            _Animator.SetCurrentAnimation(StateAnimation);
+
+        StateChanged = false;
     }
 
 }
