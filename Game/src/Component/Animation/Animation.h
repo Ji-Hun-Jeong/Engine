@@ -20,7 +20,7 @@ namespace Game
 			, ForceQuit(_ForceQuit)
 			, FrameChange(true)
 		{
-			// 프레임입장할 때마다 이벤트 발생시켜야하기 때문에 -1프레임부터 시작
+			
 		}
 		~Animation() {}
 
@@ -47,7 +47,6 @@ namespace Game
 
 		void SetForceQuit() { ForceQuit = true; }
 
-		// Repeat이면 Finish로 강제로 만들어주기 전까지는 절대 true가 나오지 않음
 		bool IsFinish() const { return Finish; }
 
 		bool IsForceQuit() const { return ForceQuit; }

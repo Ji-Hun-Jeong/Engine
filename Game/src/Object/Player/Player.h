@@ -27,6 +27,14 @@ namespace Game
 		void InitalizeRenderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model) override;
 		void InitalizeCollision(Collision::ColliderManager& _CollisionMgr) override;
 		void InitalizeKeyInput(class KeyInput& _KeyInput);
+		void DontMoveAttack(Animation* _Animation)
+		{
+			State* DontMoveAttackState = StateMachine.GetState("Attack");
+			if (StateMachine.CanChangeState(DontMoveAttackState) == false)
+				return;
+			StateMachine.SetCurrentState(DontMoveAttackState);
+			Animator.SetCurrentAnimation(_Animation);
+		}
 
 	private:
 		

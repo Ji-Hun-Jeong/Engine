@@ -29,6 +29,8 @@ namespace Game
 
 			return Head;
 		}
+		bool CanChange() const { Condition->Satisfy(); }
+		State* GetHead() const { return Head; }
 
 	private:
 		State* Head;
@@ -68,6 +70,16 @@ namespace Game
 		{
 			Transitions.push_back(_Transition);
 		}
+		bool CanChangeState(State* _State)
+		{
+			for (auto Transition : Transitions)
+			{
+				if (Transition->GetHead() == _State)
+					return Transition->CanChange();
+			}
+			return false;
+		}
+
 		class Animation* GetStateAnimation() { return StateAnimation; }
 		State* SetName(const Str::FString& _Name) { Name = _Name; return this; }
 		const Str::FString& GetName() const { return Name; }
@@ -116,6 +128,12 @@ namespace Game
 		}
 		void DecideUpdateWhether(class Animator& _Animator);
 		void SetBaseAnimation(class Animator& _Animator);
+		bool CanChangeState(State* _HeadState)
+		{
+			if (UpdateWhether == false)
+				return false;
+			return CurrentState->CanChangeState(_HeadState);
+		}
 
 		State* AddState(const Str::FString& _StateName, State* _State)
 		{

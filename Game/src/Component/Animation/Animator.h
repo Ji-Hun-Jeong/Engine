@@ -34,8 +34,7 @@ namespace Game
 		void Update()
 		{
 			if (CurrentAnimation->IsFinish())
-				return;
-
+				CurrentAnimation->ResetAnimation();
 			CurrentAnimation->Update(RenderInterface);
 		}
 
