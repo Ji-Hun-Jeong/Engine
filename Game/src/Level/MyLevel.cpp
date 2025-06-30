@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "MyLevel.h"
 #include "Object/Player/Player.h"
-#include "Object/Player/PlayerController/PlayerController.h"
 #include "Object/BackGround/BackGround.h"
 #include "Object/Camera/Camera.h"
 #include "Object/Camera/CameraController/CameraController.h"
@@ -128,6 +127,7 @@ namespace Game
 			PlayerInstance->InitalizeRenderInterface(*Generator, Model);
 			PlayerInstance->InitPixelCollision(*PixelCollisionProcess);
 			PlayerInstance->InitalizeCollision(CollisionMgr);
+			PlayerInstance->InitalizeKeyInput(*Input);
 
 			Collision::RigidBody* RB = new Collision::RigidBody(PlayerInstance->GetPositionRef());
 			RB->SetMass(0.01f);
@@ -137,11 +137,6 @@ namespace Game
 
 			AddObject(PlayerInstance);
 			Renderer->AddModel(eLayer::Player, Model);
-
-			PlayerController* Controller = new PlayerController(*PlayerInstance);
-			Controller->SetKeyInput(*Input);
-
-			AddObject(Controller);
 
 			ClassMgr->AttachClassToPlayer(*PlayerInstance, "Phantom");
 			ClassMgr->AddToInput(*Input);

@@ -102,7 +102,7 @@ namespace Game
 		void UpdateCurrentState()
 		{
 			VariableTable.ResetTriggers();
-			std::cout << CurrentState->GetName() << "\n";
+			
 			if (UpdateWhether == false)
 				return;
 

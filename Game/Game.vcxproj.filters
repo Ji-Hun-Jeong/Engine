@@ -57,9 +57,6 @@
     <ClCompile Include="src\EntryPoint.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Object\Player\PlayerController\PlayerController.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\Object\BackGround\BackGround.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -147,9 +144,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Path\Path.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Object\Player\PlayerController\PlayerController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\Object\BackGround\BackGround.h">

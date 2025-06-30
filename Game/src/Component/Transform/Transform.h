@@ -6,19 +6,22 @@ namespace Game
 	class Transform
 	{
 	public:
-		Transform() 
+		Transform()
 			: Transform(Vector3(0.0f))
-		{}
+		{
+		}
 		Transform(const Vector3& _Position)
 			: Position(_Position)
 			, Rotation(Vector3(0.0f))
 			, Scale(Vector3(1.0f))
 			, Direction(-1.0f)
-		{}
+			, CanMove(true)
+		{
+		}
 		~Transform() {}
 
 	public:
-		Matrix GetModel() const 
+		Matrix GetModel() const
 		{
 			return Matrix::CreateScale(Scale)
 				* Matrix::CreateRotationX(Rotation.x)
@@ -37,12 +40,18 @@ namespace Game
 		int GetDirection() const { return Direction; }
 		void Move(const Vector3& _Axis, float _Speed)
 		{
+			if (CanMove == false)
+				return;
 			Position += _Axis * _Speed * Time::GetDT();
 			ChangeDirection(_Axis.x);
 		}
 		void ChangeDirection(float _Dir)
 		{
 			Direction = _Dir < 0 ? -1.0f : 1.0f;
+		}
+		void SetMove(bool _CanMove)
+		{
+			CanMove = _CanMove;
 		}
 
 	private:
@@ -51,6 +60,7 @@ namespace Game
 		Vector3 Scale;
 
 		int Direction;
+		bool CanMove;
 	};
 }
 

@@ -1,13 +1,12 @@
 #pragma once
 #include "Object\Character.h"
-#include "PlayerController/PlayerController.h"
 
 namespace Game
 {
 	class Player : public Character
 	{
 		using Super = Character;
-		CLONE(Player, Character);
+		CLONE(Player, Character)
 	public:
 		Player(const Str::FString& _Name);
 		Player(const Player& _Other);
@@ -27,6 +26,7 @@ namespace Game
 		}
 		void InitalizeRenderInterface(Graphics::IDRGenerator& _Generator, std::shared_ptr<Graphics::Model>& _Model) override;
 		void InitalizeCollision(Collision::ColliderManager& _CollisionMgr) override;
+		void InitalizeKeyInput(class KeyInput& _KeyInput);
 
 	private:
 		

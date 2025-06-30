@@ -59,6 +59,52 @@ namespace Game
 		auto Attack = StateMachine.AddState("Attack", (new State(AttackAnim))->SetName("Attack"));
 
 		Animator.SetCurrentAnimation(AlertAnim);
+
+		Alert->SetEnterState([this]()->void
+			{
+				Transform.SetMove(true);
+			});
+		Attack->SetEnterState([this]()->void
+			{
+				Transform.SetMove(false);
+			});
+
+		TriggerVariable& AttackTrigger = StateTable.RegistTrigger("Attack");
+
+		StateCondition* Condition = new TriggerCondition(AttackTrigger);
+		Alert->AddTransition(new StateTransition(Condition, Attack));
+		// Attack애니메이션 끝나면 바로 Alert로 돌아오기 위해서 조건없이 설정
+		Attack->AddTransition(new StateTransition(nullptr, Alert));
+
+		StateMachine.SetCurrentState(Alert);
+	}
+
+	void Player::InitalizeKeyInput(KeyInput& _KeyInput)
+	{
+		_KeyInput.AddKey("PlayerMoveLeft", Input::eKeyType::Left, Input::eButtonState::Hold, [this]()->void
+			{
+				Transform.Move(Vector3(-1.0f, 0.0f, 0.0f), 1.0f);
+			});
+		_KeyInput.AddKey("PlayerMoveRight", Input::eKeyType::Right, Input::eButtonState::Hold, [this]()->void
+			{
+				Transform.Move(Vector3(1.0f, 0.0f, 0.0f), 1.0f);
+			});
+		_KeyInput.AddKey("PlayerMoveUp", Input::eKeyType::Up, Input::eButtonState::Hold, [this]()->void
+			{
+				RigidBody->SetVelocity(Vector2(0.0f, 3.0f));
+			});
+
+		TriggerVariable& AttackTrigger = StateTable.GetTrigger("Attack");
+		_KeyInput.AddKey("PlayerAttack", Input::eKeyType::Ctrl, Input::eButtonState::Tap, [this, &AttackTrigger]()->void
+			{
+				AttackTrigger.SetTrigger();
+			});
+
+		/*StateCondition* Condition = new BoolCondition(&MoveState, true);
+		Alert->AddTransition(new StateTransition(Condition, Walk));
+
+		Condition = new BoolCondition(&MoveState, false);
+		Walk->AddTransition(new StateTransition(Condition, Alert));*/
 	}
 
 	void Player::InitalizeCollision(Collision::ColliderManager& _CollisionMgr)
@@ -77,5 +123,4 @@ namespace Game
 			});
 		Collider = C;
 	}
-
 }
